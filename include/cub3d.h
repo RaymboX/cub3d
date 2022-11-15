@@ -133,6 +133,14 @@ typedef struct s_vars
 	t_mlx		mlx_vars;
 }	t_vars;
 
+//Texture
+bool	texture_path(char *temp, t_vars *vars);
+int		texture_init(int fd, t_vars *vars);
+
+//Variable identificaiton
+bool	is_mapchar(char c);
+bool	is_startchar(char c);
+
 //Variable initialisation
 void	texture_struct_init(t_vars *vars);
 
@@ -149,5 +157,10 @@ void	flood_fill(t_vars *vars, int pos_x, int pos_y);
 
 //Error Handling
 void	print_error(char *error);
+void	check_map_errors(t_vars *vars);
+
+//Various tools
+char	*ft_strcat(char *s1, int len);
+int		ft_strlen_nl(char *str);
 
 #endif

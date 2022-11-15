@@ -39,6 +39,9 @@ SRCS_FILES	 	= 	0_main.c \
 					floodfill.c \
 					init_struct.c \
 					parsing.c \
+					textures.c \
+					variables_identification_tools.c \
+					various_tools.c \
 
 
 HEADERS_FILES	=	cub3d.h

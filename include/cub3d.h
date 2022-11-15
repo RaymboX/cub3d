@@ -8,6 +8,7 @@
 # include <stdbool.h>
 # include <errno.h>
 # include "libft/header/libft.h"
+# include <math.h>
 
 # define TO_RAD 0.174532925
 # define N 270
@@ -15,15 +16,29 @@
 # define S 90
 # define O 180
 # define FOV 60
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_W 1920
+# define SCREEN_H 1080
 # define DECIMAL_PRECISION 1000
 # define PIXEL_DIST_HEIGHT -10
 # define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
 # define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
-# define USED_HEIGHT 100
-# define USED_WIDTH 100
+# define USED_H 100
+# define USED_W 100
 # define PIXEL_DIST_RATIO -10
+# define RESOLUTION_W_DEF 1
+# define RESOLUTION_H_DEF 1
+
+typedef struct s_mlx
+{
+	void	*mlx;
+	void	*win;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_mlx;
+
 
 typedef struct s_texures
 {
@@ -58,10 +73,10 @@ typedef struct s_map
 typedef struct s_perso
 {
 	int	fov; //Field of view en degrés
-	int	player_pace; //vitesse de deplacement (ratio selon la map exemple 0.5 = deplacement de 50 si mapscale = 10 et 500 si mapsacle = 100)
-	int	player_turn_speed; //vitesse de rotation en degree
-	int	player_position[2]; //player position x[0] y[1] selon le mapscale
-	int	player_angle; //Direction que regarde player en degree
+	int	pace; //vitesse de deplacement (ratio selon la map exemple 0.5 = deplacement de 50 si mapscale = 10 et 500 si mapsacle = 100)
+	int	turn_speed; //vitesse de rotation en degree
+	int position[2]; //player position x[0] y[1] selon le mapscale
+	int angle; //Direction que regarde player en degree
 }	t_perso;
 
 typedef struct s_raycast
@@ -87,8 +102,10 @@ typedef struct s_raycast
 	int		dist_x00; //Distance entre position du joueur et point (x00, y_x00) * precision
 	int		dist_y00; //Distance entre position du joueur et point (x_y00, y00) * precision
 	int		smallest_dist; //Distance la plus courte entre dist_x00 et dist_y00
-	int		mapcellvalue_x00; //Valeur de la cell rencontrer pour le point (x00, y_x00) (1 = mur, 0 = rien)
-	int		mapcellvalue_y00; //Valeur de la cell rencontrer pour le point (x_y00, y00) (1 = mur, 0 = rien)
+	int		cellx00[2];
+	int		celly00[2];
+	char	cellvalue_x00; //Valeur de la cell rencontrer pour le point (x00, y_x00) (1 = mur, 0 = rien)
+	char	cellvalue_y00; //Valeur de la cell rencontrer pour le point (x_y00, y00) (1 = mur, 0 = rien)
 	int		cardinal_wall; //afin d'appliquer le bon xpm determiner par les directions dx et dy et par le point utiliser (smallest dist = dist_x00 ou dist_y00)
 }	t_raycast;
 
@@ -100,7 +117,10 @@ typedef struct s_screen
 	int	dist_pixel_ratio; //Ratio du nombre de pixel en hauteur selon la distance (valeur multiplier par screen_height)
 	int	center_pixel_w;
 	int	center_pixel_h;
-	int	width_resolution;
+	int	resolution_w;
+	int	resolution_h;
+	int	col_left;
+	int	col_right;
 }	t_screen;
 
 typedef struct s_vars
@@ -110,6 +130,7 @@ typedef struct s_vars
 	t_perso		perso;
 	t_raycast	raycast;
 	t_screen	screen;
+	t_mlx		mlx_vars;
 }	t_vars;
 
 //Variable initialisation

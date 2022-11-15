@@ -9,12 +9,22 @@
 # include <errno.h>
 # include "libft/header/libft.h"
 
+
 # define TO_RAD 0.174532925
 # define N 270
 # define E 0
 # define S 90
 # define O 180
 # define FOV 60
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
+# define DECIMAL_PRECISION 1000
+# define PIXEL_DIST_HEIGHT -10
+# define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
+# define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
+# define USED_HEIGHT 100
+# define USED_WIDTH 100
+# define PIXEL_DIST_RATIO -10
 
 typedef struct s_texures
 {
@@ -32,6 +42,7 @@ typedef struct s_texures
 	bool	ea_stat;
 	bool	f_stat;
 	bool	c_stat;
+
 }	t_textures;
 
 typedef struct s_map
@@ -54,41 +65,44 @@ typedef struct s_perso
 
 typedef struct s_raycast
 {
-	int		max_usable_screen_height; //Nombre de pixel en hauteur Obtenu a partir du plus petit entre offset_center_x et de l'espace restant en x et use_width
-	int		max_usable_screen_width; //Nombre de pixel en largeur Obtenu a partir du plus petit entre offset_center_y et de l'espace restant en y et use_height
-	int		fov_rayangle; //difference entre player angle et
+
+	int	fov_rayangle; //difference entre player angle et
 	float	rayangle; //utiliser en boucle a partir de fov, max_usable_screen_width et boucle i
-	int		dx; //direction en x
-	int		dy; //direction en y
-	int		m; //La pente de la droite calculer a partir de l'angle et la direction
-	int		b; //Le b pour faire la formule de fonction lineaire (-y = mx + b)
-	int		fx00; //first x00 soit la valeur initial de x00 (selon dx)
-	int		fy00; //first y00 soit la valeur initial de y00 (selon dy)
-	int		shift_x00; //nombre de deplacement en x pour rencontrer un mur (ce chiffre est multiplier par mapscale)
-	int		shift_y00; //nombre de deplacement en y pour rencontrer un mur (ce chiffre est multiplier par mapscale)
-	int		x00; //Valeur obtenu a partir de fx00 + shift_x00 * mapscale * dx
-	int		y00; //Valeur obtenu a partir de fy00 + shift_y00 * mapscale * dy
-	int		x_y00; //Valeur de x en y00
-	int		y_x00; //Valeur de y en x00
-	int		dist_x00; //Distance entre position du joueur et point (x00, y_x00) * precision
-	int		dist_y00; //Distance entre position du joueur et point (x_y00, y00) * precision
-	int		smallest_dist; //Distance la plus courte entre dist_x00 et dist_y00
-	int		mapcellvalue_x00; //Valeur de la cell rencontrer pour le point (x00, y_x00) (1 = mur, 0 = rien)
-	int		mapcellvalue_y00; //Valeur de la cell rencontrer pour le point (x_y00, y00) (1 = mur, 0 = rien)
-	int		cardinal_wall; //afin d'appliquer le bon xpm determiner par les directions dx et dy et par le point utiliser (smallest dist = dist_x00 ou dist_y00)
+	float	fov_angle_div;//angle diff for each ray launch
+	int ray_i;
+	int	ray_i_min;
+	int ray_i_max;
+	int	dx; //direction en x
+	int	dy; //direction en y
+	float	m; //La pente de la droite calculer a partir de l'angle et la direction
+	float	b; //Le b pour faire la formule de fonction lineaire (-y = mx + b)
+	int	fx00; //first x00 soit la valeur initial de x00 (selon dx)
+	int	fy00; //first y00 soit la valeur initial de y00 (selon dy)
+	int	shift_x00; //nombre de deplacement en x pour rencontrer un mur (ce chiffre est multiplier par mapscale)
+	int	shift_y00; //nombre de deplacement en y pour rencontrer un mur (ce chiffre est multiplier par mapscale)
+	int	x00; //Valeur obtenu a partir de fx00 + shift_x00 * mapscale * dx
+	int	y00; //Valeur obtenu a partir de fy00 + shift_y00 * mapscale * dy
+	int	x_y00; //Valeur de x en y00
+	int	y_x00; //Valeur de y en x00
+	int	dist_x00; //Distance entre position du joueur et point (x00, y_x00) * precision
+	int	dist_y00; //Distance entre position du joueur et point (x_y00, y00) * precision
+	int	smallest_dist; //Distance la plus courte entre dist_x00 et dist_y00
+	int	mapcellvalue_x00; //Valeur de la cell rencontrer pour le point (x00, y_x00) (1 = mur, 0 = rien)
+	int	mapcellvalue_y00; //Valeur de la cell rencontrer pour le point (x_y00, y00) (1 = mur, 0 = rien)
+	int	cardinal_wall; //afin d'appliquer le bon xpm determiner par les directions dx et dy et par le point utiliser (smallest dist = dist_x00 ou dist_y00)
 }	t_raycast;
 
 typedef struct s_screen
 {
+
+	int	max_width; //Nombre de pixel en largeur Obtenu a partir du plus petit entre offset_center_y et de l'espace restant en y et use_height
+	int	max_height; //Nombre de pixel en hauteur Obtenu a partir du plus petit entre offset_center_x et de l'espace restant en x et use_width
 	int	precision; //Multiple de 10 pour la distance afin de conserver en int ??? si utilise fixpointvalue = pas necessaire
 	int	dist_pixel_ratio; //Ratio du nombre de pixel en hauteur selon la distance (valeur multiplier par screen_height)
-	int	screen_height; //Hauteur de l'ecran
-	int	sreen_width; //largeur de l'ecran
-	int	offset_center_x; //pourcentage negatif (gauche) ou positif (droite) de l'offset du centre de l'ecran
-	int	offset_center_y; //pourcentage negatif (haut) ou positif (bas) de l'offset du centre de l'ecran
-	int	use_width; //pourcentage d'utilisation en largeur de l'ecran
-	int	use_height; //pourcentage d'utilisation en hauteur de l'ecran
-} t_screen;
+	int	center_pixel_w;
+	int	center_pixel_h;
+	int	width_resolution;
+}	t_screen;
 
 typedef struct s_vars
 {

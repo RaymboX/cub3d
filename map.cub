@@ -2,8 +2,8 @@ NO ./pouet.xpm
 SO ./pouet2.xpm
 EA ./pouet3.xpm
 WE ./pouet4.xpm
-F (200, 300, 1)
-C (200, 300, 1)
+F  200, 254, 12
+C 200, 100, 1
 
 
               111111111

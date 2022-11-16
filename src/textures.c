@@ -1,44 +1,125 @@
 #include "../include/cub3d.h"
 
+bool	is_seperator(char c, bool *is_virg)
+{
+	if (c == ',' && *is_virg == true)
+		print_error("Error: Wrong color format\n");
+	if (c == ' ' || c == ',')
+	{
+		if (c == ',')
+			*is_virg = true;
+		return (true);
+	}
+	return (false);
+}
+
+bool	is_end(char c, int counter)
+{
+	if ((c == '\0' || c == '\n') && counter < 2)
+		print_error("Error: Wrong color format\n");
+	if (c == '\0' || c == '\n')
+		return (true);
+	return (false);
+}
+
+void	check_colors2(char *colors, char *nb, int *i, int counter)
+{
+	int		ii;
+	bool	is_virg;
+
+	is_virg = false;
+	ii = 0;
+	if (!is_seperator(colors[*i], &is_virg) && !ft_isdigit(colors[*i]))
+		print_error("Error: Wrong color format\n");
+	if (is_virg == true && counter == 0)
+		print_error("Error: Wrong color format\n");
+	if (is_virg == true)
+		*i += 1;
+	while (is_seperator(colors[*i], &is_virg))
+		*i += 1;
+	while (ft_isdigit(colors[*i]))
+	{
+		nb[ii] = colors[*i];
+		*i += 1;
+		ii++;
+	}
+	if (counter == 2)
+	{
+		is_virg = false;
+		if (!is_seperator(colors[*i], &is_virg) && !is_end(colors[*i], counter))
+			print_error("Error: Wrong color format\n");
+		if (is_virg == true && counter == 2)
+			print_error("Error: Wrong color format\n");
+		if (!is_end(colors[*i], counter))
+			*i += 1;
+		is_virg = true;
+		while (is_seperator(colors[*i], &is_virg))
+				*i += 1;
+		if (!is_end(colors[*i], counter) && counter == 2)
+			printf("Error: Wrong color format\n");
+	}
+}
+
+void	check_colors(char *colors)
+{
+	int		i;
+	int		counter;
+	char	*nb;
+
+	i = 0;
+	counter = 0;
+	while (counter < 3)
+	{
+		nb = ft_calloc(sizeof(char), 4);
+		check_colors2(colors, nb, &i, counter);
+		counter++;
+		free(nb);
+	}
+}
+
 void	check_texture_ext(char *texture)
 {
 	char	*res;
 
+	if (*texture != '.' && *(texture + 1) != '/')
+		printf("Error: File not in good directory\n");
 	res = ft_strrchr(texture, '.');
 	if (res == NULL)
 		print_error("Error: No extension found\n");
 	if (*(res + 1) == 'x' && *(res + 2) == 'p'
-		&& *(res + 3) == 'm' && *(res + 4) == '\n')
+		&& *(res + 3) == 'm' && *(res + 4) == '\0')
 		return ;
 	print_error("Error: Texture file is not a '.xpm'\n");
 }
 
-void	assign_texture(char *texture, bool *stat, char *path, char type)
+void	assign_texture(char **texture, bool *stat, char *path, char type)
 {
-	texture = path;
+	*texture = path;
 	*stat = true;
 	if (type == 'N' || type == 'S' || type == 'W' || type == 'E')
 		check_texture_ext(path);
+	else if (type == 'F' || type == 'C')
+		check_colors(path);
 }
 
 bool	identify_texture(t_vars *vars, char *path, char *temp)
 {
 	if (temp[0] == 'N' && temp[1] == 'O' && temp[2] == ' '
 		&& !vars->textures.no_stat)
-		assign_texture(vars->textures.no, &vars->textures.no_stat, path, 'N');
+		assign_texture(&vars->textures.no, &vars->textures.no_stat, path, 'N');
 	else if (temp[0] == 'S' && temp[1] == 'O' && temp[2] == ' '
 		&& !vars->textures.so_stat)
-		assign_texture(vars->textures.so, &vars->textures.so_stat, path, 'S');
+		assign_texture(&vars->textures.so, &vars->textures.so_stat, path, 'S');
 	else if (temp[0] == 'W' && temp[1] == 'E' && temp[2] == ' '
 		&& !vars->textures.we_stat)
-		assign_texture(vars->textures.we, &vars->textures.we_stat, path, 'W');
+		assign_texture(&vars->textures.we, &vars->textures.we_stat, path, 'W');
 	else if (temp[0] == 'E' && temp[1] == 'A' && temp[2] == ' '
 		&& !vars->textures.ea_stat)
-		assign_texture(vars->textures.ea, &vars->textures.ea_stat, path, 'E');
+		assign_texture(&vars->textures.ea, &vars->textures.ea_stat, path, 'E');
 	else if (temp[0] == 'F' && temp[1] == ' ' && !vars->textures.f_stat)
-		assign_texture(vars->textures.f, &vars->textures.f_stat, path, 'F');
+		assign_texture(&vars->textures.f, &vars->textures.f_stat, path, 'F');
 	else if (temp[0] == 'C' && temp[1] == ' ' && !vars->textures.c_stat)
-		assign_texture(vars->textures.c, &vars->textures.c_stat, path, 'C');
+		assign_texture(&vars->textures.c, &vars->textures.c_stat, path, 'C');
 	else
 	{
 		free(temp);
@@ -74,7 +155,7 @@ bool	texture_path(char *temp, t_vars *vars)
 		}
 	}
 	path = ft_calloc(ft_strlen(&temp[ii]), sizeof(char));
-	while (temp[ii])
+	while (temp[ii] != '\0' && temp[ii] != '\n')
 	{
 		path[i] = temp[ii];
 		i++;

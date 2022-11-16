@@ -9,6 +9,7 @@
 # include <errno.h>
 # include "libft/header/libft.h"
 # include <math.h>
+# include <mlx.h>
 
 # define TO_RAD 0.174532925
 # define N 270

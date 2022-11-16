@@ -7,6 +7,7 @@ float	degree_ajust(float degree)
 		degree -= 360;
 	if (degree < 0)
 		degree += 360;
+	return (degree);
 }
 
 void	raycast_loop_init(t_raycast *rc, t_perso *perso)
@@ -197,7 +198,7 @@ void	distances_calculation(t_raycast *rc, t_perso *perso, t_map *map)
 			rc->smallest_dist = rc->dist_y00;
 	}
 	if (rc->x_y00 == -1 && rc->y_x00 == -1)
-		rc->smallest_dist == -1;
+		rc->smallest_dist = -1;
 }
 
 int		wall_hit(t_raycast *rc)
@@ -281,7 +282,7 @@ void	drawing(t_vars *vars, t_raycast *rc)
 	rc->cardinal_wall = wall_hit(&vars->raycast);
 	//fisheye
 	rc->smallest_dist = cos(degree_ajust(
-				abs((rc->rayangle - vars->perso.angle)))) * rc->smallest_dist;
+				fabsf((rc->rayangle - vars->perso.angle)))) * rc->smallest_dist;
 	//calcul du nombre de pixel selon distance
 	rc->wall_height = (vars->screen.max_height * vars->map.mapscale)
 		/ rc->smallest_dist;

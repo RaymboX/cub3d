@@ -19,7 +19,9 @@ UNAME_S		 	= 	$(shell uname -s)
 REL_PATH		=	$(shell pwd)
 LEAK_CMD		=	leaks --atExit --
 
-LIBRARY			=	$(LIBFT)
+LIBMLX 			= 	-L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
+LIB_LINUX		=	-Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+LIBRARY			=	$(LIBFT) $(LIBMLX)
 
 #DIRECTORIES--------------------------------------------------------------------
 
@@ -35,14 +37,16 @@ NAME_DSYM		=	./$(NAME).dSYM
 #  To make the list of all src, do this command in terminal in project folder
 #  find ./src/*.c -type f | cut -c7- | sed 's/$/ \\/'
 SRCS_FILES	 	= 	0_main.c \
+					Parsing.c \
 					error_handling.c \
 					floodfill.c \
 					init_struct.c \
-					parsing.c \
+					map.c \
+					raycast_init.c \
+					raycasting_main.c \
 					textures.c \
 					variables_identification_tools.c \
 					various_tools.c \
-					map.c \
 
 
 HEADERS_FILES	=	cub3d.h

@@ -13,11 +13,12 @@ int	main(int argc, char **argv)
 
     vars_mlx_init(&vars);
     //image creation
-    mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
+    mlx_put_image_to_window(vars.mlx_vars.mlx, vars.mlx_vars.win,
+		vars.mlx_vars.img, 0, 0);
     //mlx_hook keypress
     //mlx hook mouse
     //mlx_hook exit
-    mlx_loop(vars.mlx);
+    mlx_loop(vars.mlx_vars.mlx);
 	}
   else
 	{
@@ -27,7 +28,7 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-/* void	vars_mlx_init(t_vars *vars)
+void	vars_mlx_init(t_vars *vars)
 {
 	vars->mlx_vars.mlx = mlx_init();
 	vars->mlx_vars.win = mlx_new_window(vars->mlx_vars.mlx, SCREEN_W, SCREEN_H,
@@ -45,4 +46,4 @@ void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 	dst = vars->mlx_vars.addr + (y * vars->mlx_vars.line_length + x
 			* (vars->mlx_vars.bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
-} */
+}

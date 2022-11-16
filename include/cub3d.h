@@ -137,7 +137,7 @@ typedef struct s_vars
 bool	texture_path(char *temp, t_vars *vars);
 void	texture_init(int fd, t_vars *vars);
 void	check_texture_ext(char *texture);
-void	assign_texture(char *texture, bool *stat, char *path, char type);
+void	assign_texture(char **texture, bool *stat, char *path, char type);
 bool	identify_texture(t_vars *vars, char *path, char *temp);
 
 //Variable identificaiton

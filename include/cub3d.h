@@ -107,6 +107,7 @@ typedef struct s_raycast
 	char	cellvalue_x00; //Valeur de la cell rencontrer pour le point (x00, y_x00) (1 = mur, 0 = rien)
 	char	cellvalue_y00; //Valeur de la cell rencontrer pour le point (x_y00, y00) (1 = mur, 0 = rien)
 	int		cardinal_wall; //afin d'appliquer le bon xpm determiner par les directions dx et dy et par le point utiliser (smallest dist = dist_x00 ou dist_y00)
+	int		wall_height;
 }	t_raycast;
 
 typedef struct s_screen
@@ -147,7 +148,37 @@ bool	texture_path(char *temp, t_vars *vars);
 void	create_map(int fd, t_vars *vars);
 void	flood_fill(t_vars *vars, int pos_x, int pos_y);
 
+//mlx
+void	vars_mlx_init(t_vars *vars);
+void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
+
 //Error Handling
 void	print_error(char *error);
+
+//RAYCASTING--------------------------------------------------------------------
+//raycasting loop
+float	degree_ajust(float degree);
+void	raycast_loop_init(t_raycast *rc, t_perso *perso);
+void	set_grid_parallele_direction(t_raycast *rc);
+void	set_general_direction_and_m(t_raycast *rc);
+void	set_direction_and_linear_function(t_raycast *rc, t_perso *perso);
+void	set_fx00_n_fy00(t_vars *vars);
+void	shift_add(t_raycast *rc);
+void	set_x00_n_y00(t_raycast *rc, t_map *map);
+void	set__x_y00__n__y_x00(t_raycast *rc, t_perso *perso, t_map *map);
+void	find_cell_coord(t_raycast *rc, t_map *map);
+void	distances_calculation(t_raycast *rc, t_perso *perso, t_map *map);
+int		wall_hit(t_raycast *rc);
+void	drawing_wall(t_vars *vars, t_raycast *rc, int i_pixel);
+void	drawing_floor_celling(t_vars *vars, t_raycast *rc, int i_pixel);
+void	drawing(t_vars *vars, t_raycast *rc);
+void	raycast_main_loop(t_vars *vars);
+
+//raycasting init
+void	rawycast_init(t_vars *vars);
+void	max_height_width(t_screen *screen);
+void	center_pixel(t_screen *screen);
+void	set_fov_angle_div(t_raycast *raycast);
+void	column_limit(t_screen *screen, t_raycast *raycast);
 
 #endif

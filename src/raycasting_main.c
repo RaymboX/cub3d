@@ -1,8 +1,6 @@
 
 #include "../include/cub3d.h"
 
-
-
 float	degree_ajust(float degree)
 {
 	if (degree >= 360)
@@ -223,15 +221,82 @@ int		wall_hit(t_raycast *rc)
 	return (-1);
 }
 
-void	drawing(t_vars *vars)
+void	drawing_wall(t_vars *vars, t_raycast *rc, int i_pixel)
+{
+	int	color;
+	int	i_resol_h;
+	int	i_resol_w;
+
+	//get texture color
+	color = create_trgb(1, 1, 0, 0); //temp test
+	i_resol_h = -1;
+	while (++i_resol_h <= vars->screen.resolution_h
+		&& vars->screen.center_pixel_h - i_pixel - i_resol_h >= 0)
+	{
+		i_resol_w = -1;
+		while (++i_resol_w <= vars->screen.resolution_w
+			&& rc->ray_i + i_resol_w <= rc->ray_i_max)
+		{
+			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_h - i_pixel - i_resol_h,
+				rc->ray_i + i_resol_w, color);
+			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_h + i_pixel + i_resol_h,
+				rc->ray_i + i_resol_w, color);
+		}
+	}
+}
+
+void	drawing_floor_celling(t_vars *vars, t_raycast *rc, int i_pixel)
+{
+	int	color[2];
+	int	i_resol_h;
+	int	i_resol_w;
+
+	//get texture color
+	color[0] = create_trgb(1, 0, 1, 0); //temp test floor
+	color[1] = create_trgb(1, 0, 0, 1); //temp test celling
+	i_resol_h = -1;
+	while (++i_resol_h <= vars->screen.resolution_h
+		&& vars->screen.center_pixel_h - i_pixel - i_resol_h >= 0)
+	{
+		i_resol_w = -1;
+		while (++i_resol_w <= vars->screen.resolution_w
+			&& rc->ray_i + i_resol_w <= rc->ray_i_max)
+		{
+			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_h - i_pixel - i_resol_h,
+				rc->ray_i + i_resol_w, color[1]);
+			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_h + i_pixel + i_resol_h,
+				rc->ray_i + i_resol_w, color[0]);
+		}
+	}
+}
+
+void	drawing(t_vars *vars, t_raycast *rc)
 {
 	int	i_pixel;
-	
-	vars->raycast.cardinal_wall = wall_hit(&vars->raycast);
+
+	rc->cardinal_wall = wall_hit(&vars->raycast);
+	//fisheye
+	rc->smallest_dist = cos(degree_ajust(
+				abs((rc->rayangle - vars->perso.angle)))) * rc->smallest_dist;
 	//calcul du nombre de pixel selon distance
-	
+	rc->wall_height = (vars->screen.max_height * vars->map.mapscale)
+		/ rc->smallest_dist;
+	if (rc->wall_height > vars->screen.max_height)
+		rc->wall_height = vars->screen.max_height;
 	//boucle de dessin de mur
-	//boucle restant celling et floor
+	i_pixel = 0;
+	while (i_pixel < (vars->screen.max_height / 2)
+		&& vars->screen.center_pixel_h - i_pixel >= 0)
+	{
+		if (i_pixel < rc->wall_height / 2)
+			drawing_wall(vars, rc, i_pixel);
+		else
+			drawing_floor_celling(vars, rc, i_pixel);
+	}
 }
 
 void	raycast_main_loop(t_vars *vars)
@@ -254,6 +319,6 @@ void	raycast_main_loop(t_vars *vars)
 			find_cell_coord(rc, &vars->map);
 			distances_calculation(rc, &vars->perso, &vars->map);
 		}
-		drawing(vars);
+		drawing(vars, rc);
 	}
 }

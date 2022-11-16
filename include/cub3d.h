@@ -81,7 +81,7 @@ typedef struct s_perso
 
 typedef struct s_raycast
 {
-	int		fov_rayangle; //difference entre player angle et
+	int		fov; //difference entre player angle et
 	float	rayangle; //utiliser en boucle a partir de fov, max_usable_screen_width et boucle i
 	float	fov_angle_div;//angle diff for each ray launch
 	int		ray_i;

@@ -1,49 +1,7 @@
 
 #include "../include/cub3d.h"
 
-/* INIT FUNCTION (screen size reset)
-** calcul de la grandeur maximal de raycasting en width et height
-*/
-void	max_height_width(t_screen *screen)
-{
-	screen->max_width = 100 - OFFSET_CENTER_X;
-	if (100 - abs(OFFSET_CENTER_X) < USED_W)
-		screen->max_width = (100 - abs(OFFSET_CENTER_X)) * SCREEN_W / 100;
-	else
-		screen->max_width = USED_W * SCREEN_W / 100;
-	screen->max_height = 100 - OFFSET_CENTER_Y;
-	if (100 - abs(OFFSET_CENTER_Y) < USED_H)
-		screen->max_height = (100 - abs(OFFSET_CENTER_Y)) * SCREEN_H / 100;
-	else
-		screen->max_height = USED_H * SCREEN_H / 100;
-}
 
-/* INIT FUNCTION (screen size reset)
-**calcul du point central du raycasting
-*/
-void	center_pixel(t_screen *screen)
-{
-	screen->center_pixel_w = SCREEN_W / 2
-		+ (OFFSET_CENTER_X / 100) * SCREEN_W;
-	screen->center_pixel_h = SCREEN_H / 2
-		+ (OFFSET_CENTER_X / 100) * SCREEN_H;
-}
-
-void	set_fov_angle_div(t_raycast *raycast)
-{
-	raycast->fov_angle_div = (fov / 2) / raycast->ray_i_max;
-}
-
-void	column_limit(t_screen *screen, t_raycast *raycast)
-{
-	raycast->ray_i_min = screen->max_width / 2 * -1;
-	if (screen->max_width % 2 == 1)
-		raycast->ray_i_max = screen->max_width / 2 - 1;
-	else
-		raycast->ray_i_max = screen->max_width / 2;
-	screen->col_left = screen->center_pixel_w + raycast->ray_i_min;
-	screen->col_right = screen->center_pixel_w + raycast->ray_i_max;
-}
 
 float	degree_ajust(float degree)
 {
@@ -123,7 +81,8 @@ void	set_general_direction_and_m(t_raycast *rc)
 
 void	set_direction_and_linear_function(t_raycast *rc, t_perso *perso)
 {
-	if (rc->rayangle % 90 == 0 || rc->rayangle == 0)
+	if (rc->rayangle == 0 || rc->rayangle == 90
+		|| rc->rayangle == 180 || rc->rayangle == 270)
 		set_grid_parallele_direction(rc);
 	else
 	{
@@ -161,10 +120,10 @@ void	shift_add(t_raycast *rc)
 	}
 }
 
-void	set_x00_n_y00(t_raycast *rc, t_screen *screen)
+void	set_x00_n_y00(t_raycast *rc, t_map *map)
 {
-	rc->x00 = rc->fx00 + rc->shift_x00 * rc->dx * screen->mapscale;
-	rc->y00 = rc->fy00 + rc->shift_y00 * rc->dy * screen->mapscale;
+	rc->x00 = rc->fx00 + rc->shift_x00 * rc->dx * map->mapscale;
+	rc->y00 = rc->fy00 + rc->shift_y00 * rc->dy * map->mapscale;
 }
 void	set__x_y00__n__y_x00(t_raycast *rc, t_perso *perso, t_map *map)
 {
@@ -220,18 +179,18 @@ void	find_cell_coord(t_raycast *rc, t_map *map)
 
 void	distances_calculation(t_raycast *rc, t_perso *perso, t_map *map)
 {
-	if (y_x00 > 0)
+	if (rc->y_x00 > 0)
 		rc->cellvalue_x00 = map->map[rc->cellx00[1]][rc->cellx00[0]];
 	if (rc->cellvalue_x00 == '1')
-		rc->dist_x00 =(int)sqrt(
-				pow((double)(rc->x00 - perso->position[0], 2)) +
-				pow((double)(rc->y_x00 - perso->position[1], 2));
-	if (x_y00 > 0)
+		rc->dist_x00 = (int)sqrt(
+				pow((double)(rc->x00 - perso->position[0]), 2)
+				+ pow((double)(rc->y_x00 - perso->position[1]), 2));
+	if (rc->x_y00 > 0)
 		rc->cellvalue_y00 = map->map[rc->celly00[1]][rc->celly00[0]];
 	if (rc->cellvalue_y00 == '1')
 		rc->dist_y00 = (int)sqrt(
-				pow((double)(rc->x_y00 - perso->position[0], 2)) +
-				pow((double)(rc->y00 - perso->position[1], 2));
+				pow((double)(rc->x_y00 - perso->position[0]), 2)
+				+ pow((double)(rc->y00 - perso->position[1]), 2));
 	if (rc->cellvalue_x00 == '1' || rc->cellvalue_y00 == '1')
 	{
 		if (rc->dist_x00 <= rc->dist_y00)
@@ -268,7 +227,7 @@ void	drawing(t_vars *vars)
 {
 	int	i_pixel;
 	
-	rc->cardinal_wall = wall_hit(&vars->raycast);
+	vars->raycast.cardinal_wall = wall_hit(&vars->raycast);
 	//calcul du nombre de pixel selon distance
 	
 	//boucle de dessin de mur
@@ -283,15 +242,15 @@ void	raycast_main_loop(t_vars *vars)
 	rc->ray_i = rc->ray_i_min;
 	while (rc->ray_i <= rc->ray_i_max)
 	{
-		raycast_loop_init(rc);
+		raycast_loop_init(rc, &vars->perso);
 		set_direction_and_linear_function(rc, &vars->perso);
 		set_fx00_n_fy00(vars);
 		while (rc->cellvalue_x00 == '1' || rc->cellvalue_y00 == '1'
 			|| rc->smallest_dist == -1)
 		{
 			shift_add(rc);
-			set_x00_n_y00(rc, &vars->screen);
-			set__x_y00__n__y_x00(*rc, &vars->perso, &vars.map);
+			set_x00_n_y00(rc, &vars->map);
+			set__x_y00__n__y_x00(rc, &vars->perso, &vars->map);
 			find_cell_coord(rc, &vars->map);
 			distances_calculation(rc, &vars->perso, &vars->map);
 		}

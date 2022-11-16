@@ -9,6 +9,12 @@ int	main(int argc, char **argv)
 		texture_struct_init(&vars);
 		check_file(argv, &vars);
 	}
+
+	//mlx stuff
+	
+	vars_mlx_init(&vars);
+
+
 	return (0);
 }
 

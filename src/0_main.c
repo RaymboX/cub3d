@@ -12,7 +12,8 @@ int	main(int argc, char **argv)
     //mlx stuff
 
     vars_mlx_init(&vars);
-    //image creation
+    raycast_init(&vars);
+	raycast_main_loop(&vars);
     mlx_put_image_to_window(vars.mlx_vars.mlx, vars.mlx_vars.win,
 		vars.mlx_vars.img, 0, 0);
     //mlx_hook keypress

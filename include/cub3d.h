@@ -11,7 +11,7 @@
 # include <math.h>
 # include <mlx.h>
 
-# define TO_RAD 0.174532925
+# define PI 3.141592654
 # define N 270
 # define E 0
 # define S 90
@@ -19,8 +19,6 @@
 # define FOV 60
 # define SCREEN_W 1920
 # define SCREEN_H 1080
-# define DECIMAL_PRECISION 1000
-# define PIXEL_DIST_HEIGHT -10
 # define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
 # define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
 # define USED_H 100
@@ -82,7 +80,6 @@ typedef struct s_perso
 
 typedef struct s_raycast
 {
-	int		fov; //difference entre player angle et
 	float	rayangle; //utiliser en boucle a partir de fov, max_usable_screen_width et boucle i
 	float	fov_angle_div;//angle diff for each ray launch
 	int		ray_i;
@@ -194,10 +191,10 @@ void	drawing(t_vars *vars, t_raycast *rc);
 void	raycast_main_loop(t_vars *vars);
 
 //raycasting init
-void	rawycast_init(t_vars *vars);
+void	raycast_init(t_vars *vars);
 void	max_height_width(t_screen *screen);
 void	center_pixel(t_screen *screen);
-void	set_fov_angle_div(t_raycast *raycast);
+void	set_fov_angle_div(t_vars *vars);
 void	column_limit(t_screen *screen, t_raycast *raycast);
 
 #endif

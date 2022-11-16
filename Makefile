@@ -42,6 +42,7 @@ SRCS_FILES	 	= 	0_main.c \
 					textures.c \
 					variables_identification_tools.c \
 					various_tools.c \
+					map.c \
 
 
 HEADERS_FILES	=	cub3d.h

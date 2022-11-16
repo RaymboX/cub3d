@@ -39,7 +39,6 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
-
 typedef struct s_texures
 {
 	char	*no;
@@ -67,6 +66,7 @@ typedef struct s_map
 	int		mapscale; //multiple de 10 de subdivision des coordonnees de la map (peut-etre modifier pour un int)
 	int		start;
 	int		perso_start[2];
+	int		first_wall;
 	bool	is_map;
 }	t_map;
 
@@ -135,7 +135,10 @@ typedef struct s_vars
 
 //Texture
 bool	texture_path(char *temp, t_vars *vars);
-int		texture_init(int fd, t_vars *vars);
+void	texture_init(int fd, t_vars *vars);
+void	check_texture_ext(char *texture);
+void	assign_texture(char *texture, bool *stat, char *path, char type);
+bool	identify_texture(t_vars *vars, char *path, char *temp);
 
 //Variable identificaiton
 bool	is_mapchar(char c);
@@ -150,14 +153,16 @@ void	ft_map_start(int fd, t_vars *vars);
 bool	is_first_line(char *line);
 void	map_size(int fd, t_vars *vars);
 void	check_ext(char *arg);
-int		texture_init(int fd, t_vars *vars);
-bool	texture_path(char *temp, t_vars *vars);
 void	create_map(int fd, t_vars *vars);
-void	flood_fill(t_vars *vars, int pos_x, int pos_y);
+void	flood_fill_inside(t_vars *vars, int pos_x, int pos_y);
+void	flood_fill_walls(t_vars *vars, int pos_x, int pos_y);
+void	copy_map(t_vars *vars);
 
 //Error Handling
+void	error_exit(char *error, int fd, char *temp);
 void	print_error(char *error);
 void	check_map_errors(t_vars *vars);
+void	check_map_integrity(t_vars *vars);
 
 //Various tools
 char	*ft_strcat(char *s1, int len);

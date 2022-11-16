@@ -1,50 +1,6 @@
 
 #include "../include/cub3d.h"
 
-/* INIT FUNCTION (screen size reset)
-** calcul de la grandeur maximal de raycasting en width et height
-*/
-void	max_height_width(t_screen *screen)
-{
-	screen->max_width = 100 - OFFSET_CENTER_X;
-	if (100 - abs(OFFSET_CENTER_X) < USED_W)
-		screen->max_width = (100 - abs(OFFSET_CENTER_X)) * SCREEN_W / 100;
-	else
-		screen->max_width = USED_W * SCREEN_W / 100;
-	screen->max_height = 100 - OFFSET_CENTER_Y;
-	if (100 - abs(OFFSET_CENTER_Y) < USED_H)
-		screen->max_height = (100 - abs(OFFSET_CENTER_Y)) * SCREEN_H / 100;
-	else
-		screen->max_height = USED_H * SCREEN_H / 100;
-}
-
-/* INIT FUNCTION (screen size reset)
-**calcul du point central du raycasting
-*/
-void	center_pixel(t_screen *screen)
-{
-	screen->center_pixel_w = SCREEN_W / 2
-		+ (OFFSET_CENTER_X / 100) * SCREEN_W;
-	screen->center_pixel_h = SCREEN_H / 2
-		+ (OFFSET_CENTER_X / 100) * SCREEN_H;
-}
-
-void	set_fov_angle_div(t_raycast *raycast)
-{
-	raycast->fov_angle_div = (fov / 2) / raycast->ray_i_max;
-}
-
-void	column_limit(t_screen *screen, t_raycast *raycast)
-{
-	raycast->ray_i_min = screen->max_width / 2 * -1;
-	if (screen->max_width % 2 == 1)
-		raycast->ray_i_max = screen->max_width / 2 - 1;
-	else
-		raycast->ray_i_max = screen->max_width / 2;
-	screen->col_left = screen->center_pixel_w + raycast->ray_i_min;
-	screen->col_right = screen->center_pixel_w + raycast->ray_i_max;
-}
-
 float	degree_ajust(float degree)
 {
 	if (degree >= 360)
@@ -123,7 +79,8 @@ void	set_general_direction_and_m(t_raycast *rc)
 
 void	set_direction_and_linear_function(t_raycast *rc, t_perso *perso)
 {
-	if (rc->rayangle % 90 == 0 || rc->rayangle == 0)
+	if (rc->rayangle == 0 || rc->rayangle == 90
+		|| rc->rayangle == 180 || rc->rayangle == 270)
 		set_grid_parallele_direction(rc);
 	else
 	{
@@ -161,10 +118,10 @@ void	shift_add(t_raycast *rc)
 	}
 }
 
-void	set_x00_n_y00(t_raycast *rc, t_screen *screen)
+void	set_x00_n_y00(t_raycast *rc, t_map *map)
 {
-	rc->x00 = rc->fx00 + rc->shift_x00 * rc->dx * screen->mapscale;
-	rc->y00 = rc->fy00 + rc->shift_y00 * rc->dy * screen->mapscale;
+	rc->x00 = rc->fx00 + rc->shift_x00 * rc->dx * map->mapscale;
+	rc->y00 = rc->fy00 + rc->shift_y00 * rc->dy * map->mapscale;
 }
 void	set__x_y00__n__y_x00(t_raycast *rc, t_perso *perso, t_map *map)
 {
@@ -220,18 +177,18 @@ void	find_cell_coord(t_raycast *rc, t_map *map)
 
 void	distances_calculation(t_raycast *rc, t_perso *perso, t_map *map)
 {
-	if (y_x00 > 0)
+	if (rc->y_x00 > 0)
 		rc->cellvalue_x00 = map->map[rc->cellx00[1]][rc->cellx00[0]];
 	if (rc->cellvalue_x00 == '1')
-		rc->dist_x00 =(int)sqrt(
-				pow((double)(rc->x00 - perso->position[0], 2)) +
-				pow((double)(rc->y_x00 - perso->position[1], 2));
-	if (x_y00 > 0)
+		rc->dist_x00 = (int)sqrt(
+				pow((double)(rc->x00 - perso->position[0]), 2)
+				+ pow((double)(rc->y_x00 - perso->position[1]), 2));
+	if (rc->x_y00 > 0)
 		rc->cellvalue_y00 = map->map[rc->celly00[1]][rc->celly00[0]];
 	if (rc->cellvalue_y00 == '1')
 		rc->dist_y00 = (int)sqrt(
-				pow((double)(rc->x_y00 - perso->position[0], 2)) +
-				pow((double)(rc->y00 - perso->position[1], 2));
+				pow((double)(rc->x_y00 - perso->position[0]), 2)
+				+ pow((double)(rc->y00 - perso->position[1]), 2));
 	if (rc->cellvalue_x00 == '1' || rc->cellvalue_y00 == '1')
 	{
 		if (rc->dist_x00 <= rc->dist_y00)
@@ -264,15 +221,82 @@ int		wall_hit(t_raycast *rc)
 	return (-1);
 }
 
-void	drawing(t_vars *vars)
+void	drawing_wall(t_vars *vars, t_raycast *rc, int i_pixel)
+{
+	int	color;
+	int	i_resol_h;
+	int	i_resol_w;
+
+	//get texture color
+	color = create_trgb(1, 1, 0, 0); //temp test
+	i_resol_h = -1;
+	while (++i_resol_h <= vars->screen.resolution_h
+		&& vars->screen.center_pixel_h - i_pixel - i_resol_h >= 0)
+	{
+		i_resol_w = -1;
+		while (++i_resol_w <= vars->screen.resolution_w
+			&& rc->ray_i + i_resol_w <= rc->ray_i_max)
+		{
+			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_h - i_pixel - i_resol_h,
+				rc->ray_i + i_resol_w, color);
+			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_h + i_pixel + i_resol_h,
+				rc->ray_i + i_resol_w, color);
+		}
+	}
+}
+
+void	drawing_floor_celling(t_vars *vars, t_raycast *rc, int i_pixel)
+{
+	int	color[2];
+	int	i_resol_h;
+	int	i_resol_w;
+
+	//get texture color
+	color[0] = create_trgb(1, 0, 1, 0); //temp test floor
+	color[1] = create_trgb(1, 0, 0, 1); //temp test celling
+	i_resol_h = -1;
+	while (++i_resol_h <= vars->screen.resolution_h
+		&& vars->screen.center_pixel_h - i_pixel - i_resol_h >= 0)
+	{
+		i_resol_w = -1;
+		while (++i_resol_w <= vars->screen.resolution_w
+			&& rc->ray_i + i_resol_w <= rc->ray_i_max)
+		{
+			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_h - i_pixel - i_resol_h,
+				rc->ray_i + i_resol_w, color[1]);
+			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_h + i_pixel + i_resol_h,
+				rc->ray_i + i_resol_w, color[0]);
+		}
+	}
+}
+
+void	drawing(t_vars *vars, t_raycast *rc)
 {
 	int	i_pixel;
-	
+
 	rc->cardinal_wall = wall_hit(&vars->raycast);
+	//fisheye
+	rc->smallest_dist = cos(degree_ajust(
+				abs((rc->rayangle - vars->perso.angle)))) * rc->smallest_dist;
 	//calcul du nombre de pixel selon distance
-	
+	rc->wall_height = (vars->screen.max_height * vars->map.mapscale)
+		/ rc->smallest_dist;
+	if (rc->wall_height > vars->screen.max_height)
+		rc->wall_height = vars->screen.max_height;
 	//boucle de dessin de mur
-	//boucle restant celling et floor
+	i_pixel = 0;
+	while (i_pixel < (vars->screen.max_height / 2)
+		&& vars->screen.center_pixel_h - i_pixel >= 0)
+	{
+		if (i_pixel < rc->wall_height / 2)
+			drawing_wall(vars, rc, i_pixel);
+		else
+			drawing_floor_celling(vars, rc, i_pixel);
+	}
 }
 
 void	raycast_main_loop(t_vars *vars)
@@ -283,18 +307,18 @@ void	raycast_main_loop(t_vars *vars)
 	rc->ray_i = rc->ray_i_min;
 	while (rc->ray_i <= rc->ray_i_max)
 	{
-		raycast_loop_init(rc);
+		raycast_loop_init(rc, &vars->perso);
 		set_direction_and_linear_function(rc, &vars->perso);
 		set_fx00_n_fy00(vars);
 		while (rc->cellvalue_x00 == '1' || rc->cellvalue_y00 == '1'
 			|| rc->smallest_dist == -1)
 		{
 			shift_add(rc);
-			set_x00_n_y00(rc, &vars->screen);
-			set__x_y00__n__y_x00(*rc, &vars->perso, &vars.map);
+			set_x00_n_y00(rc, &vars->map);
+			set__x_y00__n__y_x00(rc, &vars->perso, &vars->map);
 			find_cell_coord(rc, &vars->map);
 			distances_calculation(rc, &vars->perso, &vars->map);
 		}
-		drawing(vars);
+		drawing(vars, rc);
 	}
 }

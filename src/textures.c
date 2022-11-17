@@ -49,13 +49,8 @@ bool	texture_path(char *temp, t_vars *vars)
 	ii = 0;
 	if (!ft_avance_in_file(&ii, temp))
 		return (0);
-	path = ft_calloc(ft_strlen(&temp[ii]), sizeof(char));
-	while (temp[ii] != '\0' && temp[ii] != '\n')
-	{
-		path[i] = temp[ii];
-		i++;
-		ii++;
-	}
+	path = ft_calloc(ft_strlen_nl(&temp[ii]), sizeof(char));
+	ft_strlcpy(path, &temp[ii], ft_strlen_nl(&temp[ii]) + 1);
 	r = identify_texture(vars, path, temp);
 	if (!r)
 		free(path);

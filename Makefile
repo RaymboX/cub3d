@@ -12,14 +12,17 @@ Y = $(shell tput -Txterm setaf 3)
 Z = $(shell tput -Txterm setaf 5)
 
 CFLAGS 			= 	-Wall -Werror -Wextra
-CC				= 	gcc
+CC				= 	gcc -g
 RM				= 	rm -rf
 VALG_LEAK		=	valgrind --leak-check=full
 UNAME_S		 	= 	$(shell uname -s)
 REL_PATH		=	$(shell pwd)
 LEAK_CMD		=	leaks --atExit --
 
-LIBRARY			=	$(LIBFT)
+LIBMLX 			= 	-L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
+LIB_LINUX		=	-L ./include/minilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+LIBRARY			=	$(LIBFT) $(LIBMLX)
+LIBRARY_LINUX	=	$(LIB_LINUX) include/libft/src/*c
 
 #DIRECTORIES--------------------------------------------------------------------
 
@@ -35,15 +38,19 @@ NAME_DSYM		=	./$(NAME).dSYM
 #  To make the list of all src, do this command in terminal in project folder
 #  find ./src/*.c -type f | cut -c7- | sed 's/$/ \\/'
 SRCS_FILES	 	= 	0_main.c \
+					Parsing.c \
 					error_handling.c \
 					floodfill.c \
 					init_struct.c \
-					parsing.c \
+					map.c \
+					raycast_init.c \
+					raycasting_main.c \
 					textures.c \
 					variables_identification_tools.c \
 					various_tools.c \
 					map.c \
 					floors_ceilings.c \
+
 
 
 HEADERS_FILES	=	cub3d.h
@@ -76,7 +83,11 @@ init:
 					@mkdir -p $(OBJS_DIR)
 
 $(NAME):			$(OBJS) 
+ifeq ($(UNAME_S),Linux)
+					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY_LINUX)
+else
 					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY)
+endif					
 					@echo "$G$(NAME)            compiled$W"
 					
 $(LIBFT):
@@ -100,8 +111,12 @@ reset:				fclean
 re: 				fclean all
 
 debug: $(LIBFT)
-				gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME)
-
+ifeq ($(UNAME_S),Linux)
+					gcc -g $(CFLAGS) $(LIBRARY_LINUX) $(SRCS) -o $(NAME) -D DEBUG=1
+else
+					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME) -D DEBUG=1
+endif
+				
 #PHONY--------------------------------------------------------------------------
 
 .PHONY:				all clean fclean re init debug reset

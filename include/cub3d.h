@@ -1,6 +1,12 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# ifdef __linux__
+#  include "minilibx-linux/mlx.h"
+# else
+# include <mlx.h>
+# endif
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -10,7 +16,11 @@
 # include "libft/header/libft.h"
 # include <math.h>
 
-# define TO_RAD 0.174532925
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
+
+# define PI 3.141592654
 # define N 270
 # define E 0
 # define S 90
@@ -18,8 +28,6 @@
 # define FOV 60
 # define SCREEN_W 1920
 # define SCREEN_H 1080
-# define DECIMAL_PRECISION 1000
-# define PIXEL_DIST_HEIGHT -10
 # define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
 # define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
 # define USED_H 100
@@ -27,6 +35,11 @@
 # define PIXEL_DIST_RATIO -10
 # define RESOLUTION_W_DEF 1
 # define RESOLUTION_H_DEF 1
+
+typedef struct s_log
+{
+	int	fd_raycast;
+}			t_log;
 
 typedef struct s_mlx
 {
@@ -83,7 +96,6 @@ typedef struct s_perso
 
 typedef struct s_raycast
 {
-	int		fov; //difference entre player angle et
 	float	rayangle; //utiliser en boucle a partir de fov, max_usable_screen_width et boucle i
 	float	fov_angle_div;//angle diff for each ray launch
 	int		ray_i;
@@ -101,13 +113,11 @@ typedef struct s_raycast
 	int		y00; //Valeur obtenu a partir de fy00 + shift_y00 * mapscale * dy
 	int		x_y00; //Valeur de x en y00
 	int		y_x00; //Valeur de y en x00
-	int		dist_x00; //Distance entre position du joueur et point (x00, y_x00) * precision
-	int		dist_y00; //Distance entre position du joueur et point (x_y00, y00) * precision
+	int		dist[2]; //Distance entre position du joueur et point (x_y00, y00) * precision
 	int		smallest_dist; //Distance la plus courte entre dist_x00 et dist_y00
 	int		cellx00[2];
 	int		celly00[2];
-	char	cellvalue_x00; //Valeur de la cell rencontrer pour le point (x00, y_x00) (1 = mur, 0 = rien)
-	char	cellvalue_y00; //Valeur de la cell rencontrer pour le point (x_y00, y00) (1 = mur, 0 = rien)
+	char	cellvalue[2]; //Valeur de la cell rencontrer pour le point (x00, y_x00) (1 = mur, 0 = rien)
 	int		cardinal_wall; //afin d'appliquer le bon xpm determiner par les directions dx et dy et par le point utiliser (smallest dist = dist_x00 ou dist_y00)
 	int		wall_height;
 }	t_raycast;
@@ -134,6 +144,7 @@ typedef struct s_vars
 	t_raycast	raycast;
 	t_screen	screen;
 	t_mlx		mlx_vars;
+	t_log		debug_log;
 }	t_vars;
 
 //Textures/Floors/Ceilings
@@ -201,10 +212,11 @@ void	drawing(t_vars *vars, t_raycast *rc);
 void	raycast_main_loop(t_vars *vars);
 
 //raycasting init
-void	rawycast_init(t_vars *vars);
+void	raycast_init(t_vars *vars);
+void	printinglog(int fd, char *intro, char *str, int val);
 void	max_height_width(t_screen *screen);
 void	center_pixel(t_screen *screen);
-void	set_fov_angle_div(t_raycast *raycast);
+void	set_fov_angle_div(t_vars *vars);
 void	column_limit(t_screen *screen, t_raycast *raycast);
 
 #endif

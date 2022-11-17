@@ -1,15 +1,80 @@
 #include "../include/cub3d.h"
 
+static void	tempvar(t_vars *vars)
+{
+	int	fd;
+	int	i = -1;
+	
+	if (DEBUG == 1)
+		vars->debug_log.fd_raycast = open("raycast_log",
+				O_RDWR | O_CREAT | O_TRUNC, 0777);
+	vars->map.map_limit[0] = 10;
+	vars->map.map_limit[1] = 5;
+	vars->map.perso_start[0] = 3;
+	vars->map.perso_start[1] = 2;
+	vars->perso.angle = 0;
+	
+	vars->map.map = (char**)malloc(sizeof(char*) * 6);
+	fd = open("testmap", O_RDONLY);
+	while (++i < 5)
+	{
+		vars->map.map[i] = get_next_line(fd);
+		vars->map.map[i][10] = '\0';
+		printinglog(vars->debug_log.fd_raycast, vars->map.map[i],"",9); 
+	}
+	close(fd);
+	vars->map.map[i] = NULL;
+}
+
 /* INIT FUNCTION (screen size reset)
 ** calcul de la grandeur maximal de raycasting en width et height
 */
-
-void	rawycast_init(t_vars *vars)
+void	raycast_init(t_vars *vars)
 {
+
+	//temp test
+	tempvar(vars);
+
+	//test
+	vars->map.mapscale = 100;
+
+	vars->perso.position[0] = vars->map.perso_start[0] * vars->map.mapscale
+		+ vars->map.mapscale / 2;
+	vars->perso.position[1] = vars->map.perso_start[1] * vars->map.mapscale
+		+ vars->map.mapscale / 2;
+	vars->perso.fov = FOV;
+	vars->screen.resolution_h = RESOLUTION_H_DEF;
+	vars->screen.resolution_w = RESOLUTION_W_DEF;
+
 	max_height_width(&vars->screen);
 	center_pixel(&vars->screen);
-	set_fov_angle_div(&vars->raycast);
 	column_limit(&vars->screen, &vars->raycast);
+	set_fov_angle_div(vars);
+
+	printinglog(vars->debug_log.fd_raycast, "perso.x", "", vars->perso.position[0]);
+	printinglog(vars->debug_log.fd_raycast, "perso.y", "", vars->perso.position[1]);
+	printinglog(vars->debug_log.fd_raycast, "perso.angle int", "", (int)vars->perso.angle);
+	printinglog(vars->debug_log.fd_raycast, "col right", "", vars->screen.col_right);
+}
+
+void	printinglog(int fd, char *intro, char *str, int val)
+{
+	char	*str_val;
+
+	if (DEBUG == 1)
+	{
+		write(fd, intro, ft_strlen(intro));
+		write(fd, ": ", 2);
+		if (ft_strlen(str) > 0)
+			write(fd, str, ft_strlen(str));
+		else
+		{
+			str_val = ft_itoa(val);
+			write(fd, str_val, ft_strlen(str_val));
+			free(str_val);
+		}
+		write(fd, "\n", 1);
+	}
 }
 
 void	max_height_width(t_screen *screen)
@@ -37,18 +102,20 @@ void	center_pixel(t_screen *screen)
 		+ (OFFSET_CENTER_X / 100) * SCREEN_H;
 }
 
-void	set_fov_angle_div(t_raycast *raycast)
+void	set_fov_angle_div(t_vars *vars)
 {
-	raycast->fov_angle_div = (raycast->fov / 2) / raycast->ray_i_max;
+	vars->raycast.fov_angle_div = (vars->perso.fov / 2);
+	vars->raycast.fov_angle_div /= vars->raycast.ray_i_max;
 }
 
 void	column_limit(t_screen *screen, t_raycast *raycast)
 {
 	raycast->ray_i_min = screen->max_width / 2 * -1;
-	if (screen->max_width % 2 == 1)
+	if (screen->max_width % 2 == 0)
 		raycast->ray_i_max = screen->max_width / 2 - 1;
 	else
 		raycast->ray_i_max = screen->max_width / 2;
 	screen->col_left = screen->center_pixel_w + raycast->ray_i_min;
 	screen->col_right = screen->center_pixel_w + raycast->ray_i_max;
 }
+

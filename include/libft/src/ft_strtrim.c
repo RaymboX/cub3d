@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 11:46:32 by mraymond          #+#    #+#             */
-/*   Updated: 2022/08/09 12:59:24 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/11/17 10:37:52 by anhebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	long int	i[3];
 	char		*dst;
 
-	if (s1 == NULL && set == NULL)
+	if (s1 == NULL || set == NULL)
 		return (NULL);
 	i[0] = 0;
 	i[1] = ft_strlen(s1) - 1;

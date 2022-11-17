@@ -41,6 +41,7 @@ SRCS_FILES	 	= 	0_main.c \
 					Parsing.c \
 					error_handling.c \
 					floodfill.c \
+					floors_ceilings.c \
 					init_struct.c \
 					map.c \
 					raycast_init.c \
@@ -48,10 +49,6 @@ SRCS_FILES	 	= 	0_main.c \
 					textures.c \
 					variables_identification_tools.c \
 					various_tools.c \
-					map.c \
-					floors_ceilings.c \
-
-
 
 HEADERS_FILES	=	cub3d.h
 

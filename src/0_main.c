@@ -8,9 +8,23 @@ int	main(int argc, char **argv)
 	{
 		texture_struct_init(&vars);
 		check_file(argv, &vars);
+    
+    //mlx stuff
+
+    vars_mlx_init(&vars);
+    //image creation
+    mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
+    //mlx_hook keypress
+    //mlx hook mouse
+    //mlx_hook exit
+    mlx_loop(vars.mlx);
 	}
-	else
+
+  else
+	{
 		printf("Error: Wrong number of arguments\n");
+    return (1);
+	}
 	return (0);
 }
 

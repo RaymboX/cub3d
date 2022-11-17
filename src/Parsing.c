@@ -9,7 +9,7 @@ void	check_texture_ext(char *texture)
 	if (res == NULL)
 		print_error("Error: No extension found\n");
 	if (*(res + 1) == 'x' && *(res + 2) == 'p'
-		&& *(res + 3) == 'm' && *(res + 4) == '\0')
+		&& *(res + 3) == 'm' && is_end(*(res + 4), 10))
 	{
 		if (*texture != '.' && *(texture + 1) != '/')
 			print_error("Error: File not in good directory\n");

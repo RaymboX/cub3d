@@ -6,8 +6,8 @@ int	main(int argc, char **argv)
 
 	if (argc == 2)
 	{
-		//texture_struct_init(&vars);
-		//check_file(argv, &vars);
+		texture_struct_init(&vars);
+		check_file(argv, &vars);
     
     //mlx stuff
 	(void)argv;

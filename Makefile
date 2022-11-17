@@ -109,9 +109,9 @@ re: 				fclean all
 
 debug: $(LIBFT)
 ifeq ($(UNAME_S),Linux)
-					gcc -g $(CFLAGS) $(LIBRARY_LINUX) $(SRCS) -o $(NAME)
+					gcc -g $(CFLAGS) $(LIBRARY_LINUX) $(SRCS) -o $(NAME) -D DEBUG=1
 else
-					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME)
+					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME) -D DEBUG=1
 endif
 				
 #PHONY--------------------------------------------------------------------------

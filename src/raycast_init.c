@@ -5,10 +5,13 @@ static void	tempvar(t_vars *vars)
 	int	fd;
 	int	i = -1;
 	
+	if (DEBUG == 1)
+		vars->debug_log.fd_raycast = open("raycast_log",
+				O_RDWR | O_CREAT | O_TRUNC, 0777);
 	vars->map.map_limit[0] = 10;
 	vars->map.map_limit[1] = 5;
 	vars->map.perso_start[0] = 3;
-	vars->map.perso_start[0] = 2;
+	vars->map.perso_start[1] = 2;
 	vars->perso.angle = 0;
 	
 	vars->map.map = (char**)malloc(sizeof(char*) * 6);
@@ -17,7 +20,9 @@ static void	tempvar(t_vars *vars)
 	{
 		vars->map.map[i] = get_next_line(fd);
 		vars->map.map[i][10] = '\0';
+		printinglog(vars->debug_log.fd_raycast, vars->map.map[i],"",9); 
 	}
+	close(fd);
 	vars->map.map[i] = NULL;
 }
 
@@ -40,11 +45,36 @@ void	raycast_init(t_vars *vars)
 	vars->perso.fov = FOV;
 	vars->screen.resolution_h = RESOLUTION_H_DEF;
 	vars->screen.resolution_w = RESOLUTION_W_DEF;
-	
+
 	max_height_width(&vars->screen);
 	center_pixel(&vars->screen);
 	column_limit(&vars->screen, &vars->raycast);
 	set_fov_angle_div(vars);
+
+	printinglog(vars->debug_log.fd_raycast, "perso.x", "", vars->perso.position[0]);
+	printinglog(vars->debug_log.fd_raycast, "perso.y", "", vars->perso.position[1]);
+	printinglog(vars->debug_log.fd_raycast, "perso.angle int", "", (int)vars->perso.angle);
+	printinglog(vars->debug_log.fd_raycast, "col right", "", vars->screen.col_right);
+}
+
+void	printinglog(int fd, char *intro, char *str, int val)
+{
+	char	*str_val;
+
+	if (DEBUG == 1)
+	{
+		write(fd, intro, ft_strlen(intro));
+		write(fd, ": ", 2);
+		if (ft_strlen(str) > 0)
+			write(fd, str, ft_strlen(str));
+		else
+		{
+			str_val = ft_itoa(val);
+			write(fd, str_val, ft_strlen(str_val));
+			free(str_val);
+		}
+		write(fd, "\n", 1);
+	}
 }
 
 void	max_height_width(t_screen *screen)

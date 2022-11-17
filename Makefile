@@ -43,6 +43,7 @@ SRCS_FILES	 	= 	0_main.c \
 					variables_identification_tools.c \
 					various_tools.c \
 					map.c \
+					floors_ceilings.c \
 
 
 HEADERS_FILES	=	cub3d.h

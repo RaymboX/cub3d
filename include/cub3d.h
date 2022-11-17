@@ -41,12 +41,14 @@ typedef struct s_mlx
 
 typedef struct s_texures
 {
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
+	char	*n;
+	char	*e;
+	char	*s;
+	char	*w;
 	char	*f;
 	char	*c;
+	int		f_colors[3];
+	int		c_colors[3];
 	int		f_color;
 	int		c_color;
 	bool	no_stat;
@@ -134,16 +136,22 @@ typedef struct s_vars
 	t_mlx		mlx_vars;
 }	t_vars;
 
-//Texture
+//Textures/Floors/Ceilings
 bool	texture_path(char *temp, t_vars *vars);
 void	texture_init(int fd, t_vars *vars);
 void	check_texture_ext(char *texture);
-void	assign_texture(char **texture, bool *stat, char *path, char type);
-bool	identify_texture(t_vars *vars, char *path, char *temp);
+void	assign_texture(t_vars *vars, bool *stat, char *path, char type);
+void	init_colors(char *colors, t_vars *vars, char type);
+void	check_colors(char *colors, char *nb, int *i, int counter);
+void	check_last_color(char *colors, int *i, int counter, bool	*is_virg);
 
 //Variable identificaiton
 bool	is_mapchar(char c);
 bool	is_startchar(char c);
+bool	is_type_texture(char c);
+bool	is_end(char c, int counter);
+bool	is_seperator(char c, bool *is_virg);
+bool	identify_texture(t_vars *vars, char *path, char *temp);
 
 //Variable initialisation
 void	texture_struct_init(t_vars *vars);

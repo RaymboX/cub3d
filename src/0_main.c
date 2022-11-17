@@ -19,6 +19,7 @@ int	main(int argc, char **argv)
     //mlx_hook exit
     mlx_loop(vars.mlx);
 	}
+
   else
 	{
 		printf("Error: Wrong number of arguments\n");

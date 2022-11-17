@@ -1,8 +1,22 @@
 #include "../include/cub3d.h"
 
-//Essayer d'open tous les fichiers textures voir si ils existent
-//Parser les extensions des fichier voir s'il s'agi d'un fichier xpm
-//Parser les couleurs
+void	check_texture_ext(char *texture)
+{
+	char	*res;
+
+	res = ft_strtrim(texture, " ");
+	res = ft_strrchr(res, '.');
+	if (res == NULL)
+		print_error("Error: No extension found\n");
+	if (*(res + 1) == 'x' && *(res + 2) == 'p'
+		&& *(res + 3) == 'm' && *(res + 4) == '\0')
+	{
+		if (*texture != '.' && *(texture + 1) != '/')
+			print_error("Error: File not in good directory\n");
+		return ;
+	}
+	print_error("Error: Texture file is not a '.xpm'\n");
+}
 
 void	check_ext(char *arg)
 {

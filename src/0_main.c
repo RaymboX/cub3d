@@ -10,9 +10,7 @@ int	main(int argc, char **argv)
 		check_file(argv, &vars);
 	}
 	else
-	{
 		printf("Error: Wrong number of arguments\n");
-	}
 	return (0);
 }
 

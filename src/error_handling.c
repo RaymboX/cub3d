@@ -39,6 +39,14 @@ void	set_start(bool *start, t_vars *vars, int i, int ii)
 {
 	vars->map.perso_start[0] = ii;
 	vars->map.perso_start[1] = i;
+	if (vars->map.map[i][ii] == 'N')
+		vars->perso.angle = 270;
+	else if (vars->map.map[i][ii] == 'E')
+		vars->perso.angle = 0;
+	else if (vars->map.map[i][ii] == 'S')
+		vars->perso.angle = 90;
+	else if (vars->map.map[i][ii] == 'W')
+		vars->perso.angle = 180;
 	*start = true;
 }
 

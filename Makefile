@@ -12,7 +12,7 @@ Y = $(shell tput -Txterm setaf 3)
 Z = $(shell tput -Txterm setaf 5)
 
 CFLAGS 			= 	-Wall -Werror -Wextra
-CC				= 	gcc
+CC				= 	gcc -g
 RM				= 	rm -rf
 VALG_LEAK		=	valgrind --leak-check=full
 UNAME_S		 	= 	$(shell uname -s)
@@ -20,8 +20,9 @@ REL_PATH		=	$(shell pwd)
 LEAK_CMD		=	leaks --atExit --
 
 LIBMLX 			= 	-L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
-LIB_LINUX		=	-Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+LIB_LINUX		=	-L ./include/minilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 LIBRARY			=	$(LIBFT) $(LIBMLX)
+LIBRARY_LINUX	=	$(LIB_LINUX) include/libft/src/*c
 
 #DIRECTORIES--------------------------------------------------------------------
 
@@ -79,7 +80,11 @@ init:
 					@mkdir -p $(OBJS_DIR)
 
 $(NAME):			$(OBJS) 
+ifeq ($(UNAME_S),Linux)
+					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY_LINUX)
+else
 					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY)
+endif					
 					@echo "$G$(NAME)            compiled$W"
 					
 $(LIBFT):
@@ -103,8 +108,12 @@ reset:				fclean
 re: 				fclean all
 
 debug: $(LIBFT)
-				gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME)
-
+ifeq ($(UNAME_S),Linux)
+					gcc -g $(CFLAGS) $(LIBRARY_LINUX) $(SRCS) -o $(NAME)
+else
+					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME)
+endif
+				
 #PHONY--------------------------------------------------------------------------
 
 .PHONY:				all clean fclean re init debug reset

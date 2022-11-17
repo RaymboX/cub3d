@@ -253,7 +253,7 @@ void	drawing_wall(t_vars *vars, t_raycast *rc, int i_pixel)
 	int	i_resol_w;
 
 	//get texture color
-	color = create_trgb(1, 1, 0, 0); //temp test
+	color = create_trgb(0, 255, 0, 0); //temp test
 	i_resol_h = -1;
 	while (++i_resol_h <= vars->screen.resolution_h
 		&& vars->screen.center_pixel_h - i_pixel - i_resol_h >= 0)
@@ -263,11 +263,13 @@ void	drawing_wall(t_vars *vars, t_raycast *rc, int i_pixel)
 			&& rc->ray_i + i_resol_w <= rc->ray_i_max)
 		{
 			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_w + rc->ray_i + i_resol_w,
 				vars->screen.center_pixel_h - i_pixel - i_resol_h,
-				rc->ray_i + i_resol_w, color);
+				color);
 			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_w + rc->ray_i + i_resol_w,
 				vars->screen.center_pixel_h + i_pixel + i_resol_h,
-				rc->ray_i + i_resol_w, color);
+				color);
 		}
 	}
 }
@@ -279,8 +281,8 @@ void	drawing_floor_celling(t_vars *vars, t_raycast *rc, int i_pixel)
 	int	i_resol_w;
 
 	//get texture color
-	color[0] = create_trgb(1, 0, 1, 0); //temp test floor
-	color[1] = create_trgb(1, 0, 0, 1); //temp test celling
+	color[0] = create_trgb(0, 0, 255, 0); //temp test floor
+	color[1] = create_trgb(0, 0, 0, 255); //temp test celling
 	i_resol_h = -1;
 	while (++i_resol_h <= vars->screen.resolution_h
 		&& vars->screen.center_pixel_h - i_pixel - i_resol_h >= 0)
@@ -290,11 +292,13 @@ void	drawing_floor_celling(t_vars *vars, t_raycast *rc, int i_pixel)
 			&& rc->ray_i + i_resol_w <= rc->ray_i_max)
 		{
 			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_w + rc->ray_i + i_resol_w,
 				vars->screen.center_pixel_h - i_pixel - i_resol_h,
-				rc->ray_i + i_resol_w, color[1]);
+				color[1]);
 			my_mlx_pixel_put(vars,
+				vars->screen.center_pixel_w + rc->ray_i + i_resol_w,
 				vars->screen.center_pixel_h + i_pixel + i_resol_h,
-				rc->ray_i + i_resol_w, color[0]);
+				color[0]);
 		}
 	}
 }

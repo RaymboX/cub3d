@@ -13,9 +13,9 @@ void	check_texture_ext(char *texture)
 	print_error("Error: Texture file is not a '.xpm'\n");
 }
 
-void	assign_texture(char *texture, bool *stat, char *path, char type)
+void	assign_texture(char **texture, bool *stat, char *path, char type)
 {
-	texture = path;
+	*texture = path;
 	*stat = true;
 	if (type == 'N' || type == 'S' || type == 'W' || type == 'E')
 		check_texture_ext(path);
@@ -25,20 +25,20 @@ bool	identify_texture(t_vars *vars, char *path, char *temp)
 {
 	if (temp[0] == 'N' && temp[1] == 'O' && temp[2] == ' '
 		&& !vars->textures.no_stat)
-		assign_texture(vars->textures.no, &vars->textures.no_stat, path, 'N');
+		assign_texture(&vars->textures.no, &vars->textures.no_stat, path, 'N');
 	else if (temp[0] == 'S' && temp[1] == 'O' && temp[2] == ' '
 		&& !vars->textures.so_stat)
-		assign_texture(vars->textures.so, &vars->textures.so_stat, path, 'S');
+		assign_texture(&vars->textures.so, &vars->textures.so_stat, path, 'S');
 	else if (temp[0] == 'W' && temp[1] == 'E' && temp[2] == ' '
 		&& !vars->textures.we_stat)
-		assign_texture(vars->textures.we, &vars->textures.we_stat, path, 'W');
+		assign_texture(&vars->textures.we, &vars->textures.we_stat, path, 'W');
 	else if (temp[0] == 'E' && temp[1] == 'A' && temp[2] == ' '
 		&& !vars->textures.ea_stat)
-		assign_texture(vars->textures.ea, &vars->textures.ea_stat, path, 'E');
+		assign_texture(&vars->textures.ea, &vars->textures.ea_stat, path, 'E');
 	else if (temp[0] == 'F' && temp[1] == ' ' && !vars->textures.f_stat)
-		assign_texture(vars->textures.f, &vars->textures.f_stat, path, 'F');
+		assign_texture(&vars->textures.f, &vars->textures.f_stat, path, 'F');
 	else if (temp[0] == 'C' && temp[1] == ' ' && !vars->textures.c_stat)
-		assign_texture(vars->textures.c, &vars->textures.c_stat, path, 'C');
+		assign_texture(&vars->textures.c, &vars->textures.c_stat, path, 'C');
 	else
 	{
 		free(temp);

@@ -1,13 +1,38 @@
 #include "../include/cub3d.h"
 
+static void	tempvar(t_vars *vars)
+{
+	int	fd;
+	int	i = -1;
+	
+	vars->map.map_limit[0] = 10;
+	vars->map.map_limit[1] = 5;
+	vars->map.perso_start[0] = 3;
+	vars->map.perso_start[0] = 2;
+	vars->perso.angle = 0;
+	
+	vars->map.map = (char**)malloc(sizeof(char*) * 6);
+	fd = open("testmap", O_RDONLY);
+	while (++i < 5)
+	{
+		vars->map.map[i] = get_next_line(fd);
+		vars->map.map[i][10] = '\0';
+	}
+	vars->map.map[i] = NULL;
+}
+
 /* INIT FUNCTION (screen size reset)
 ** calcul de la grandeur maximal de raycasting en width et height
 */
 void	raycast_init(t_vars *vars)
 {
+
+	//temp test
+	tempvar(vars);
+
 	//test
 	vars->map.mapscale = 100;
-	vars->perso.angle = 180;
+
 	vars->perso.position[0] = vars->map.perso_start[0] * vars->map.mapscale
 		+ vars->map.mapscale / 2;
 	vars->perso.position[1] = vars->map.perso_start[1] * vars->map.mapscale

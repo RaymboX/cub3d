@@ -1,6 +1,12 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# ifdef __linux__
+#  include "minilibx-linux/mlx.h"
+# else
+#	 include <mlx.h>
+# endif
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -9,7 +15,7 @@
 # include <errno.h>
 # include "libft/header/libft.h"
 # include <math.h>
-# include <mlx.h>
+
 
 # define PI 3.141592654
 # define N 270
@@ -17,8 +23,8 @@
 # define S 90
 # define O 180
 # define FOV 60
-# define SCREEN_W 1920
-# define SCREEN_H 1080
+# define SCREEN_W 800
+# define SCREEN_H 500
 # define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
 # define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
 # define USED_H 100
@@ -136,7 +142,7 @@ typedef struct s_vars
 bool	texture_path(char *temp, t_vars *vars);
 void	texture_init(int fd, t_vars *vars);
 void	check_texture_ext(char *texture);
-void	assign_texture(char *texture, bool *stat, char *path, char type);
+void	assign_texture(char **texture, bool *stat, char *path, char type);
 bool	identify_texture(t_vars *vars, char *path, char *temp);
 
 //Variable identificaiton

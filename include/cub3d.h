@@ -33,8 +33,10 @@
 # define USED_H 100
 # define USED_W 100
 # define PIXEL_DIST_RATIO -10
-# define RESOLUTION_W_DEF 1
+# define RESOLUTION_W_DEF 2
 # define RESOLUTION_H_DEF 1
+# define PACE 5
+# define TURN_ANGLE 5
 
 typedef struct s_log
 {
@@ -52,12 +54,25 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
+/*
+typedef struct s_wall_texture
+{
+	//char	*name;//nom de la texture (sera requis pour les bonus)
+	int		limit[2]; //limit en x[0] et en y[1]
+	int		*color_char;//les caracteres qui sont utilisé pour représenté les couleurs (dans meme ordre que color_trgb)
+	int		*color_trgb;// les couleurs deja converti en trgb (dans meme ordre que color_char)
+	int		**image;//la map de l'image
+	//struct s_wall_texture	*next;//requis pour les bonus
+}			t_wall_texture;
+*/
+
 typedef struct s_texures
 {
 	char	*n;
 	char	*e;
 	char	*s;
 	char	*w;
+//	t_wall_texture	wall_texture[4];//0 = East, 1 = south, 2 = west, 3 = north
 	char	*f;
 	char	*c;
 	int		f_colors[3];

@@ -1,8 +1,14 @@
 Martin branch changed
 2022-11-18
+commit 1
 - cadinal wall fix (int function w/o return var receiver)
 - investigation on center pixel that doesnt offset. No more answer. Maybe is the mlx put image on window
 - fixed higher line in the middle of the screen (when dx or dy == 0 or in other word, when player angle % 90 == 0) (0, 90, 180, 270)
 - fixed return of function find_smallest_dist. Always x00 hit even if x00 is out of bound
 - fisheye fixed: the angle was in degree instead of radian. (the wave problem)
-- 
+
+commit 2
+- add struct wall_texture
+- add screen saver mode
+- add 2 more map
+

@@ -51,20 +51,60 @@ void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+
+int	best_angle_side(int now, int but)
+{
+	if (abs(now - but) <= 180)
+	{
+		if (now - but < 0)
+			return (1);
+		return (-1);
+	}
+	else
+	{
+		if (now - but < 0)
+			return (-1);
+		return (1);
+	}
+}
+
+void	screen_saver_move(t_vars *vars)
+{
+	static int	move_dir[2] = { 1, 1};
+	
+	if (((vars->perso.position[0] - (PACE * move_dir[0])) / vars->map.mapscale == 0))
+		move_dir[0] = 1;
+	if (((vars->perso.position[0] + (PACE * move_dir[0])) / vars->map.mapscale >= vars->map.map_limit[0] - 1))
+		move_dir[0] = -1;
+	if (((vars->perso.position[1] - (PACE * move_dir[1])) / vars->map.mapscale == 0))
+		move_dir[1] = 1;
+	if (((vars->perso.position[1] + (PACE * move_dir[1])) / vars->map.mapscale >= vars->map.map_limit[1] - 1))
+		move_dir[1] = -1;
+	vars->perso.position[0] += PACE * move_dir[0];
+	vars->perso.position[1] += PACE * move_dir[1];
+	if (move_dir[0] == 1 && move_dir[1] == 1 && vars->perso.angle != 45)
+		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 45);
+	if (move_dir[0] == -1 && move_dir[1] == 1 && vars->perso.angle != 135)
+		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 135);
+	if (move_dir[0] == -1 && move_dir[1] == -1 && vars->perso.angle != 225)
+		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 225);
+	if (move_dir[0] == 1 && move_dir[1] == -1 && vars->perso.angle != 315)
+		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 315);
+	vars->perso.angle = degree_ajust(vars->perso.angle);
+}
+
+
 int	render_next_frame(t_vars *vars)
 {
+	
+	
 	mlx_destroy_image (vars->mlx_vars.mlx, vars->mlx_vars.img);
 	vars->mlx_vars.img = mlx_new_image(vars->mlx_vars.mlx, SCREEN_W, SCREEN_H);
 	vars->mlx_vars.addr = mlx_get_data_addr(vars->mlx_vars.img, &vars->mlx_vars.bits_per_pixel,
 			&vars->mlx_vars.line_length, &vars->mlx_vars.endian);
-	vars->perso.angle += 1;
-	/*if (vars->perso.angle != degree_ajust(vars->perso.angle))
-	{
-		vars->screen.resolution_h += 1;
-		vars->screen.resolution_w += 1;
-	}
-	*/
-	vars->perso.angle = degree_ajust(vars->perso.angle);
+	
+	screen_saver_move(vars);
+
 	raycast_main_loop(vars);
 	mlx_put_image_to_window(vars->mlx_vars.mlx, vars->mlx_vars.win, vars->mlx_vars.img, 0, 0);
 	usleep(1);

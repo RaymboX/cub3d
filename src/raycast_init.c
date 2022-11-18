@@ -26,6 +26,22 @@ static void	tempvar(t_vars *vars)
 	vars->map.map[i] = NULL;
 }
 */
+
+void	log_print_map(t_vars *vars)
+{
+	int i = -1;
+	char row[2];
+
+	row[1] = '\0';
+	printinglog(vars->debug_log.fd_raycast, " ", "0123456789012345678901234567890", 0);
+	while (++i < vars->map.map_limit[1])
+	{
+		row[0] = i + '0';
+		printinglog(vars->debug_log.fd_raycast, row, vars->map.map[i], 0);
+	}
+}
+
+
 /* INIT FUNCTION (screen size reset)
 ** calcul de la grandeur maximal de raycasting en width et height
 */
@@ -39,7 +55,7 @@ void	raycast_init(t_vars *vars)
 		vars->debug_log.fd_raycast = open("raycast_log",
 				O_RDWR | O_CREAT | O_TRUNC, 0777);
 
-	vars->perso.angle = 0;
+	vars->perso.angle = 270;
 	//test
 	vars->map.mapscale = 100;
 
@@ -56,6 +72,7 @@ void	raycast_init(t_vars *vars)
 	column_limit(&vars->screen, &vars->raycast);
 	set_fov_angle_div(vars);
 
+	log_print_map(vars);
 	printinglog(vars->debug_log.fd_raycast, "perso.x", "", vars->perso.position[0]);
 	printinglog(vars->debug_log.fd_raycast, "perso.y", "", vars->perso.position[1]);
 	printinglog(vars->debug_log.fd_raycast, "perso.angle int", "", (int)vars->perso.angle);
@@ -104,7 +121,7 @@ void	center_pixel(t_screen *screen)
 	screen->center_pixel_w = SCREEN_W / 2
 		+ (OFFSET_CENTER_X / 100) * SCREEN_W;
 	screen->center_pixel_h = SCREEN_H / 2
-		+ (OFFSET_CENTER_X / 100) * SCREEN_H;
+		+ (OFFSET_CENTER_Y / 100) * SCREEN_H;
 }
 
 void	set_fov_angle_div(t_vars *vars)

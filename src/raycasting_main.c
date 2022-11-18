@@ -173,7 +173,7 @@ void	drawing(t_vars *vars, t_raycast *rc)
 				vars->screen.center_pixel_h - pixel_h,
 				create_trgb(0, 0, 0, 255));
 		}
-		pixel_h++;
+		pixel_h += vars->screen.resolution_h;
 	}
 }
 
@@ -200,6 +200,8 @@ void	cell_y00(t_vars *vars, int x, int y, int cell[2])
 
 int	calcul_dist(t_vars *vars, int x, int y)
 {
+	printinglog(vars->debug_log.fd_raycast,"calcul dist x", "", x);
+	printinglog(vars->debug_log.fd_raycast,"calcul dist y", "", y);
 	return ((int)sqrt(pow((double)(x - vars->perso.position[0]), 2)
 			+ pow((double)(y - vars->perso.position[1]), 2)));
 }
@@ -214,7 +216,10 @@ void	nearest_x00_wall(t_vars *vars, t_raycast *rc)
 		{
 			rc->shift_x00 += 1;
 			rc->x00 = rc->fx00 + rc->shift_x00 * rc->dx * vars->map.mapscale;
-			rc->y_x00 = (rc->m * rc->x00 + rc->b) * -1;
+			if (rc->dy != 0)
+				rc->y_x00 = (rc->m * rc->x00 + rc->b) * -1;
+			else
+				rc->y_x00 = vars->perso.position[1];
 			cell_x00(vars, rc->x00, rc->y_x00, rc->cellx00);
 			printinglog(vars->debug_log.fd_raycast,"shift_x00", "", rc->shift_x00);
 			printinglog(vars->debug_log.fd_raycast,"cellx00[0]", "", rc->cellx00[0]);
@@ -230,6 +235,8 @@ void	nearest_x00_wall(t_vars *vars, t_raycast *rc)
 		}
 		if (rc->cellvalue[0] != '-')
 			rc->dist[0] = calcul_dist(vars, rc->x00, rc->y_x00);
+		else
+			printinglog(vars->debug_log.fd_raycast,"x00_out of bound", "--", 0);
 	}
 }
 
@@ -243,7 +250,10 @@ void	nearest_y00_wall(t_vars *vars, t_raycast *rc)
 		{
 			rc->shift_y00 += 1;
 			rc->y00 = rc->fy00 + rc->shift_y00 * rc->dy * vars->map.mapscale;
-			rc->x_y00 = (-rc->y00 - rc->b) / rc->m;
+			if (rc->dx != 0)
+				rc->x_y00 = (-rc->y00 - rc->b) / rc->m;
+			else
+				rc->x_y00 = vars->perso.position[0];
 			cell_y00(vars, rc->x_y00, rc->y00, rc->celly00);
 			printinglog(vars->debug_log.fd_raycast,"shift_y00", "", rc->shift_y00);
 			printinglog(vars->debug_log.fd_raycast,"celly00[0]", "", rc->celly00[0]);
@@ -259,6 +269,8 @@ void	nearest_y00_wall(t_vars *vars, t_raycast *rc)
 		}
 		if (rc->cellvalue[1] != '-')
 			rc->dist[1] = calcul_dist(vars, rc->x_y00, rc->y00);
+		else
+			printinglog(vars->debug_log.fd_raycast,"y00_out of bound", "--", 0);
 	}
 }
 
@@ -269,7 +281,7 @@ int	find_smallest_dist(t_vars *vars)
 	if (vars->raycast.cellvalue[0] == '-' && vars->raycast.cellvalue[1] == '-')
 		return (-1);
 	if (vars->raycast.cellvalue[0] == '-')
-		return (0);
+		return (1);
 	if (vars->raycast.cellvalue[1] == '-')
 		return (0);
 	if (vars->raycast.dist[0] <= vars->raycast.dist[1])
@@ -308,10 +320,10 @@ void	set_dist_n_wall(t_vars *vars)
 	else
 	{
 		vars->raycast.smallest_dist = vars->raycast.dist[i_dist];
-		//vars->raycast.smallest_dist = cos(degree_ajust(
-		//			fabsf((vars->raycast.rayangle - vars->perso.angle))))
-		//	* vars->raycast.smallest_dist;
-		find_cardinal_wall(vars, i_dist);
+		vars->raycast.smallest_dist = cosf(degree_ajust(
+					fabsf(vars->perso.angle - vars->raycast.rayangle)) * PI / 180)
+			* vars->raycast.smallest_dist;
+		vars->raycast.cardinal_wall = find_cardinal_wall(vars, i_dist);
 	}
 	if (i_dist == 0)
 	{

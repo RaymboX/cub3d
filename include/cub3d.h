@@ -30,13 +30,13 @@
 # define SCREEN_H 1080
 # define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
 # define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
-# define USED_H 100
-# define USED_W 100
+# define USED_H 50
+# define USED_W 50
 # define PIXEL_DIST_RATIO -10
-# define RESOLUTION_W_DEF 2
+# define RESOLUTION_W_DEF 5
 # define RESOLUTION_H_DEF 1
-# define PACE 5
-# define TURN_ANGLE 5
+# define PACE 1
+# define TURN_ANGLE 1
 
 typedef struct s_log
 {

@@ -12,3 +12,6 @@ commit 2
 - add screen saver mode
 - add 2 more map
 
+commit 3
+- makefile print status alignement
+- resolution w fill empty column

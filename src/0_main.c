@@ -72,13 +72,13 @@ void	screen_saver_move(t_vars *vars)
 {
 	static int	move_dir[2] = { 1, 1};
 	
-	if (((vars->perso.position[0] - (PACE * move_dir[0])) / vars->map.mapscale == 0))
+	if (((vars->perso.position[0] - (PACE * move_dir[0])) / vars->map.mapscale == 1))
 		move_dir[0] = 1;
-	if (((vars->perso.position[0] + (PACE * move_dir[0])) / vars->map.mapscale >= vars->map.map_limit[0] - 1))
+	if (((vars->perso.position[0] + (PACE * move_dir[0])) / vars->map.mapscale >= vars->map.map_limit[0] - 2))
 		move_dir[0] = -1;
-	if (((vars->perso.position[1] - (PACE * move_dir[1])) / vars->map.mapscale == 0))
+	if (((vars->perso.position[1] - (PACE * move_dir[1])) / vars->map.mapscale == 1))
 		move_dir[1] = 1;
-	if (((vars->perso.position[1] + (PACE * move_dir[1])) / vars->map.mapscale >= vars->map.map_limit[1] - 1))
+	if (((vars->perso.position[1] + (PACE * move_dir[1])) / vars->map.mapscale >= vars->map.map_limit[1] - 2))
 		move_dir[1] = -1;
 	vars->perso.position[0] += PACE * move_dir[0];
 	vars->perso.position[1] += PACE * move_dir[1];

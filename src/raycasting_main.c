@@ -141,39 +141,62 @@ void	wall_pixel_height(t_vars *vars, t_raycast *rc)
 		rc->wall_height = vars->screen.max_height;
 }
 
+
+void	draw_wall(t_vars *vars, int i_resol[2], int pixel_h)
+{
+	int	color;
+
+	if (vars->raycast.cardinal_wall == 0)
+		color = create_trgb(0, 102, 0, 0);//brun east
+	if (vars->raycast.cardinal_wall == 1)
+		color = create_trgb(0, 96, 96, 96);//grey south
+	if (vars->raycast.cardinal_wall == 2)
+		color = create_trgb(0, 204, 102, 0);//orange west
+	if (vars->raycast.cardinal_wall == 3)
+		color = create_trgb(0, 204, 204, 0);//yellow north
+	my_mlx_pixel_put(vars,
+		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
+		vars->screen.center_pixel_h + pixel_h,
+		color);
+	my_mlx_pixel_put(vars,
+		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
+		vars->screen.center_pixel_h - pixel_h,
+		color);
+}
+
+void	draw_floor_celling(t_vars *vars, int i_resol[2], int pixel_h)
+{
+	my_mlx_pixel_put(vars,
+		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
+		vars->screen.center_pixel_h + pixel_h,
+		create_trgb(0, 0, 102, 0));
+	my_mlx_pixel_put(vars,
+		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
+		vars->screen.center_pixel_h - pixel_h,
+		create_trgb(0, 0, 255, 255));
+}
+
 void	drawing(t_vars *vars, t_raycast *rc)
 {
 	int	pixel_h;
+	int	i_resol[2];
 
 	wall_pixel_height(vars, &vars->raycast);
 	printinglog(vars->debug_log.fd_raycast, "drawing start", "------------", 0);
 	printinglog(vars->debug_log.fd_raycast, "wall_height", "", rc->wall_height);
-	pixel_h = 0;
-	while (pixel_h < (vars->screen.max_height - 1) / 2)
+	i_resol[0] = -1;
+	while (++i_resol[0] < vars->screen.resolution_w
+		&& vars->screen.center_pixel_w + rc->ray_i + i_resol[0] < SCREEN_W)
 	{
-		if (pixel_h < rc->wall_height / 2)
+		pixel_h = 0;
+		while (pixel_h < (vars->screen.max_height - 1) / 2)
 		{
-			my_mlx_pixel_put(vars,
-				vars->screen.center_pixel_w + rc->ray_i,
-				vars->screen.center_pixel_h + pixel_h,
-				create_trgb(0, 255, 0, 0));
-			my_mlx_pixel_put(vars,
-				vars->screen.center_pixel_w + rc->ray_i,
-				vars->screen.center_pixel_h - pixel_h,
-				create_trgb(0, 255, 0, 0));
+			if (pixel_h < rc->wall_height / 2)
+				draw_wall(vars, i_resol, pixel_h);
+			else
+				draw_floor_celling(vars, i_resol, pixel_h);
+			pixel_h += vars->screen.resolution_h;
 		}
-		else
-		{
-			my_mlx_pixel_put(vars,
-				vars->screen.center_pixel_w + rc->ray_i,
-				vars->screen.center_pixel_h + pixel_h,
-				create_trgb(0, 0, 255, 0));
-			my_mlx_pixel_put(vars,
-				vars->screen.center_pixel_w + rc->ray_i,
-				vars->screen.center_pixel_h - pixel_h,
-				create_trgb(0, 0, 0, 255));
-		}
-		pixel_h += vars->screen.resolution_h;
 	}
 }
 
@@ -284,9 +307,13 @@ int	find_smallest_dist(t_vars *vars)
 		return (1);
 	if (vars->raycast.cellvalue[1] == '-')
 		return (0);
-	if (vars->raycast.dist[0] <= vars->raycast.dist[1])
+	if (vars->raycast.dist[0] < vars->raycast.dist[1])
 		return (0);
-	return (1);
+	if (vars->raycast.dist[0] > vars->raycast.dist[1])
+		return (1);
+	if ((vars->raycast.rayangle > 0 && vars->raycast.rayangle < 180))
+		return (1);
+	return (0);
 }
 
 int	find_cardinal_wall(t_vars *vars, int i_dist)
@@ -294,16 +321,16 @@ int	find_cardinal_wall(t_vars *vars, int i_dist)
 	if (i_dist == 0)
 	{
 		if (vars->raycast.dx == -1)
-			return (180);
+			return (1);
 		else
 			return (0);
 	}
 	else
 	{
 		if (vars->raycast.dy == -1)
-			return (270);
+			return (2);
 		else
-			return (90);
+			return (3);
 	}
 }
 

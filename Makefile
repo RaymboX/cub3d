@@ -85,7 +85,7 @@ ifeq ($(UNAME_S),Linux)
 else
 					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY)
 endif					
-					@echo "$G$(NAME)            compiled$W"
+					@echo "$G$(NAME)         compiled$W"
 					
 $(LIBFT):
 					@cd $(LIBFT_DIR)/ && make
@@ -94,16 +94,13 @@ clean:
 					@$(MAKE) -s clean -C $(LIBFT_DIR)
 					@$(RM) $(OBJS)
 					@$(RM) $(OBJS_DIR)
-					@echo "$R$ All objects       deleted$W"
+					@echo "$R$ All objects   deleted$W"
 
 fclean: 			clean
 					@$(MAKE) -s fclean -C $(LIBFT_DIR)
 					@$(RM) $(NAME_DSYM)
 					@$(RM) $(NAME)
-					@echo "$R$(NAME) & lib   deleted$W"
-
-reset:				fclean
-					@echo "$R$ readline lib      reseted$W"
+					@echo "$R$(NAME)         deleted$W"
 
 re: 				fclean all
 

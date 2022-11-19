@@ -118,10 +118,10 @@ void	max_height_width(t_screen *screen)
 */
 void	center_pixel(t_screen *screen)
 {
-	screen->center_pixel_w = SCREEN_W / 2
-		+ (OFFSET_CENTER_X / 100) * SCREEN_W;
-	screen->center_pixel_h = SCREEN_H / 2
-		+ (OFFSET_CENTER_Y / 100) * SCREEN_H;
+	screen->center_pixel_w = (SCREEN_W / 2)
+		+ ((OFFSET_CENTER_X * SCREEN_W / 2) / 100);
+	screen->center_pixel_h = (SCREEN_H / 2)
+		+ (OFFSET_CENTER_Y * SCREEN_H / 2) / 100;
 }
 
 void	set_fov_angle_div(t_vars *vars)

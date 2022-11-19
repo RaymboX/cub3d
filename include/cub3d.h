@@ -26,12 +26,12 @@
 # define S 90
 # define O 180
 # define FOV 60
-# define SCREEN_W 1920
-# define SCREEN_H 1080
-# define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
-# define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
-# define USED_H 50
-# define USED_W 50
+# define SCREEN_W 1366
+# define SCREEN_H 768
+# define OFFSET_CENTER_X -50 // poucentage * 100 negatif=gauche positif=droite
+# define OFFSET_CENTER_Y 50 // pourcentage * 100 negatif=haut positif=bas
+# define USED_H 100
+# define USED_W 100
 # define PIXEL_DIST_RATIO -10
 # define RESOLUTION_W_DEF 5
 # define RESOLUTION_H_DEF 1

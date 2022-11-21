@@ -311,9 +311,10 @@ int	find_smallest_dist(t_vars *vars)
 		return (0);
 	if (vars->raycast.dist[0] > vars->raycast.dist[1])
 		return (1);
-	if ((vars->raycast.rayangle > 0 && vars->raycast.rayangle < 180))
-		return (1);
-	return (0);
+	printinglog(vars->debug_log.fd_raycast,"dist[0]", "", vars->raycast.dist[0]);
+	printinglog(vars->debug_log.fd_raycast,"dist[1]", "", vars->raycast.dist[1]);
+	printinglog(vars->debug_log.fd_raycast, "i_dist", "", vars->raycast.i_dist);
+	return (vars->raycast.i_dist);
 }
 
 int	find_cardinal_wall(t_vars *vars, int i_dist)
@@ -338,7 +339,9 @@ void	set_dist_n_wall(t_vars *vars)
 {
 	int	i_dist;
 
-	i_dist = find_smallest_dist(vars);
+	vars->raycast.i_dist = find_smallest_dist(vars);
+	i_dist = vars->raycast.i_dist;
+	printinglog(vars->debug_log.fd_raycast, "i_dist", "", i_dist);
 	if (i_dist == -1)
 	{
 		vars->raycast.cardinal_wall = -1;
@@ -371,6 +374,7 @@ void	raycast_main_loop(t_vars *vars)
 	t_raycast	*rc;
 
 	rc = &vars->raycast;
+	rc->i_dist = 0;
 	rc->ray_i = rc->ray_i_min;
 	while (rc->ray_i <= rc->ray_i_max)
 	{

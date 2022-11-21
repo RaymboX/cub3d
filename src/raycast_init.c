@@ -55,7 +55,7 @@ void	raycast_init(t_vars *vars)
 		vars->debug_log.fd_raycast = open("raycast_log",
 				O_RDWR | O_CREAT | O_TRUNC, 0777);
 
-	vars->perso.angle = 120;
+	vars->perso.angle = 75;
 	//test
 	vars->map.mapscale = 100;
 

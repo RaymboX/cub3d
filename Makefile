@@ -12,7 +12,7 @@ Y = $(shell tput -Txterm setaf 3)
 Z = $(shell tput -Txterm setaf 5)
 
 CFLAGS 			= 	-Wall -Werror -Wextra
-CC				= 	gcc -g
+CC				= 	gcc
 RM				= 	rm -rf
 VALG_LEAK		=	valgrind --leak-check=full
 UNAME_S		 	= 	$(shell uname -s)
@@ -106,7 +106,7 @@ re: 				fclean all
 
 debug: $(LIBFT)
 ifeq ($(UNAME_S),Linux)
-					gcc -g $(CFLAGS) $(LIBRARY_LINUX) $(SRCS) -o $(NAME) -D DEBUG=1
+					gcc -g $(CFLAGS) -o $(NAME) $(SRCS) $(LIBRARY_LINUX) -D DEBUG=1
 else
 					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME) -D DEBUG=1
 endif

@@ -28,12 +28,12 @@
 # define FOV 60
 # define SCREEN_W 1366
 # define SCREEN_H 768
-# define OFFSET_CENTER_X -50 // poucentage * 100 negatif=gauche positif=droite
-# define OFFSET_CENTER_Y 50 // pourcentage * 100 negatif=haut positif=bas
+# define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
+# define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
 # define USED_H 100
 # define USED_W 100
 # define PIXEL_DIST_RATIO -10
-# define RESOLUTION_W_DEF 5
+# define RESOLUTION_W_DEF 1
 # define RESOLUTION_H_DEF 1
 # define PACE 1
 # define TURN_ANGLE 1
@@ -129,6 +129,7 @@ typedef struct s_raycast
 	int		x_y00; //Valeur de x en y00
 	int		y_x00; //Valeur de y en x00
 	int		dist[2]; //Distance entre position du joueur et point (x_y00, y00) * precision
+	int		i_dist;
 	int		smallest_dist; //Distance la plus courte entre dist_x00 et dist_y00
 	int		cellx00[2];
 	int		celly00[2];

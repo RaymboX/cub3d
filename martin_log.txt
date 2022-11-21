@@ -15,3 +15,13 @@ commit 2
 commit 3
 - makefile print status alignement
 - resolution w fill empty column
+
+home_commit 1
+- solve screen position
+
+home_commit 2
+- solve wall glitches
+- remove i from texture (unused var)
+
+
+

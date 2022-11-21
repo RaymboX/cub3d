@@ -13,13 +13,17 @@ int	main(int argc, char **argv)
 	(void)argv;
     vars_mlx_init(&vars);
     raycast_init(&vars);
-	//raycast_main_loop(&vars);
-    //mlx_put_image_to_window(vars.mlx_vars.mlx, vars.mlx_vars.win,
-	//	vars.mlx_vars.img, 0, 0);
-    //mlx_hook keypress
-    //mlx hook mouse
-    //mlx_hook exit
-	mlx_loop_hook(vars.mlx_vars.mlx, render_next_frame, &vars);
+	if (DEBUG == 1)
+	{
+		raycast_main_loop(&vars);
+		mlx_put_image_to_window(vars.mlx_vars.mlx, vars.mlx_vars.win,
+			vars.mlx_vars.img, 0, 0);
+		//mlx_hook keypress
+		//mlx hook mouse
+		//mlx_hook exit
+	}
+	else
+		mlx_loop_hook(vars.mlx_vars.mlx, render_next_frame, &vars);
    	mlx_loop(vars.mlx_vars.mlx);
 	}
 

@@ -116,14 +116,12 @@ typedef struct s_raycast
 	int		ray_i;
 	int		ray_i_min;
 	int		ray_i_max;
-	int		dx; //direction en x
-	int		dy; //direction en y
+	int		direction[2];
 	float	m; //La pente de la droite calculer a partir de l'angle et la direction
 	float	b; //Le b pour faire la formule de fonction lineaire (-y = mx + b)
-	int		fx00; //first x00 soit la valeur initial de x00 (selon dx)
-	int		fy00; //first y00 soit la valeur initial de y00 (selon dy)
-	int		shift_x00; //nombre de deplacement en x pour rencontrer un mur (ce chiffre est multiplier par mapscale)
-	int		shift_y00; //nombre de deplacement en y pour rencontrer un mur (ce chiffre est multiplier par mapscale)
+	int		first00[2];
+	int		shift[2];
+	int		next00[2][2];
 	int		x00; //Valeur obtenu a partir de fx00 + shift_x00 * mapscale * dx
 	int		y00; //Valeur obtenu a partir de fy00 + shift_y00 * mapscale * dy
 	int		x_y00; //Valeur de x en y00
@@ -131,10 +129,10 @@ typedef struct s_raycast
 	int		dist[2]; //Distance entre position du joueur et point (x_y00, y00) * precision
 	int		i_dist;
 	int		smallest_dist; //Distance la plus courte entre dist_x00 et dist_y00
-	int		cellx00[2];
-	int		celly00[2];
+	int		cell00[2][2];
 	char	cellvalue[2]; //Valeur de la cell rencontrer pour le point (x00, y_x00) (1 = mur, 0 = rien)
 	int		cardinal_wall; //afin d'appliquer le bon xpm determiner par les directions dx et dy et par le point utiliser (smallest dist = dist_x00 ou dist_y00)
+	int		xpm_ratio_col;
 	int		wall_height;
 }	t_raycast;
 
@@ -216,7 +214,7 @@ void	raycast_loop_init(t_raycast *rc, t_perso *perso);
 void	set_grid_parallele_direction(t_raycast *rc);
 void	set_general_direction_and_m(t_raycast *rc);
 void	set_direction_and_linear_function(t_raycast *rc, t_perso *perso);
-void	set_fx00_n_fy00(t_vars *vars);
+void	set_first00(t_vars *vars);
 void	shift_add(t_raycast *rc);
 void	set_x00_n_y00(t_raycast *rc, t_map *map);
 void	set__x_y00__n__y_x00(t_raycast *rc, t_perso *perso, t_map *map);

@@ -45,6 +45,26 @@ void	find_first_wall(t_vars *vars)
 	vars->map.first_wall = i;
 }
 
+void	check_inside_rooms(t_vars *vars)
+{
+	int	i;
+	int	ii;
+
+	i = 0;
+	while (i < vars->map.map_limit[1])
+	{
+		ii = 0;
+		while (vars->map.map_cpy[i][ii])
+		{
+			if (vars->map.map_cpy[i][ii] == '1'
+				|| vars->map.map_cpy[i][ii] == '0')
+				flood_fill_inside_rooms(vars, i, ii, vars->map.map_cpy[i][ii]);
+			ii++;
+		}
+		i++;
+	}
+}
+
 void	check_file(char **av, t_vars *vars)
 {
 	int		fd;
@@ -63,5 +83,6 @@ void	check_file(char **av, t_vars *vars)
 	flood_fill_inside(vars, vars->map.perso_start[1], vars->map.perso_start[0]);
 	find_first_wall(vars);
 	flood_fill_walls(vars, 0, vars->map.first_wall);
+	check_inside_rooms(vars);
 	check_map_integrity(vars);
 }

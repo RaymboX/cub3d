@@ -12,7 +12,7 @@ Y = $(shell tput -Txterm setaf 3)
 Z = $(shell tput -Txterm setaf 5)
 
 CFLAGS 			= 	-Wall -Werror -Wextra
-CC				= 	gcc -g
+CC				= 	gcc
 RM				= 	rm -rf
 VALG_LEAK		=	valgrind --leak-check=full
 UNAME_S		 	= 	$(shell uname -s)
@@ -85,7 +85,7 @@ ifeq ($(UNAME_S),Linux)
 else
 					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY)
 endif					
-					@echo "$G$(NAME)            compiled$W"
+					@echo "$G$(NAME)         compiled$W"
 					
 $(LIBFT):
 					@cd $(LIBFT_DIR)/ && make
@@ -94,22 +94,19 @@ clean:
 					@$(MAKE) -s clean -C $(LIBFT_DIR)
 					@$(RM) $(OBJS)
 					@$(RM) $(OBJS_DIR)
-					@echo "$R$ All objects       deleted$W"
+					@echo "$R$ All objects   deleted$W"
 
 fclean: 			clean
 					@$(MAKE) -s fclean -C $(LIBFT_DIR)
 					@$(RM) $(NAME_DSYM)
 					@$(RM) $(NAME)
-					@echo "$R$(NAME) & lib   deleted$W"
-
-reset:				fclean
-					@echo "$R$ readline lib      reseted$W"
+					@echo "$R$(NAME)         deleted$W"
 
 re: 				fclean all
 
 debug: $(LIBFT)
 ifeq ($(UNAME_S),Linux)
-					gcc -g $(CFLAGS) $(LIBRARY_LINUX) $(SRCS) -o $(NAME) -D DEBUG=1
+					gcc -g $(CFLAGS) -o $(NAME) $(SRCS) $(LIBRARY_LINUX) -D DEBUG=1
 else
 					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME) -D DEBUG=1
 endif

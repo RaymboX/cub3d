@@ -13,19 +13,24 @@ int	main(int argc, char **argv)
 	(void)argv;
     vars_mlx_init(&vars);
     raycast_init(&vars);
-	raycast_main_loop(&vars);
-    mlx_put_image_to_window(vars.mlx_vars.mlx, vars.mlx_vars.win,
-		vars.mlx_vars.img, 0, 0);
-    //mlx_hook keypress
-    //mlx hook mouse
-    //mlx_hook exit
-    mlx_loop(vars.mlx_vars.mlx);
+	if (DEBUG == 1)
+	{
+		raycast_main_loop(&vars);
+		mlx_put_image_to_window(vars.mlx_vars.mlx, vars.mlx_vars.win,
+			vars.mlx_vars.img, 0, 0);
+		//mlx_hook keypress
+		//mlx hook mouse
+		//mlx_hook exit
+	}
+	else
+		mlx_loop_hook(vars.mlx_vars.mlx, render_next_frame, &vars);
+   	mlx_loop(vars.mlx_vars.mlx);
 	}
 
   else
 	{
 		printf("Error: Wrong number of arguments\n");
-    return (1);
+	return (1);
 	}
 	return (0);
 }
@@ -48,4 +53,64 @@ void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 	dst = vars->mlx_vars.addr + (y * vars->mlx_vars.line_length + x
 			* (vars->mlx_vars.bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
+}
+
+
+int	best_angle_side(int now, int but)
+{
+	if (abs(now - but) <= 180)
+	{
+		if (now - but < 0)
+			return (1);
+		return (-1);
+	}
+	else
+	{
+		if (now - but < 0)
+			return (-1);
+		return (1);
+	}
+}
+
+void	screen_saver_move(t_vars *vars)
+{
+	static int	move_dir[2] = { 1, 1};
+	
+	if (((vars->perso.position[0] - (PACE * move_dir[0])) / vars->map.mapscale == 1))
+		move_dir[0] = 1;
+	if (((vars->perso.position[0] + (PACE * move_dir[0])) / vars->map.mapscale >= vars->map.map_limit[0] - 2))
+		move_dir[0] = -1;
+	if (((vars->perso.position[1] - (PACE * move_dir[1])) / vars->map.mapscale == 1))
+		move_dir[1] = 1;
+	if (((vars->perso.position[1] + (PACE * move_dir[1])) / vars->map.mapscale >= vars->map.map_limit[1] - 2))
+		move_dir[1] = -1;
+	vars->perso.position[0] += PACE * move_dir[0];
+	vars->perso.position[1] += PACE * move_dir[1];
+	if (move_dir[0] == 1 && move_dir[1] == 1 && vars->perso.angle != 45)
+		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 45);
+	if (move_dir[0] == -1 && move_dir[1] == 1 && vars->perso.angle != 135)
+		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 135);
+	if (move_dir[0] == -1 && move_dir[1] == -1 && vars->perso.angle != 225)
+		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 225);
+	if (move_dir[0] == 1 && move_dir[1] == -1 && vars->perso.angle != 315)
+		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 315);
+	vars->perso.angle = degree_ajust(vars->perso.angle);
+}
+
+
+int	render_next_frame(t_vars *vars)
+{
+	
+	
+	mlx_destroy_image (vars->mlx_vars.mlx, vars->mlx_vars.img);
+	vars->mlx_vars.img = mlx_new_image(vars->mlx_vars.mlx, SCREEN_W, SCREEN_H);
+	vars->mlx_vars.addr = mlx_get_data_addr(vars->mlx_vars.img, &vars->mlx_vars.bits_per_pixel,
+			&vars->mlx_vars.line_length, &vars->mlx_vars.endian);
+	
+	screen_saver_move(vars);
+
+	raycast_main_loop(vars);
+	mlx_put_image_to_window(vars->mlx_vars.mlx, vars->mlx_vars.win, vars->mlx_vars.img, 0, 0);
+	usleep(1);
+	return (0);
 }

@@ -40,12 +40,12 @@ bool	ft_avance_in_file(int *ii, char *temp)
 
 bool	texture_path(char *temp, t_vars *vars)
 {
-	int		i;
+
 	int		ii;
 	bool	r;
 	char	*path;
 
-	i = 0;
+
 	ii = 0;
 	if (!ft_avance_in_file(&ii, temp))
 		return (0);

@@ -26,17 +26,17 @@
 # define S 90
 # define O 180
 # define FOV 60
-# define SCREEN_W 1366
-# define SCREEN_H 768
-# define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
-# define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
-# define USED_H 100
-# define USED_W 100
+# define SCREEN_W 1920
+# define SCREEN_H 1080
+# define OFFSET_CENTER_X -25 // poucentage * 100 negatif=gauche positif=droite
+# define OFFSET_CENTER_Y -5 // pourcentage * 100 negatif=haut positif=bas
+# define USED_H 25
+# define USED_W 25
 # define PIXEL_DIST_RATIO -10
 # define RESOLUTION_W_DEF 1
 # define RESOLUTION_H_DEF 1
-# define PACE 1
-# define TURN_ANGLE 1
+# define PACE 10
+# define TURN_ANGLE 5
 
 typedef struct s_log
 {
@@ -54,17 +54,20 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
-/*
+
 typedef struct s_wall_texture
 {
 	//char	*name;//nom de la texture (sera requis pour les bonus)
+	int		fd;
 	int		limit[2]; //limit en x[0] et en y[1]
+	int		nb_color;
+	int		nb_char_color;
 	int		*color_char;//les caracteres qui sont utilisé pour représenté les couleurs (dans meme ordre que color_trgb)
 	int		*color_trgb;// les couleurs deja converti en trgb (dans meme ordre que color_char)
 	int		**image;//la map de l'image
 	//struct s_wall_texture	*next;//requis pour les bonus
 }			t_wall_texture;
-*/
+
 
 typedef struct s_texures
 {
@@ -152,13 +155,14 @@ typedef struct s_screen
 
 typedef struct s_vars
 {
-	t_textures	textures;
-	t_map		map;
-	t_perso		perso;
-	t_raycast	raycast;
-	t_screen	screen;
-	t_mlx		mlx_vars;
-	t_log		debug_log;
+	t_textures		textures;
+	t_map			map;
+	t_perso			perso;
+	t_raycast		raycast;
+	t_screen		screen;
+	t_mlx			mlx_vars;
+	t_log			debug_log;
+	t_wall_texture	wall_t[4];
 }	t_vars;
 
 //Textures/Floors/Ceilings

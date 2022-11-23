@@ -26,8 +26,8 @@
 # define S 90
 # define O 180
 # define FOV 60
-# define SCREEN_W 800
-# define SCREEN_H 500
+# define SCREEN_W 2048
+# define SCREEN_H 1080
 # define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
 # define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
 # define USED_H 100
@@ -175,8 +175,9 @@ bool	is_first_line(char *line);
 void	map_size(int fd, t_vars *vars);
 void	check_ext(char *arg);
 void	create_map(int fd, t_vars *vars);
-void	flood_fill_inside(t_vars *vars, int pos_x, int pos_y);
-void	flood_fill_walls(t_vars *vars, int pos_x, int pos_y);
+void	flood_fill_inside(t_vars *vars, int x, int y);
+void	flood_fill_walls(t_vars *vars, int x, int y);
+void	flood_fill_inside_rooms(t_vars *vars, int y, int x, char c);
 void	copy_map(t_vars *vars);
 
 //mlx

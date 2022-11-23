@@ -28,7 +28,7 @@ void	check_map_integrity(t_vars *vars)
 			if (vars->map.map_cpy[i][ii] != 'F'
 				&& vars->map.map_cpy[i][ii] != 'Z'
 				&& vars->map.map_cpy[i][ii] != ' ')
-				print_error("Error: Map is seperated by spaces\n");
+				print_error("Error: Character outside the map walls\n");
 			ii++;
 		}
 		i++;

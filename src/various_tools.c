@@ -8,7 +8,7 @@ char	*ft_strcat(char *s1, int len)
 
 	i = 0;
 	ii = 0;
-	new = malloc(sizeof(char) * len);
+	new = malloc(sizeof(char) * len + 1);
 	if (!new)
 		return (NULL);
 	while (s1[i] && s1[i] != '\n')

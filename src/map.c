@@ -6,7 +6,7 @@ void	create_map(int fd, t_vars *vars)
 	char	*temp;
 
 	i = 0;
-	vars->map.map = malloc(sizeof(char *) * vars->map.map_limit[1]);
+	vars->map.map = malloc(sizeof(char *) * vars->map.map_limit[1] + 1);
 	while (i < vars->map.start)
 	{
 		temp = get_next_line(fd);
@@ -54,13 +54,12 @@ void	copy_map(t_vars *vars)
 	int	i;
 
 	i = 0;
-	vars->map.map_cpy = malloc(sizeof(char *) * vars->map.map_limit[1] + 1);
+	vars->map.map_cpy = malloc(sizeof(char *) * vars->map.map_limit[1]);
 	while (i < vars->map.map_limit[1])
 	{
 		vars->map.map_cpy[i] = ft_strdup(vars->map.map[i]);
 		i++;
 	}
-	vars->map.map_cpy[i] = NULL;
 }
 
 bool	is_first_line(char *line)
@@ -101,7 +100,7 @@ void	ft_map_start(int fd, t_vars *vars)
 	{
 		temp = get_next_line(fd);
 		if (temp == NULL)
-			error_exit("Error: Couldn't find the map\n", fd, temp);
+			error_exit("Error: Couldn't find the map\n", fd, temp, vars);
 		if (is_first_line(temp) == true)
 		{
 			vars->map.start = i;

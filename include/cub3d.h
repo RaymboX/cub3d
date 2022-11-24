@@ -58,10 +58,11 @@ typedef struct s_mlx
 
 typedef struct s_texures
 {
-	char	*n;
-	char	*e;
-	char	*s;
-	char	*w;
+	int		pixel;
+	void	*n;
+	void	*e;
+	void	*s;
+	void	*w;
 //	t_wall_texture	wall_texture[4];//0 = East, 1 = south, 2 = west, 3 = north
 	char	*f;
 	char	*c;
@@ -69,6 +70,8 @@ typedef struct s_texures
 	int		c_colors[3];
 	int		f_color;
 	int		c_color;
+	int		height;
+	int		width;
 	bool	no_stat;
 	bool	so_stat;
 	bool	we_stat;
@@ -170,6 +173,7 @@ bool	identify_texture(t_vars *vars, char *path, char *temp);
 void	texture_struct_init(t_vars *vars);
 
 //Gestion de map
+void	free_map_cpy(t_vars *vars);
 void	check_file(char **av, t_vars *vars);
 void	ft_map_start(int fd, t_vars *vars);
 bool	is_first_line(char *line);
@@ -185,9 +189,10 @@ void	copy_map(t_vars *vars);
 void	vars_mlx_init(t_vars *vars);
 void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
 int		render_next_frame(t_vars *vars);
+int		key_hook(int key, t_vars *vars);
 
 //Error Handling
-void	error_exit(char *error, int fd, char *temp);
+void	error_exit(char *error, int fd, char *temp, t_vars *vars);
 void	print_error(char *error);
 void	check_map_errors(t_vars *vars);
 void	check_map_integrity(t_vars *vars);

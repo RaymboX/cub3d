@@ -1,11 +1,20 @@
 #include "../include/cub3d.h"
 
-void	error_exit(char *error, int fd, char *temp)
+void	error_exit(char *error, int fd, char *temp, t_vars *vars)
 {
-	print_error(error);
+	(void)vars;
 	close(fd);
 	if (temp)
 		free(temp);
+	if (vars->textures.n)
+		free(vars->textures.n);
+	if (vars->textures.s)
+		free(vars->textures.s);
+	if (vars->textures.e)
+		free(vars->textures.e);
+	if (vars->textures.w)
+		free(vars->textures.w);
+	print_error(error);
 }
 
 void	print_error(char *error)

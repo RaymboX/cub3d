@@ -1,6 +1,7 @@
 
 #include "../include/cub3d.h"
 
+
 float	degree_ajust(float degree)
 {
 	if (degree >= 360)
@@ -142,6 +143,7 @@ void	wall_pixel_height(t_vars *vars, t_raycast *rc)
 }
 
 
+//utiliser mlx_get_address pour aler chercher l'adresse d'un pixel
 void	draw_wall(t_vars *vars, int i_resol[2], int pixel_h)
 {
 	int	color;

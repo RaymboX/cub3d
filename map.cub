@@ -1,7 +1,7 @@
-NO ./pouet.xpm
-SO ./pouet2.xpm
-EA ./pouet3.xpm
-WE ./pouet4.xpm
+NO ./Wall1.xpm
+SO ./Wall2.xpm
+EA ./Wall1.xpm
+WE ./Wall2.xpm
 
 C 200, 100, 1
 F 200, 254, 12

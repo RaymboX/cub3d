@@ -7,7 +7,7 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		texture_struct_init(&vars);
-    	vars_mlx_init(&vars);
+    vars_mlx_init(&vars);
 		check_file(argv, &vars);
  	   //mlx stuff
 		(void)argv;
@@ -16,8 +16,7 @@ int	main(int argc, char **argv)
 		{
 			raycast_main_loop(&vars);
 			mlx_put_image_to_window(vars.mlx_vars.mlx, vars.mlx_vars.win,
-			vars.mlx_vars.img, 0, 0);
-			//mlx_key_hook(vars.mlx_vars.win, key_hook, &vars);
+			  vars.mlx_vars.img, 0, 0);
 			//mlx_hook keypress
 			//mlx hook mouse
 			//mlx_hook exit
@@ -25,8 +24,9 @@ int	main(int argc, char **argv)
 		else
 		{
 			mlx_loop_hook(vars.mlx_vars.mlx, render_next_frame, &vars);
-   			mlx_loop(vars.mlx_vars.mlx);
+			mlx_hook(vars.mlx_vars.win, 6, 0, mouse_move, &vars);
 		}
+		mlx_loop(vars.mlx_vars.mlx);
 	}
   else
 	{
@@ -105,7 +105,8 @@ int	render_next_frame(t_vars *vars)
 	vars->mlx_vars.addr = mlx_get_data_addr(vars->mlx_vars.img, &vars->mlx_vars.bits_per_pixel,
 			&vars->mlx_vars.line_length, &vars->mlx_vars.endian);
 
-	screen_saver_move(vars);
+	//screen_saver_move(vars);
+	mlx_hook(vars->mlx_vars.win, 2, 0, keypress_handler, vars);
 
 	raycast_main_loop(vars);
 	mlx_put_image_to_window(vars->mlx_vars.mlx, vars->mlx_vars.win, vars->mlx_vars.img, 0, 0);

@@ -4,7 +4,7 @@
 # ifdef __linux__
 #  include "minilibx-linux/mlx.h"
 # else
-# include <mlx.h>
+#  include "../mlx/mlx.h"
 # endif
 
 # include <stdio.h>
@@ -26,10 +26,8 @@
 # define S 90
 # define O 180
 # define FOV 60
-# define SCREEN_W 2048
+# define SCREEN_W 1920
 # define SCREEN_H 1080
-/* # define SCREEN_W 1366
-# define SCREEN_H 768 */
 # define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
 # define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
 # define USED_H 100
@@ -37,8 +35,10 @@
 # define PIXEL_DIST_RATIO -10
 # define RESOLUTION_W_DEF 1
 # define RESOLUTION_H_DEF 1
-# define PACE 1
-# define TURN_ANGLE 1
+# define PACE 1000
+# define TURN_ANGLE 5
+# define COLLISION_DIST 2
+# define MAPSCALE 10000
 
 typedef struct s_log
 {
@@ -55,18 +55,6 @@ typedef struct s_mlx
 	int		line_length;
 	int		endian;
 }	t_mlx;
-
-/*
-typedef struct s_wall_texture
-{
-	//char	*name;//nom de la texture (sera requis pour les bonus)
-	int		limit[2]; //limit en x[0] et en y[1]
-	int		*color_char;//les caracteres qui sont utilisé pour représenté les couleurs (dans meme ordre que color_trgb)
-	int		*color_trgb;// les couleurs deja converti en trgb (dans meme ordre que color_char)
-	int		**image;//la map de l'image
-	//struct s_wall_texture	*next;//requis pour les bonus
-}			t_wall_texture;
-*/
 
 typedef struct s_texures
 {
@@ -123,36 +111,34 @@ typedef struct s_perso
 
 typedef struct s_raycast
 {
-	float	rayangle; //utiliser en boucle a partir de fov, max_usable_screen_width et boucle i
-	float	fov_angle_div;//angle diff for each ray launch
-	int		ray_i;
-	int		ray_i_min;
-	int		ray_i_max;
-	int		direction[2];
-	float	m; //La pente de la droite calculer a partir de l'angle et la direction
+	float	rayangle; //l'angle pour tout les rayons pour faire l'image
+	float	fov_angle_div;//la difference d'angle entre deux rayangle
+	int		ray_i;//servant a la boucle pour tout les rayangle
+	int		ray_i_min;//le ray_i minimum basee sur screen_width
+	int		ray_i_max;//le ray_i maximum (la ou la boucle cesse)
+	int		direction[2];//anciennement dx dy->direction en x et y du rayon
+	float	m; //La pente du rayon calculer a partir de l'angle et la direction
 	float	b; //Le b pour faire la formule de fonction lineaire (-y = mx + b)
-	int		first00[2];
-	int		shift[2];
-	int		next00[2][2];
+	int		first00[2];//premiere rencontre avec le grid (base pour calculer les autres intersection)
+	int		shift[2];//sert a passer a un autre insection du grid
 	int		x00; //Valeur obtenu a partir de fx00 + shift_x00 * mapscale * dx
 	int		y00; //Valeur obtenu a partir de fy00 + shift_y00 * mapscale * dy
 	int		x_y00; //Valeur de x en y00
 	int		y_x00; //Valeur de y en x00
 	int		dist[2]; //Distance entre position du joueur et point (x_y00, y00) * precision
-	int		i_dist;
+	int		i_dist;// 0 = position de x00 plus proche et 1 = y00 plus proche
 	int		smallest_dist; //Distance la plus courte entre dist_x00 et dist_y00
-	int		cell00[2][2];
-	char	cellvalue[2]; //Valeur de la cell rencontrer pour le point (x00, y_x00) (1 = mur, 0 = rien)
-	int		cardinal_wall; //afin d'appliquer le bon xpm determiner par les directions dx et dy et par le point utiliser (smallest dist = dist_x00 ou dist_y00)
-	int		xpm_ratio_col;
-	int		wall_height;
+	int		cell00[2][2];//Coordonnee des cellules d'instersection
+	char	cellvalue[2]; //Valeur de la cell d'intersection pour le point (x00, y_x00) (1 = mur, 0 = rien)
+	int		cardinal_wall; //valeur de 0 a 3 pour le mur rencontrer pour appliquer bonne texture
+	int		xpm_ratio_col;//valeur de 0 a 100 exprimant la colonne de pixel a prendre
+	int		wall_height;//la hauteur du mur en pixel selon la distance
 }	t_raycast;
 
 typedef struct s_screen
 {
 	int	max_width; //Nombre de pixel en largeur Obtenu a partir du plus petit entre offset_center_y et de l'espace restant en y et use_height
 	int	max_height; //Nombre de pixel en hauteur Obtenu a partir du plus petit entre offset_center_x et de l'espace restant en x et use_width
-	int	precision; //Multiple de 10 pour la distance afin de conserver en int ??? si utilise fixpointvalue = pas necessaire
 	int	dist_pixel_ratio; //Ratio du nombre de pixel en hauteur selon la distance (valeur multiplier par screen_height)
 	int	center_pixel_w;
 	int	center_pixel_h;
@@ -164,13 +150,13 @@ typedef struct s_screen
 
 typedef struct s_vars
 {
-	t_textures	textures;
-	t_map		map;
-	t_perso		perso;
-	t_raycast	raycast;
-	t_screen	screen;
-	t_mlx		mlx_vars;
-	t_log		debug_log;
+	t_textures		textures;
+	t_map			map;
+	t_perso			perso;
+	t_raycast		raycast;
+	t_screen		screen;
+	t_mlx			mlx_vars;
+	t_log			debug_log;
 }	t_vars;
 
 //Textures/Floors/Ceilings
@@ -248,5 +234,18 @@ void	max_height_width(t_screen *screen);
 void	center_pixel(t_screen *screen);
 void	set_fov_angle_div(t_vars *vars);
 void	column_limit(t_screen *screen, t_raycast *raycast);
+
+//keypress.c
+int		keypress_handler(int keycode, t_vars *vars);
+void	turning(int keycode, t_vars *vars);
+void	move(int keycode, t_vars *vars);
+void	move_collsion(t_vars *vars, int angle);
+char	cell_move_val(t_vars *vars, int angle);
+void	set_move_dist(t_vars *vars, int angle, int movedist[2]);
+int		quadrant_angle(int angle);
+void	angle_direction_xy(int angle, int dir[2]);
+
+int		mouse_move(int x, int y, t_vars *vars);
+
 
 #endif

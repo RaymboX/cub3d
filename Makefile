@@ -20,8 +20,9 @@ REL_PATH		=	$(shell pwd)
 LEAK_CMD		=	leaks --atExit --
 
 LIBMLX 			= 	-L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
+LIBMLX_BETA		=	-L./mlx -lmlx -framework OpenGL -framework AppKit
 LIB_LINUX		=	-L ./include/minilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
-LIBRARY			=	$(LIBFT) $(LIBMLX)
+LIBRARY			=	$(LIBFT) $(LIBMLX_BETA)
 LIBRARY_LINUX	=	$(LIB_LINUX) include/libft/src/*c
 
 #DIRECTORIES--------------------------------------------------------------------
@@ -38,18 +39,22 @@ NAME_DSYM		=	./$(NAME).dSYM
 #  To make the list of all src, do this command in terminal in project folder
 #  find ./src/*.c -type f | cut -c7- | sed 's/$/ \\/'
 SRCS_FILES	 	= 	0_main.c \
-					Parsing.c \
 					error_handling.c \
 					floodfill.c \
 					floors_ceilings.c \
 					init_struct.c \
+					keypress.c \
 					map.c \
-					raycast_init.c \
+					moves.c \
+					Parsing.c \
 					raycasting_main.c \
+					raycast_init.c \
 					textures.c \
 					variables_identification_tools.c \
 					various_tools.c \
+					mouse_move.c
 					free_stuff.c
+
 
 HEADERS_FILES	=	cub3d.h
 
@@ -109,7 +114,7 @@ debug: $(LIBFT)
 ifeq ($(UNAME_S),Linux)
 					gcc -g $(CFLAGS) -o $(NAME) $(SRCS) $(LIBRARY_LINUX) -D DEBUG=1
 else
-					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME) -D DEBUG=1
+					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME) -D DEBUG=0
 endif
 				
 #PHONY--------------------------------------------------------------------------

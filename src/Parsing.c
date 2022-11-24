@@ -12,9 +12,13 @@ void	check_texture_ext(char *texture)
 		&& *(res + 3) == 'm' && is_end(*(res + 4), 10))
 	{
 		if (*texture != '.' && *(texture + 1) != '/')
+		{
+			free(res);
 			print_error("Error: File not in good directory\n");
+		}
 		return ;
 	}
+	free(res);
 	print_error("Error: Texture file is not a '.xpm'\n");
 }
 
@@ -85,4 +89,5 @@ void	check_file(char **av, t_vars *vars)
 	flood_fill_walls(vars, 0, vars->map.first_wall);
 	check_inside_rooms(vars);
 	check_map_integrity(vars);
+	free_map_cpy(vars);
 }

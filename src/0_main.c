@@ -7,11 +7,11 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		texture_struct_init(&vars);
+    vars_mlx_init(&vars);
 		check_file(argv, &vars);
-		//mlx stuff
+ 	   //mlx stuff
 		(void)argv;
-		vars_mlx_init(&vars);
-		raycast_init(&vars);
+    	raycast_init(&vars);
 		if (DEBUG == 1)
 		{
 			raycast_main_loop(&vars);
@@ -27,7 +27,6 @@ int	main(int argc, char **argv)
 			mlx_hook(vars.mlx_vars.win, 6, 0, mouse_move, &vars);
 		}
 		mlx_loop(vars.mlx_vars.mlx);
-
 	}
   else
 	{
@@ -57,7 +56,6 @@ void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-
 int	best_angle_side(int now, int but)
 {
 	if (abs(now - but) <= 180)
@@ -77,7 +75,7 @@ int	best_angle_side(int now, int but)
 void	screen_saver_move(t_vars *vars)
 {
 	static int	move_dir[2] = { 1, 1};
-	
+
 	if (((vars->perso.position[0] - (PACE * move_dir[0])) / vars->map.mapscale == 1))
 		move_dir[0] = 1;
 	if (((vars->perso.position[0] + (PACE * move_dir[0])) / vars->map.mapscale >= vars->map.map_limit[0] - 2))
@@ -102,13 +100,11 @@ void	screen_saver_move(t_vars *vars)
 
 int	render_next_frame(t_vars *vars)
 {
-	
-	
 	mlx_destroy_image (vars->mlx_vars.mlx, vars->mlx_vars.img);
 	vars->mlx_vars.img = mlx_new_image(vars->mlx_vars.mlx, SCREEN_W, SCREEN_H);
 	vars->mlx_vars.addr = mlx_get_data_addr(vars->mlx_vars.img, &vars->mlx_vars.bits_per_pixel,
 			&vars->mlx_vars.line_length, &vars->mlx_vars.endian);
-	
+
 	//screen_saver_move(vars);
 	mlx_hook(vars->mlx_vars.win, 2, 0, keypress_handler, vars);
 

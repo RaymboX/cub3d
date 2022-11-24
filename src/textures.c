@@ -2,31 +2,37 @@
 
 void	assign_texture(t_vars *vars, bool *stat, char *path, char type)
 {
+	//void	*ptr;
 	*stat = true;
 	if (type == 'N' || type == 'S' || type == 'W' || type == 'E')
 		check_texture_ext(path);
 	else if (type == 'F' || type == 'C')
 		init_colors(path, vars, type);
+	//ptr = mlx_xpm_file_to_image(&vars->mlx_vars.mlx, path, &vars->textures.width, &vars->textures.height);
 	if (type == 'N')
 	{
+		//vars->textures.n = mlx_get_data_addr(ptr, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
 		vars->textures.n = mlx_xpm_file_to_image(&vars->mlx_vars.mlx, path, &vars->textures.width, &vars->textures.height);
 		if (vars->textures.n == NULL)
 			print_error("Error: North texture doesn't exist\n");
 	}
 	else if (type == 'S')
 	{
+		//vars->textures.s = mlx_get_data_addr(ptr, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
 		vars->textures.s = mlx_xpm_file_to_image(&vars->mlx_vars.mlx, path, &vars->textures.width, &vars->textures.height);
 		if (vars->textures.s == NULL)
 			print_error("Error: South texture doesn't exist\n");
 	}
 	else if (type == 'W')
 	{
+		//vars->textures.w = mlx_get_data_addr(ptr, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
 		vars->textures.w = mlx_xpm_file_to_image(&vars->mlx_vars.mlx, path, &vars->textures.width, &vars->textures.height);
 		if (vars->textures.w == NULL)
 			print_error("Error: West texture doesn't exist\n");
 	}
 	else if (type == 'E')
 	{
+		//vars->textures.e = mlx_get_data_addr(ptr, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
 		vars->textures.e = mlx_xpm_file_to_image(&vars->mlx_vars.mlx, path, &vars->textures.width, &vars->textures.height);
 		if (vars->textures.e == NULL)
 			print_error("Error: East texture doesn't exist\n");

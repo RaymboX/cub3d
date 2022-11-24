@@ -1,7 +1,6 @@
 
 #include "../include/cub3d.h"
 
-
 float	degree_ajust(float degree)
 {
 	if (degree >= 360)
@@ -143,19 +142,46 @@ void	wall_pixel_height(t_vars *vars, t_raycast *rc)
 }
 
 
-//utiliser mlx_get_address pour aler chercher l'adresse d'un pixel
+//x et y à definir
 void	draw_wall(t_vars *vars, int i_resol[2], int pixel_h)
 {
-	int	color;
+	unsigned int	color;
+	int				x;
+	int				y;
+	int				pos;
+	char			*ptr;
 
+/* 	x = 2;
+	y = 1; */
+	pos = y * vars->textures.size_line + x * (vars->textures.bpp / 8);
 	if (vars->raycast.cardinal_wall == 0)
+	{
+		ptr = mlx_get_data_addr(vars->textures.e, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
+		color = *(unsigned int *)ptr + pos;
+	}
+	if (vars->raycast.cardinal_wall == 1)
+	{
+		ptr = mlx_get_data_addr(vars->textures.s, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
+		color = *(unsigned int *)ptr + pos;
+	}
+	if (vars->raycast.cardinal_wall == 2)
+	{
+		ptr = mlx_get_data_addr(vars->textures.w, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
+		color = *(unsigned int *)ptr + pos;
+	}
+	if (vars->raycast.cardinal_wall == 3)
+	{
+		ptr = mlx_get_data_addr(vars->textures.n, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
+		color = *(unsigned int *)ptr + pos;
+	}
+/* 	if (vars->raycast.cardinal_wall == 0)
 		color = create_trgb(0, 102, 0, 0);//brun east
 	if (vars->raycast.cardinal_wall == 1)
 		color = create_trgb(0, 96, 96, 96);//grey south
 	if (vars->raycast.cardinal_wall == 2)
 		color = create_trgb(0, 204, 102, 0);//orange west
 	if (vars->raycast.cardinal_wall == 3)
-		color = create_trgb(0, 204, 204, 0);//yellow north
+		color = create_trgb(0, 204, 204, 0);//yellow north */
 	my_mlx_pixel_put(vars,
 		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
 		vars->screen.center_pixel_h + pixel_h,
@@ -383,16 +409,7 @@ void	raycast_main_loop(t_vars *vars)
 		raycast_loop_init(rc, &vars->perso);
 		set_direction_and_linear_function(rc, &vars->perso);
 		set_first00(vars);
-		printinglog(vars->debug_log.fd_raycast, "------------", "---------", 0);
-		printinglog(vars->debug_log.fd_raycast, "ray_i", "", rc->ray_i);
-		printinglog(vars->debug_log.fd_raycast, "first00[0]", "", rc->first00[0]);
-		printinglog(vars->debug_log.fd_raycast, "first00[1]", "", rc->first00[1]);
-		printinglog(vars->debug_log.fd_raycast, "rayangle int", "", (int)rc->rayangle);
-		printinglog(vars->debug_log.fd_raycast, "direction[0]", "", rc->direction[0]);
-		printinglog(vars->debug_log.fd_raycast, "direction[1]", "", rc->direction[1]);
 		set_dist_n_wall(vars);
-		printinglog(vars->debug_log.fd_raycast, "wall_cardinal", "", vars->raycast.cardinal_wall);
-		printinglog(vars->debug_log.fd_raycast, "smallest_dist", "", vars->raycast.smallest_dist);
 		drawing(vars, rc);
 		rc->ray_i += vars->screen.resolution_w;
 	}

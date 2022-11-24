@@ -58,7 +58,14 @@ typedef struct s_mlx
 
 typedef struct s_texures
 {
-	int		pixel;
+	char	*addr;
+/* 	char	*n;
+	char	*e;
+	char	*s;
+	char	*w; */
+	int		endian;
+	int		bpp;
+	int		size_line;
 	void	*n;
 	void	*e;
 	void	*s;

@@ -9,22 +9,25 @@ int	main(int argc, char **argv)
 		texture_struct_init(&vars);
 		check_file(argv, &vars);
     
-    //mlx stuff
-	(void)argv;
-    vars_mlx_init(&vars);
-    raycast_init(&vars);
-	if (DEBUG == 1)
-	{
-		raycast_main_loop(&vars);
-		mlx_put_image_to_window(vars.mlx_vars.mlx, vars.mlx_vars.win,
-			vars.mlx_vars.img, 0, 0);
-		//mlx_hook keypress
-		//mlx hook mouse
-		//mlx_hook exit
-	}
-	else
-		mlx_loop_hook(vars.mlx_vars.mlx, render_next_frame, &vars);
-   	mlx_loop(vars.mlx_vars.mlx);
+		//mlx stuff
+		(void)argv;
+		vars_mlx_init(&vars);
+		raycast_init(&vars);
+		if (DEBUG == 1)
+		{
+			raycast_main_loop(&vars);
+			mlx_put_image_to_window(vars.mlx_vars.mlx, vars.mlx_vars.win,
+				vars.mlx_vars.img, 0, 0);
+			//mlx_hook keypress
+			//mlx hook mouse
+			//mlx_hook exit
+		}
+		else
+		{
+			mlx_loop_hook(vars.mlx_vars.mlx, render_next_frame, &vars);
+			mlx_hook(vars.mlx_vars.win, 6, 0, mouse_move, &vars);
+		}
+		mlx_loop(vars.mlx_vars.mlx);
 	}
 
   else

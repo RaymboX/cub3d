@@ -57,7 +57,7 @@ void	raycast_init(t_vars *vars)
 
 	vars->perso.angle = 75;
 	//test
-	vars->map.mapscale = 100;
+	vars->map.mapscale = MAPSCALE;
 
 	vars->perso.position[0] = vars->map.perso_start[0] * vars->map.mapscale
 		+ vars->map.mapscale / 2;

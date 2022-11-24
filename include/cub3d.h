@@ -4,7 +4,7 @@
 # ifdef __linux__
 #  include "minilibx-linux/mlx.h"
 # else
-# include <mlx.h>
+#  include "../mlx/mlx.h"
 # endif
 
 # include <stdio.h>
@@ -26,7 +26,7 @@
 # define S 90
 # define O 180
 # define FOV 60
-# define SCREEN_W 2048
+# define SCREEN_W 1920
 # define SCREEN_H 1080
 # define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
 # define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
@@ -35,9 +35,10 @@
 # define PIXEL_DIST_RATIO -10
 # define RESOLUTION_W_DEF 1
 # define RESOLUTION_H_DEF 1
-# define PACE 10
+# define PACE 1000
 # define TURN_ANGLE 5
 # define COLLISION_DIST 2
+# define MAPSCALE 10000
 
 typedef struct s_log
 {
@@ -231,5 +232,8 @@ char	cell_move_val(t_vars *vars, int angle);
 void	set_move_dist(t_vars *vars, int angle, int movedist[2]);
 int		quadrant_angle(int angle);
 void	angle_direction_xy(int angle, int dir[2]);
+
+int		mouse_move(int x, int y, t_vars *vars);
+
 
 #endif

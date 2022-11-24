@@ -115,6 +115,5 @@ int	render_next_frame(t_vars *vars)
 
 	raycast_main_loop(vars);
 	mlx_put_image_to_window(vars->mlx_vars.mlx, vars->mlx_vars.win, vars->mlx_vars.img, 0, 0);
-	usleep(1);
 	return (0);
 }

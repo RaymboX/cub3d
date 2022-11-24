@@ -17,15 +17,18 @@ void	turning(int keycode, t_vars *vars)
 		vars->perso.angle = degree_ajust(vars->perso.angle - TURN_ANGLE);
 	if (keycode == 124)
 		vars->perso.angle = degree_ajust(vars->perso.angle + TURN_ANGLE);
-	printf("angle:%d\n", vars->perso.angle);
 }
 
 void	move(int keycode, t_vars *vars)
 {
-	if (keycode == 126)
+	if (keycode == 13)
 		move_collsion(vars, vars->perso.angle);
-	if (keycode == 125)
+	if (keycode == 1)
 		move_collsion(vars, degree_ajust(vars->perso.angle - 180));
+	if (keycode == 0)
+		move_collsion(vars, degree_ajust(vars->perso.angle - 90));
+	if (keycode == 2)
+		move_collsion(vars, degree_ajust(vars->perso.angle + 90));
 }
 
 void	move_collsion(t_vars *vars, int angle)
@@ -39,14 +42,12 @@ void	move_collsion(t_vars *vars, int angle)
 	while (++i < 3)
 		celldir_value[i] = cell_move_val(vars,
 				degree_ajust(angle + 45 * (i - 1)));
-	printf("celldir_value 0:%c, 1:%c 2:%c\n", celldir_value[0], celldir_value[1], celldir_value[2]);
 	set_move_dist(vars, angle, movedist);
 	if (celldir_value[0] != '1' && celldir_value[1] != '1'
 		&& celldir_value[2] != '1')
 	{
 		vars->perso.position[0] += movedist[0];
 		vars->perso.position[1] += movedist[1];
-		printf("no collision: movedist[0]:%d, movedist[1]:%d\n", movedist[0], movedist[1]);
 	}
 	else if (celldir_value[0] != '1' || celldir_value[2] != '1')
 	{
@@ -57,7 +58,6 @@ void	move_collsion(t_vars *vars, int angle)
 		else
 			vars->perso.position[1] += movedist[1];
 	}
-	printf("-------\n");
 }
 
 char	cell_move_val(t_vars *vars, int angle)
@@ -71,8 +71,6 @@ char	cell_move_val(t_vars *vars, int angle)
 	moveposition[1] = vars->perso.position[1] + movedist[1];
 	movecell[0] = moveposition[0] / vars->map.mapscale;
 	movecell[1] = moveposition[1] / vars->map.mapscale;
-	printf("movedist[0]:%d, moveposition[0]:%d, movecell[0]:%d\n", movedist[0], moveposition[0], movecell[0]);
-	printf("movedist[1]:%d, moveposition[1]:%d, movecell[1]:%d\n", movedist[1], moveposition[1], movecell[1]);
 	return (vars->map.map[movecell[1]][movecell[0]]);
 }
 
@@ -89,7 +87,6 @@ void	set_move_dist(t_vars *vars, int angle, int movedist[2])
 	else
 	{
 		angle = quadrant_angle(angle);
-		printf("angle:%d\n", angle);
 		movedist[0] = (int)(cos((double)(angle * PI / 180)) * PACE) * dir[0];
 		movedist[1] = (int)(sin((double)(angle * PI / 180)) * PACE) * dir[1];
 	}
@@ -132,5 +129,4 @@ void	angle_direction_xy(int angle, int dir[2])
 		if (angle > 90 && angle < 270)
 			dir[0] = -1;
 	}
-	printf("angle:%d, dir[0]:%d, dir[1]:%d\n", angle, dir[0], dir[1]);
 }

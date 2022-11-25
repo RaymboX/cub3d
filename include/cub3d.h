@@ -124,7 +124,9 @@ typedef struct s_raycast
 	int		cell00[2][2];//Coordonnee des cellules d'instersection
 	char	cellvalue[2]; //Valeur de la cell d'intersection pour le point (x00, y_x00) (1 = mur, 0 = rien)
 	int		cardinal_wall; //valeur de 0 a 3 pour le mur rencontrer pour appliquer bonne texture
-	int		xpm_ratio_col;//valeur de 0 a 100 exprimant la colonne de pixel a prendre
+	int		xpm_x;//valeur de 0 a 100 exprimant la colonne de pixel a prendre
+	int		xpm_y_50;//50% du height du xpm
+	int		xpm_y_div;//ratio xpm height / wall height
 	int		wall_height;//la hauteur du mur en pixel selon la distance
 }	t_raycast;
 
@@ -209,15 +211,19 @@ void	set_grid_parallele_direction(t_raycast *rc);
 void	set_general_direction_and_m(t_raycast *rc);
 void	set_direction_and_linear_function(t_raycast *rc, t_perso *perso);
 void	set_first00(t_vars *vars);
-void	shift_add(t_raycast *rc);
-void	set_x00_n_y00(t_raycast *rc, t_map *map);
-void	set__x_y00__n__y_x00(t_raycast *rc, t_perso *perso, t_map *map);
-void	find_cell_coord(t_raycast *rc, t_map *map);
-void	distances_calculation(t_raycast *rc, t_perso *perso, t_map *map);
-int		wall_hit(t_raycast *rc);
-void	drawing_wall(t_vars *vars, t_raycast *rc, int i_pixel);
-void	drawing_floor_celling(t_vars *vars, t_raycast *rc, int i_pixel);
+void	wall_pixel_height(t_vars *vars, t_raycast *rc);
+int		xpm_x(t_vars *vars);
+int		xpm_y(t_vars *vars, int pixel_h, int way);
+void	draw_wall(t_vars *vars, int i_resol[2], int pixel_h);
+void	draw_floor_celling(t_vars *vars, int i_resol[2], int pixel_h);
 void	drawing(t_vars *vars, t_raycast *rc);
+void	cell_x00(t_vars *vars, int x, int y, int cell[2]);
+void	cell_y00(t_vars *vars, int x, int y, int cell[2]);
+void	nearest_x00_wall(t_vars *vars, t_raycast *rc);
+void	nearest_y00_wall(t_vars *vars, t_raycast *rc);
+int		find_smallest_dist(t_vars *vars);
+int		find_cardinal_wall(t_vars *vars, int i_dist);
+void	set_dist_n_wall(t_vars *vars);
 void	raycast_main_loop(t_vars *vars);
 
 //raycasting init

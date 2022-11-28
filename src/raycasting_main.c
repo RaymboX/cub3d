@@ -128,6 +128,9 @@ void	wall_pixel_height(t_vars *vars, t_raycast *rc)
 		rc->wall_height = -1;
 }
 
+/*
+ACTIVATE WHEN TEXTURE ON-------------------------------------------
+
 //retourne la coord en x dans la texture
 int	xpm_x(t_vars *vars)
 {
@@ -149,6 +152,8 @@ int	xpm_y(t_vars *vars, int pixel_h, int way)
 	xpm_y_div = PUT_HERE:texture_height / vars->raycast.wall_height;
 	return(xpm_half + (pixel_h * way * xpm_y_div));
 }
+------------------------------------------------------------------------
+*/
 
 //utiliser mlx_get_address pour aler chercher l'adresse d'un pixel
 void	draw_wall(t_vars *vars, int i_resol[2], int pixel_h)

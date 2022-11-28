@@ -22,7 +22,7 @@ LEAK_CMD		=	leaks --atExit --
 LIBMLX 			= 	-L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 LIBMLX_BETA		=	-L./mlx -lmlx -framework OpenGL -framework AppKit
 LIB_LINUX		=	-L ./include/minilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
-LIBRARY			=	$(LIBFT) $(LIBMLX_BETA)
+LIBRARY			=	$(LIBFT) $(LIBMLX)
 LIBRARY_LINUX	=	$(LIB_LINUX) include/libft/src/*c
 
 #DIRECTORIES--------------------------------------------------------------------
@@ -52,7 +52,6 @@ SRCS_FILES	 	= 	0_main.c \
 					textures.c \
 					variables_identification_tools.c \
 					various_tools.c \
-					mouse_move.c \
 					free_stuff.c
 
 

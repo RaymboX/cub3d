@@ -4,7 +4,8 @@
 # ifdef __linux__
 #  include "minilibx-linux/mlx.h"
 # else
-#  include "../mlx/mlx.h"
+//#  include "../mlx/mlx.h"
+#  include <mlx.h>
 # endif
 
 # include <stdio.h>

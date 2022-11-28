@@ -107,7 +107,7 @@ void	set_first00(t_vars *vars)
 	int	i;
 
 	i = -1;
-	while (i < 2)
+	while (++i < 2)
 	{
 		vars->raycast.first00[i] = vars->perso.position[i] / MAPSCALE;
 		vars->raycast.first00[i] *= MAPSCALE;
@@ -255,7 +255,8 @@ void	nearest_x00_wall(t_vars *vars, t_raycast *rc)
 		while (rc->cellvalue[0] != '1' && rc->cellvalue[0] != '-')
 		{
 			rc->shift[0] += 1;
-			rc->x00 = rc->first00[0] + rc->shift[0] * rc->direction[0] * vars->map.mapscale;
+			rc->x00 = rc->first00[0] + rc->shift[0] * rc->direction[0]
+				* MAPSCALE;
 			if (rc->direction[1] != 0)
 				rc->y_x00 = (rc->m * rc->x00 + rc->b) * -1;
 			else
@@ -287,7 +288,8 @@ void	nearest_y00_wall(t_vars *vars, t_raycast *rc)
 		while (rc->cellvalue[1] != '1' && rc->cellvalue[1] != '-')
 		{
 			rc->shift[1] += 1;
-			rc->y00 = rc->first00[1] + rc->shift[1] * rc->direction[1] * MAPSCALE;
+			rc->y00 = rc->first00[1] + rc->shift[1] * rc->direction[1]
+				* MAPSCALE;
 			if (rc->direction[0] != 0)
 				rc->x_y00 = (-rc->y00 - rc->b) / rc->m;
 			else

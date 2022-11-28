@@ -69,8 +69,8 @@ char	cell_move_val(t_vars *vars, int angle)
 	set_move_dist(vars, angle, movedist);
 	moveposition[0] = vars->perso.position[0] + movedist[0];
 	moveposition[1] = vars->perso.position[1] + movedist[1];
-	movecell[0] = moveposition[0] / vars->map.mapscale;
-	movecell[1] = moveposition[1] / vars->map.mapscale;
+	movecell[0] = moveposition[0] / MAPSCALE;
+	movecell[1] = moveposition[1] / MAPSCALE;
 	return (vars->map.map[movecell[1]][movecell[0]]);
 }
 

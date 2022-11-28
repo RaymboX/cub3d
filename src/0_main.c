@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 		else
 		{
 			mlx_loop_hook(vars.mlx_vars.mlx, render_next_frame, &vars);
-			mlx_hook(vars.mlx_vars.win, 6, 0, mouse_move, &vars);
+			//mlx_hook(vars.mlx_vars.win, 6, 0, mouse_move, &vars);
 		}
 		mlx_loop(vars.mlx_vars.mlx);
 
@@ -73,32 +73,6 @@ int	best_angle_side(int now, int but)
 		return (1);
 	}
 }
-
-void	screen_saver_move(t_vars *vars)
-{
-	static int	move_dir[2] = { 1, 1};
-	
-	if (((vars->perso.position[0] - (PACE * move_dir[0])) / vars->map.mapscale == 1))
-		move_dir[0] = 1;
-	if (((vars->perso.position[0] + (PACE * move_dir[0])) / vars->map.mapscale >= vars->map.map_limit[0] - 2))
-		move_dir[0] = -1;
-	if (((vars->perso.position[1] - (PACE * move_dir[1])) / vars->map.mapscale == 1))
-		move_dir[1] = 1;
-	if (((vars->perso.position[1] + (PACE * move_dir[1])) / vars->map.mapscale >= vars->map.map_limit[1] - 2))
-		move_dir[1] = -1;
-	vars->perso.position[0] += PACE * move_dir[0];
-	vars->perso.position[1] += PACE * move_dir[1];
-	if (move_dir[0] == 1 && move_dir[1] == 1 && vars->perso.angle != 45)
-		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 45);
-	if (move_dir[0] == -1 && move_dir[1] == 1 && vars->perso.angle != 135)
-		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 135);
-	if (move_dir[0] == -1 && move_dir[1] == -1 && vars->perso.angle != 225)
-		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 225);
-	if (move_dir[0] == 1 && move_dir[1] == -1 && vars->perso.angle != 315)
-		vars->perso.angle += TURN_ANGLE * best_angle_side(vars->perso.angle, 315);
-	vars->perso.angle = degree_ajust(vars->perso.angle);
-}
-
 
 int	render_next_frame(t_vars *vars)
 {

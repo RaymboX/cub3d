@@ -7,6 +7,11 @@ void	assign_texture(t_vars *vars, bool *stat, char *path, char type)
 		check_texture_ext(path);
 	else if (type == 'F' || type == 'C')
 		init_colors(path, vars, type);
+	
+	/*
+	
+	SEGFAULT SECTION
+
 	if (type == 'N')
 	{
 		vars->textures.n = mlx_xpm_file_to_image(&vars->mlx_vars.mlx, path, &vars->textures.width, &vars->textures.height);
@@ -35,6 +40,8 @@ void	assign_texture(t_vars *vars, bool *stat, char *path, char type)
 		vars->textures.c = ft_strdup(path);
 	else if (type == 'F')
 		vars->textures.f = ft_strdup(path);
+	
+	*/
 }
 
 bool	ft_avance_in_file(int *ii, char *temp)

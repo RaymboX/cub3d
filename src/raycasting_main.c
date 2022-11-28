@@ -248,7 +248,7 @@ void	nearest_x00_wall(t_vars *vars, t_raycast *rc)
 	else
 	{
 		while (rc->cellvalue[0] != '1' && rc->cellvalue[0] != '-')
-		{set__x_y00__n__y_x00
+		{
 			rc->shift[0] += 1;
 			rc->x00 = rc->first00[0] + rc->shift[0] * rc->direction[0] * vars->map.mapscale;
 			if (rc->direction[1] != 0)

@@ -161,13 +161,13 @@ void	draw_wall(t_vars *vars, int i_resol[2], int pixel_h)
 	int	color;
 
 	if (vars->raycast.cardinal_wall == 0)
-		color = create_trgb(0, 102, 0, 0);//brun east
+		color = create_trgb(125, 102, 0, 0);//brun east
 	if (vars->raycast.cardinal_wall == 1)
-		color = create_trgb(0, 96, 96, 96);//grey south
+		color = create_trgb(125, 96, 96, 96);//grey south
 	if (vars->raycast.cardinal_wall == 2)
-		color = create_trgb(0, 204, 102, 0);//orange west
+		color = create_trgb(125, 204, 102, 0);//orange west
 	if (vars->raycast.cardinal_wall == 3)
-		color = create_trgb(0, 204, 204, 0);//yellow north
+		color = create_trgb(125, 204, 204, 0);//yellow north
 	my_mlx_pixel_put(vars,
 		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
 		vars->screen.center_pixel_h + pixel_h,

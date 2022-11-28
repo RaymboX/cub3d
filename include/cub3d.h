@@ -4,8 +4,8 @@
 # ifdef __linux__
 #  include "minilibx-linux/mlx.h"
 # else
-//#  include "../mlx/mlx.h"
-#  include <mlx.h>
+#  include "../mlx/mlx.h"
+//#  include <mlx.h>
 # endif
 
 # include <stdio.h>
@@ -29,17 +29,18 @@
 # define FOV 60
 # define SCREEN_W 1920
 # define SCREEN_H 1080
-# define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
+# define OFFSET_CENTER_X 44 // poucentage * 100 negatif=gauche positif=droite
 # define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
 # define USED_H 100
-# define USED_W 100
-# define PIXEL_DIST_RATIO -10
+# define USED_W 56
 # define RESOLUTION_W_DEF 1
 # define RESOLUTION_H_DEF 1
-# define PACE 500
+# define PACE 0.2
 # define TURN_ANGLE 5
 # define COLLISION_DIST 2
 # define MAPSCALE 10000
+# define COLL_SPACE 0.1
+# define NB_IMG 2
 
 typedef struct s_log
 {
@@ -50,7 +51,8 @@ typedef struct s_mlx
 {
 	void	*mlx;
 	void	*win;
-	void	*img;
+	void	*img[NB_IMG];
+	int		i_img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
@@ -240,8 +242,8 @@ int		keypress_handler(int keycode, t_vars *vars);
 void	turning(int keycode, t_vars *vars);
 void	move(int keycode, t_vars *vars);
 void	move_collsion(t_vars *vars, int angle);
-char	cell_move_val(t_vars *vars, int angle);
-void	set_move_dist(t_vars *vars, int angle, int movedist[2]);
+char	cell_move_val(t_vars *vars, int angle, int collision);
+void	set_move_dist(t_vars *vars, int angle, int movedist[2], int collision);
 int		quadrant_angle(int angle);
 void	angle_direction_xy(int angle, int dir[2]);
 

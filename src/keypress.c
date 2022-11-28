@@ -29,27 +29,41 @@ void	move(int keycode, t_vars *vars)
 		move_collsion(vars, degree_ajust(vars->perso.angle - 90));
 	if (keycode == 2)
 		move_collsion(vars, degree_ajust(vars->perso.angle + 90));
+	if (keycode == 126)
+	{
+		vars->perso.pace *= 1.2;
+		if (vars->perso.pace > MAPSCALE / 2)
+			vars->perso.pace = MAPSCALE / 2;
+	}
+	if (keycode == 125)
+	{
+		vars->perso.pace *= 0.8;
+		if (vars->perso.pace < 2)
+			vars->perso.pace = 2;
+	}
 }
 
 void	move_collsion(t_vars *vars, int angle)
 {
-	int	i;
-	int	celldir_value[3];
-	int	movedist[2];
-	int	dir[2];
+	int		i;
+	char	celldir_value[3];
+	int		movedist[2];
+	int		dir[2];
 
 	i = -1;
 	while (++i < 3)
 		celldir_value[i] = cell_move_val(vars,
-				degree_ajust(angle + 45 * (i - 1)));
-	set_move_dist(vars, angle, movedist);
+				degree_ajust(angle + 30 * (i - 1)), 0);
+	//printf("L:%c F:%c R:%c\n", celldir_value[0], celldir_value[1], celldir_value[2]);
+	set_move_dist(vars, angle, movedist, 0);
 	if (celldir_value[0] != '1' && celldir_value[1] != '1'
 		&& celldir_value[2] != '1')
 	{
 		vars->perso.position[0] += movedist[0];
 		vars->perso.position[1] += movedist[1];
 	}
-	else if (celldir_value[0] != '1' || celldir_value[2] != '1')
+	else if ((celldir_value[0] != '1' || celldir_value[2] != '1')
+		&& (celldir_value[0] != celldir_value[2]))
 	{
 		angle_direction_xy(angle, dir);
 		if ((celldir_value[0] != '1' && dir[0] == dir[1])
@@ -60,13 +74,14 @@ void	move_collsion(t_vars *vars, int angle)
 	}
 }
 
-char	cell_move_val(t_vars *vars, int angle)
+// to add collision space, set collision to 1. No collision space, collision = 0
+char	cell_move_val(t_vars *vars, int angle, int collision)
 {
 	int	movedist[2];
 	int	moveposition[2];
 	int	movecell[2];
 
-	set_move_dist(vars, angle, movedist);
+	set_move_dist(vars, angle, movedist, collision);
 	moveposition[0] = vars->perso.position[0] + movedist[0];
 	moveposition[1] = vars->perso.position[1] + movedist[1];
 	movecell[0] = moveposition[0] / MAPSCALE;
@@ -74,21 +89,26 @@ char	cell_move_val(t_vars *vars, int angle)
 	return (vars->map.map[movecell[1]][movecell[0]]);
 }
 
-void	set_move_dist(t_vars *vars, int angle, int movedist[2])
+// to add collision space, set collision to 1. No collision space, collision = 0
+void	set_move_dist(t_vars *vars, int angle, int movedist[2], int collision)
 {
 	int	dir[2];
+	int	pace_coll;
 
+	pace_coll = vars->perso.pace + (collision * COLL_SPACE * vars->perso.pace);
 	angle_direction_xy(angle, dir);
 	if (vars->perso.angle % 90 == 0)
 	{
-		movedist[0] = PACE * dir[0];
-		movedist[1] = PACE * dir[1];
+		movedist[0] = pace_coll * dir[0];
+		movedist[1] = pace_coll * dir[1];
 	}
 	else
 	{
 		angle = quadrant_angle(angle);
-		movedist[0] = (int)(cos((double)(angle * PI / 180)) * PACE) * dir[0];
-		movedist[1] = (int)(sin((double)(angle * PI / 180)) * PACE) * dir[1];
+		movedist[0] = (int)(cos((double)(angle * PI / 180)) * pace_coll)
+			* dir[0];
+		movedist[1] = (int)(sin((double)(angle * PI / 180)) * pace_coll)
+			* dir[1];
 	}
 }
 

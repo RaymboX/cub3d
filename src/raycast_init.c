@@ -52,6 +52,7 @@ void	raycast_init(t_vars *vars)
 				O_RDWR | O_CREAT | O_TRUNC, 0777);
 
 	vars->perso.angle = 75;
+	vars->perso.pace = PACE * MAPSCALE;
 	//test
 	vars->perso.position[0] = vars->map.perso_start[0] * MAPSCALE
 		+ MAPSCALE / 2;

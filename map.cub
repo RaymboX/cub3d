@@ -1,7 +1,7 @@
-NO ./DALL-E.xpm
-SO ./Wall1.xpm
-EA ./RAYMBOX.xpm
-WE ./Wall2.xpm
+NO ./NORTH.xpm
+SO ./SOUTH.xpm
+EA ./EAST.xpm
+WE ./WEST.xpm
 
 C 200, 100, 1
 F 200, 254, 12

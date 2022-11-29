@@ -133,24 +133,16 @@ void	wall_pixel_height(t_vars *vars, t_raycast *rc)
 int	xpm_x(t_vars *vars)
 {
 	float	y;
-	if (vars->raycast.i_dist == 0)
-	{
-/* 		return ((int)(((float)((vars->raycast.y_x00 % MAPSCALE)
-				/ MAPSCALE)) * vars->textures[vars->raycast.cardinal_wall].width)); */
+
+	if (vars->raycast.i_dist == 0)//x00 EAST 0 WEST 2
 		y = vars->raycast.y_x00 % MAPSCALE;
-		y /= MAPSCALE;
-		y *= vars->textures[vars->raycast.cardinal_wall].width;
-		return ((int)y * -1);
-	}
-	else
-	{
-/* 		return ((int)(((float)((vars->raycast.x_y00 % MAPSCALE)
-				/ MAPSCALE)) * vars->textures[vars->raycast.cardinal_wall].width)); */
+	else//y00
 		y = vars->raycast.x_y00 % MAPSCALE;
-		y /= MAPSCALE;
-		y *= vars->textures[vars->raycast.cardinal_wall].width;
-		return ((int)y * -1);
-	}
+	if (vars->raycast.cardinal_wall == 1 || vars->raycast.cardinal_wall == 2)
+		y = MAPSCALE - y;
+	y /= MAPSCALE;
+	y *= vars->textures[vars->raycast.cardinal_wall].width;
+	return ((int)y);
 }
 
 //retourne la coord en y dans la texture
@@ -352,16 +344,16 @@ int	find_cardinal_wall(t_vars *vars, int i_dist)
 	if (i_dist == 0)
 	{
 		if (vars->raycast.direction[0] == -1)
-			return (1);
+			return (2);
 		else
 			return (0);
 	}
 	else
 	{
 		if (vars->raycast.direction[1] == -1)
-			return (2);
-		else
 			return (3);
+		else
+			return (1);
 	}
 }
 

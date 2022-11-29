@@ -7,8 +7,9 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		texture_struct_init(&vars);
+    vars_mlx_init(&vars);
 		check_file(argv, &vars);
-		//mlx stuff
+ 	   //mlx stuff
 		(void)argv;
 		vars_mlx_init(&vars);
 		raycast_init(&vars);
@@ -16,7 +17,6 @@ int	main(int argc, char **argv)
 		mlx_hook(vars.mlx_vars.win, 6, 0, mouse_move, &vars);
 		//mlx_hook(vars.mlx_vars.mlx, 17, exiting function, &vars);
 		mlx_loop(vars.mlx_vars.mlx);
-
 	}
 	else
 	{
@@ -43,7 +43,6 @@ void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 			* (vars->mlx_vars.bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
-
 
 int	best_angle_side(int now, int but)
 {
@@ -73,6 +72,7 @@ int	render_next_frame(t_vars *vars)
 	vars->mlx_vars.img[i[0]] = mlx_new_image(vars->mlx_vars.mlx, SCREEN_W, SCREEN_H);
 	vars->mlx_vars.addr = mlx_get_data_addr(vars->mlx_vars.img[i[0]], &vars->mlx_vars.bits_per_pixel,
 			&vars->mlx_vars.line_length, &vars->mlx_vars.endian);
+
 	mlx_hook(vars->mlx_vars.win, 2, 0, keypress_handler, vars);
 	raycast_main_loop(vars);
 	mlx_put_image_to_window(vars->mlx_vars.mlx, vars->mlx_vars.win, vars->mlx_vars.img[i[0]], 0, 0);

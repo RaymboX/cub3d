@@ -3,7 +3,8 @@
 void	error_exit(char *error, int fd, char *temp, t_vars *vars)
 {
 	(void)vars;
-	close(fd);
+	if (fd >= 0)
+		close(fd);
 	if (temp)
 		free(temp);
 	if (vars->textures.n)
@@ -41,7 +42,7 @@ void	check_map_integrity(t_vars *vars)
 			if (vars->map.map_cpy[i][ii] != 'F'
 				&& vars->map.map_cpy[i][ii] != 'Z'
 				&& vars->map.map_cpy[i][ii] != ' ')
-				error_exit("Error: Character outside the map walls\n", NULL, NULL, vars);
+				error_exit("Error: Character outside the map walls\n", -1, NULL, vars);
 			ii++;
 		}
 		i++;
@@ -77,17 +78,17 @@ void	check_map_errors(t_vars *vars)
 		while (vars->map.map[i][ii])
 		{
 			if (!is_mapchar(vars->map.map[i][ii]))
-				error_exit("Error: Wrong character inside the map zone\n", NULL, NULL, vars);
+				error_exit("Error: Wrong character inside the map zone\n", -1, NULL, vars);
 			if (is_startchar(vars->map.map[i][ii]))
 			{
 				if (!start)
 					set_start(&start, vars, i, ii);
 				else
-					error_exit("Error: Too many starting point\n", NULL, NULL, vars);
+					error_exit("Error: Too many starting point\n", -1, NULL, vars);
 			}
 			ii++;
 		}
 	}
 	if (!start)
-		error_exit("Error: No start detected\n", NULL, NULL, vars);
+		error_exit("Error: No start detected\n", -1, NULL, vars);
 }

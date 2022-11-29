@@ -46,7 +46,7 @@ void	map_size(int fd, t_vars *vars)
 	}
 	vars->map.map_limit[1] = i - vars->map.start;
 	if (vars->map.map_limit[0] <= 2 || vars->map.map_limit[1] <= 2)
-		error_exit("Error: Impossible map, map too small\n", NULL, NULL, vars);
+		error_exit("Error: Impossible map, map too small\n", -1, NULL, vars);
 }
 
 void	copy_map(t_vars *vars)

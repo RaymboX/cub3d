@@ -46,7 +46,7 @@ void	map_size(int fd, t_vars *vars)
 	}
 	vars->map.map_limit[1] = i - vars->map.start;
 	if (vars->map.map_limit[0] <= 2 || vars->map.map_limit[1] <= 2)
-		print_error("Error: Impossible map, map too small\n");
+		error_exit("Error: Impossible map, map too small\n", NULL, NULL, vars);
 }
 
 void	copy_map(t_vars *vars)
@@ -62,7 +62,7 @@ void	copy_map(t_vars *vars)
 	}
 }
 
-bool	is_first_line(char *line)
+bool	is_first_line(char *line, int fd, t_vars *vars)
 {
 	int		i;
 	bool	is_one;
@@ -79,9 +79,9 @@ bool	is_first_line(char *line)
 		else if (line[i] != '1' && line[i] != ' ' && line[i] != '\n')
 		{
 			if (is_startchar(line[i]))
-				print_error("Error: Starting point out of bound\n");
+				error_exit("Error: Starting point out of bound\n", fd, line, vars);
 			else
-				print_error("Error: Wrong character inside the map zone\n");
+				error_exit("Error: Wrong character inside the map zone\n", fd, line, vars);
 		}
 		i++;
 	}
@@ -101,7 +101,7 @@ void	ft_map_start(int fd, t_vars *vars)
 		temp = get_next_line(fd);
 		if (temp == NULL)
 			error_exit("Error: Couldn't find the map\n", fd, temp, vars);
-		if (is_first_line(temp) == true)
+		if (is_first_line(temp, fd, vars) == true)
 		{
 			vars->map.start = i;
 			free (temp);

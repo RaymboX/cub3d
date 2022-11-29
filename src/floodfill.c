@@ -8,7 +8,7 @@ void	flood_fill_inside(t_vars *vars, int y, int x)
 			&& vars->map.map_cpy[y][x] != 'E' && vars->map.map_cpy[y][x] != 'S'
 			&& vars->map.map_cpy[y][x] != 'W' && vars->map.map_cpy[y][x] != 'F'
 			&& vars->map.map_cpy[y][x] != '1')
-			error_exit("Error: Map is not enclosed by walls/Spaces in map\n", NULL, NULL, vars);
+			error_exit("Error: Map is not enclosed by walls/Spaces in map\n", -1, NULL, vars);
 		vars->map.map_cpy[y][x] = 'F';
 		if (y - 1 >= 0)
 			flood_fill_inside(vars, y - 1, x);
@@ -48,7 +48,7 @@ void	flood_fill_walls(t_vars *vars, int y, int x)
 void	flood_fill_inside_rooms(t_vars *vars, int y, int x, char c)
 {
 	if (vars->map.map_cpy[y][x] == ' ')
-		error_exit("Error: Map is not enclosed by walls/Spaces in map\n", NULL, NULL, vars);
+		error_exit("Error: Map is not enclosed by walls/Spaces in map\n", -1, NULL, vars);
 	if (vars->map.map_cpy[y][x] == c)
 	{
 		if (c == '1')

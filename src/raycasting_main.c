@@ -123,6 +123,7 @@ void	wall_pixel_height(t_vars *vars, t_raycast *rc)
 	if (rc->smallest_dist > 0)
 		rc->wall_height = (vars->screen.max_height * MAPSCALE)
 			/ rc->smallest_dist;
+	rc->real_wall_height = rc->wall_height;
 	if (rc->wall_height > vars->screen.max_height || rc->smallest_dist == 0)
 		rc->wall_height = vars->screen.max_height;
 	if (rc->smallest_dist == -1)
@@ -152,7 +153,7 @@ int	xpm_y(t_vars *vars, int pixel_h, int way)
 	float	xpm_y_div;
 
 	xpm_half = vars->textures[vars->raycast.cardinal_wall].height / 2;
-	xpm_y_div = (float)vars->textures[vars->raycast.cardinal_wall].height / (float)vars->raycast.wall_height;
+	xpm_y_div = (float)vars->textures[vars->raycast.cardinal_wall].height / (float)vars->raycast.real_wall_height;
 	return(xpm_half + (int)((float)pixel_h * (float)way * xpm_y_div));
 }
 

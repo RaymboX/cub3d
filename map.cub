@@ -1,6 +1,6 @@
-NO ./Wall1.xpm
-SO ./Wall2.xpm
-EA ./Wall1.xpm
+NO ./DALL-E.xpm
+SO ./Wall1.xpm
+EA ./RAYMBOX.xpm
 WE ./Wall2.xpm
 
 C 200, 100, 1

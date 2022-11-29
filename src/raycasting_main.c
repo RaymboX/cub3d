@@ -140,7 +140,7 @@ int	xpm_x(t_vars *vars)
 		y = vars->raycast.y_x00 % MAPSCALE;
 		y /= MAPSCALE;
 		y *= vars->textures[vars->raycast.cardinal_wall].width;
-		return ((int)y);
+		return ((int)y * -1);
 	}
 	else
 	{
@@ -149,46 +149,42 @@ int	xpm_x(t_vars *vars)
 		y = vars->raycast.x_y00 % MAPSCALE;
 		y /= MAPSCALE;
 		y *= vars->textures[vars->raycast.cardinal_wall].width;
-		return ((int)y);
+		return ((int)y * -1);
 	}
 }
 
 //retourne la coord en y dans la texture
 int	xpm_y(t_vars *vars, int pixel_h, int way)
 {
-	int	xpm_half;
-	int	xpm_y_div;
+	int		xpm_half;
+	float	xpm_y_div;
 
 	xpm_half = vars->textures[vars->raycast.cardinal_wall].height / 2;
-	xpm_y_div = vars->textures[vars->raycast.cardinal_wall].height / vars->raycast.wall_height;
-	return(xpm_half + (pixel_h * way * xpm_y_div));
+	xpm_y_div = (float)vars->textures[vars->raycast.cardinal_wall].height / (float)vars->raycast.wall_height;
+	return(xpm_half + (int)((float)pixel_h * (float)way * xpm_y_div));
 }
 
 //x et y à definir
 void	draw_wall(t_vars *vars, int i_resol[2], int pixel_h)
 {
-	unsigned int	color;
-	int				x;
-	int				y;
-	int				pos;
-	char			*ptr;
+	char	*color;
+	int		x;
+	int		y;
+	int		pos;
 
-	y = xpm_x(vars);
-	x = xpm_y(vars, pixel_h, 1);
+	x = xpm_x(vars);
+	y = xpm_y(vars, pixel_h, 1);
 	pos = y * vars->textures[vars->raycast.cardinal_wall].size_line + x * (vars->textures[vars->raycast.cardinal_wall].bpp / 8);
-	ptr = mlx_get_data_addr(vars->textures[vars->raycast.cardinal_wall].img, &vars->textures[vars->raycast.cardinal_wall].bpp,
-		&vars->textures[vars->raycast.cardinal_wall].size_line, &vars->textures[vars->raycast.cardinal_wall].endian);
-	color = *(unsigned int *)ptr + pos;
-	my_mlx_pixel_put(vars,
+	color = &vars->textures[vars->raycast.cardinal_wall].addr[pos];
+	my_mlx_pixel_put_walls(vars,
 		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
 		vars->screen.center_pixel_h + pixel_h,
 		color);
 	y = xpm_y(vars, pixel_h, -1);
 	pos = y * vars->textures[vars->raycast.cardinal_wall].size_line + x * (vars->textures[vars->raycast.cardinal_wall].bpp / 8);
-	ptr = mlx_get_data_addr(vars->textures[vars->raycast.cardinal_wall].img, &vars->textures[vars->raycast.cardinal_wall].bpp,
-		&vars->textures[vars->raycast.cardinal_wall].size_line, &vars->textures[vars->raycast.cardinal_wall].endian);
-	color = *(unsigned int *)ptr + pos;
-	my_mlx_pixel_put(vars,
+	color = &vars->textures[vars->raycast.cardinal_wall].addr[pos];
+	//color = (unsigned int)vars->textures[vars->raycast.cardinal_wall].addr[pos];
+	my_mlx_pixel_put_walls(vars,
 		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
 		vars->screen.center_pixel_h - pixel_h,
 		color);

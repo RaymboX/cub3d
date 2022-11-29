@@ -193,6 +193,7 @@ void	copy_map(t_vars *vars);
 //mlx
 void	vars_mlx_init(t_vars *vars);
 void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
+void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color);
 int		render_next_frame(t_vars *vars);
 int		key_hook(int key, t_vars *vars);
 

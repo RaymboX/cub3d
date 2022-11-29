@@ -33,12 +33,8 @@ void	log_print_map(t_vars *vars)
 	char row[2];
 
 	row[1] = '\0';
-	printinglog(vars->debug_log.fd_raycast, " ", "0123456789012345678901234567890", 0);
 	while (++i < vars->map.map_limit[1])
-	{
 		row[0] = i + '0';
-		printinglog(vars->debug_log.fd_raycast, row, vars->map.map[i], 0);
-	}
 }
 
 
@@ -56,13 +52,12 @@ void	raycast_init(t_vars *vars)
 				O_RDWR | O_CREAT | O_TRUNC, 0777);
 
 	vars->perso.angle = 75;
+	vars->perso.pace = PACE * MAPSCALE;
 	//test
-	vars->map.mapscale = MAPSCALE;
-
-	vars->perso.position[0] = vars->map.perso_start[0] * vars->map.mapscale
-		+ vars->map.mapscale / 2;
-	vars->perso.position[1] = vars->map.perso_start[1] * vars->map.mapscale
-		+ vars->map.mapscale / 2;
+	vars->perso.position[0] = vars->map.perso_start[0] * MAPSCALE
+		+ MAPSCALE / 2;
+	vars->perso.position[1] = vars->map.perso_start[1] * MAPSCALE
+		+ MAPSCALE / 2;
 	vars->perso.fov = FOV;
 	vars->screen.resolution_h = RESOLUTION_H_DEF;
 	vars->screen.resolution_w = RESOLUTION_W_DEF;
@@ -73,10 +68,6 @@ void	raycast_init(t_vars *vars)
 	set_fov_angle_div(vars);
 
 	log_print_map(vars);
-	printinglog(vars->debug_log.fd_raycast, "perso.x", "", vars->perso.position[0]);
-	printinglog(vars->debug_log.fd_raycast, "perso.y", "", vars->perso.position[1]);
-	printinglog(vars->debug_log.fd_raycast, "perso.angle int", "", (int)vars->perso.angle);
-	printinglog(vars->debug_log.fd_raycast, "col right", "", vars->screen.col_right);
 }
 
 void	printinglog(int fd, char *intro, char *str, int val)

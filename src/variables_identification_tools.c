@@ -51,9 +51,6 @@ bool	identify_texture(t_vars *vars, char *path, char *temp)
 	else if (temp[0] == 'C' && temp[1] == ' ' && !vars->cnf.c_stat)
 		assign_texture(vars, &vars->cnf.c_stat, path, 'C');
 	else
-	{
-		free(temp);
 		return (false);
-	}
 	return (true);
 }

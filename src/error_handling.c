@@ -1,12 +1,14 @@
 #include "../include/cub3d.h"
 
-void	error_exit(char *error, int fd, char *temp, t_vars *vars)
+void	error_exit(char *error, char *temp, t_vars *vars)
 {
-	(void)vars;
-	if (fd >= 0)
-		close(fd);
+	if (vars->map.fd >= 0)
+		close(vars->map.fd);
 	if (temp)
+	{
 		free(temp);
+		temp = NULL;
+	}
 	if (vars->textures[0].img)
 		free(vars->textures[0].img);
 	if (vars->textures[1].img)
@@ -42,7 +44,7 @@ void	check_map_integrity(t_vars *vars)
 			if (vars->map.map_cpy[i][ii] != 'F'
 				&& vars->map.map_cpy[i][ii] != 'Z'
 				&& vars->map.map_cpy[i][ii] != ' ')
-				error_exit("Error: Character outside the map walls\n", -1, NULL, vars);
+				error_exit("Error: Character outside the map walls\n", NULL, vars);
 			ii++;
 		}
 		i++;
@@ -78,17 +80,17 @@ void	check_map_errors(t_vars *vars)
 		while (vars->map.map[i][ii])
 		{
 			if (!is_mapchar(vars->map.map[i][ii]))
-				error_exit("Error: Wrong character inside the map zone\n", -1, NULL, vars);
+				error_exit("Error: Wrong character inside the map zone\n", NULL, vars);
 			if (is_startchar(vars->map.map[i][ii]))
 			{
 				if (!start)
 					set_start(&start, vars, i, ii);
 				else
-					error_exit("Error: Too many starting point\n", -1, NULL, vars);
+					error_exit("Error: Too many starting point\n", NULL, vars);
 			}
 			ii++;
 		}
 	}
 	if (!start)
-		error_exit("Error: No start detected\n", -1, NULL, vars);
+		error_exit("Error: No start detected\n", NULL, vars);
 }

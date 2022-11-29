@@ -92,6 +92,7 @@ typedef struct s_map
 	int		start;
 	int		perso_start[2];
 	int		first_wall;
+	int		fd;
 	bool	is_map;
 }	t_map;
 
@@ -159,12 +160,12 @@ typedef struct s_vars
 
 //Textures/Floors/Ceilings
 bool	texture_path(char *temp, t_vars *vars);
-void	texture_init(int fd, t_vars *vars);
-void	check_texture_ext(char *texture);
+void	texture_init(t_vars *vars);
+void	check_texture_ext(char *texture, t_vars *vars);
 void	assign_texture(t_vars *vars, bool *stat, char *path, char type);
 void	init_colors(char *colors, t_vars *vars, char type);
 void	check_colors(char *colors, char *nb, int *i, int counter);
-void	check_last_color(char *colors, int *i, int counter, bool	*is_virg);
+void	check_last_color(char *colors, int *i, int counter, bool *is_virg);
 
 //Variable identificaiton
 bool	is_mapchar(char c);
@@ -176,15 +177,16 @@ bool	identify_texture(t_vars *vars, char *path, char *temp);
 
 //Variable initialisation
 void	texture_struct_init(t_vars *vars);
+void	map_init(t_vars *vars);
 
 //Gestion de map
 void	free_map(t_vars *vars, char **map);
 void	check_file(char **av, t_vars *vars);
-void	ft_map_start(int fd, t_vars *vars);
-bool	is_first_line(char *line, int fd, t_vars *vars);
-void	map_size(int fd, t_vars *vars);
+void	ft_map_start(t_vars *vars);
+bool	is_first_line(char *line, t_vars *vars);
+void	map_size(t_vars *vars);
 void	check_ext(char *arg);
-void	create_map(int fd, t_vars *vars);
+void	create_map(t_vars *vars);
 void	flood_fill_inside(t_vars *vars, int x, int y);
 void	flood_fill_walls(t_vars *vars, int x, int y);
 void	flood_fill_inside_rooms(t_vars *vars, int y, int x, char c);
@@ -198,7 +200,7 @@ int		render_next_frame(t_vars *vars);
 int		key_hook(int key, t_vars *vars);
 
 //Error Handling
-void	error_exit(char *error, int fd, char *temp, t_vars *vars);
+void	error_exit(char *error, char *temp, t_vars *vars);
 void	print_error(char *error);
 void	check_map_errors(t_vars *vars);
 void	check_map_integrity(t_vars *vars);

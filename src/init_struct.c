@@ -11,3 +11,10 @@ void	texture_struct_init(t_vars *vars)
 	vars->textures[2].stat = false;
 	vars->textures[3].stat = false;
 }
+
+void	map_init(t_vars *vars)
+{
+	vars->map.is_map = false;
+	vars->map.map = NULL;
+	vars->map.map_cpy = NULL;
+}

@@ -7,6 +7,7 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		texture_struct_init(&vars);
+		map_init(&vars);
     	vars_mlx_init(&vars);
 		check_file(argv, &vars);
  	   //mlx stuff

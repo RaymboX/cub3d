@@ -25,7 +25,7 @@
 # define N 270
 # define E 0
 # define S 90
-# define O 180
+# define O 180	
 # define FOV 60
 # define SCREEN_W 1920
 # define SCREEN_H 1080
@@ -131,6 +131,7 @@ typedef struct s_raycast
 	int		xpm_y_50;//50% du height du xpm
 	int		xpm_y_div;//ratio xpm height / wall height
 	int		wall_height;//la hauteur du mur en pixel selon la distance
+	int		real_wall_height;
 }	t_raycast;
 
 typedef struct s_screen

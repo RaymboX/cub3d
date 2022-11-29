@@ -1,7 +1,7 @@
-NO ./DALL-E.xpm
-SO ./Wall1.xpm
-EA ./RAYMBOX.xpm
-WE ./Wall2.xpm
+NO ./wood.xpm
+SO ./concrete1.xpm
+EA ./brick1.xpm
+WE ./rock.xpm
 
 C 255, 100, 1
 F 200, 254, 12

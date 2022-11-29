@@ -41,6 +41,8 @@
 # define MAPSCALE 10000
 # define COLL_SPACE 0.1
 # define NB_IMG 2
+# define FLUIDITY 50
+# define DARKER 1
 
 typedef struct s_log
 {

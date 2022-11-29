@@ -7,14 +7,14 @@ void	error_exit(char *error, int fd, char *temp, t_vars *vars)
 		close(fd);
 	if (temp)
 		free(temp);
-	if (vars->textures.n)
-		free(vars->textures.n);
-	if (vars->textures.s)
-		free(vars->textures.s);
-	if (vars->textures.e)
-		free(vars->textures.e);
-	if (vars->textures.w)
-		free(vars->textures.w);
+	if (vars->textures[0].img)
+		free(vars->textures[0].img);
+	if (vars->textures[1].img)
+		free(vars->textures[1].img);
+	if (vars->textures[2].img)
+		free(vars->textures[2].img);
+	if (vars->textures[3].img)
+		free(vars->textures[3].img);
 	if (vars->map.map)
 		free_map(vars, vars->map.map);
 	if (vars->map.map_cpy)

@@ -2,14 +2,12 @@
 
 void	texture_struct_init(t_vars *vars)
 {
-	vars->textures.n = NULL;
-	vars->textures.s = NULL;
-	vars->textures.e = NULL;
-	vars->textures.w = NULL;
-	vars->textures.f_stat = false;
-	vars->textures.c_stat = false;
-	vars->textures.no_stat = false;
-	vars->textures.so_stat = false;
-	vars->textures.ea_stat = false;
-	vars->textures.we_stat = false;
+	vars->textures[0].img = NULL;
+	vars->textures[1].img = NULL;
+	vars->textures[2].img = NULL;
+	vars->textures[3].img = NULL;
+	vars->textures[0].stat = false;
+	vars->textures[1].stat = false;
+	vars->textures[2].stat = false;
+	vars->textures[3].stat = false;
 }

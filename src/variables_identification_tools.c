@@ -35,21 +35,21 @@ bool	is_end(char c, int counter)
 bool	identify_texture(t_vars *vars, char *path, char *temp)
 {
 	if (temp[0] == 'N' && temp[1] == 'O' && temp[2] == ' '
-		&& !vars->textures.no_stat)
-		assign_texture(vars, &vars->textures.no_stat, path, 'N');
+		&& !vars->textures[3].stat)
+		assign_texture(vars, &vars->textures[3].stat, path, 'N');
 	else if (temp[0] == 'S' && temp[1] == 'O' && temp[2] == ' '
-		&& !vars->textures.so_stat)
-		assign_texture(vars, &vars->textures.so_stat, path, 'S');
+		&& !vars->textures[1].stat)
+		assign_texture(vars, &vars->textures[1].stat, path, 'S');
 	else if (temp[0] == 'W' && temp[1] == 'E' && temp[2] == ' '
-		&& !vars->textures.we_stat)
-		assign_texture(vars, &vars->textures.we_stat, path, 'W');
+		&& !vars->textures[2].stat)
+		assign_texture(vars, &vars->textures[2].stat, path, 'W');
 	else if (temp[0] == 'E' && temp[1] == 'A' && temp[2] == ' '
-		&& !vars->textures.ea_stat)
-		assign_texture(vars, &vars->textures.ea_stat, path, 'E');
-	else if (temp[0] == 'F' && temp[1] == ' ' && !vars->textures.f_stat)
-		assign_texture(vars, &vars->textures.f_stat, path, 'F');
-	else if (temp[0] == 'C' && temp[1] == ' ' && !vars->textures.c_stat)
-		assign_texture(vars, &vars->textures.c_stat, path, 'C');
+		&& !vars->textures[0].stat)
+		assign_texture(vars, &vars->textures[0].stat, path, 'E');
+	else if (temp[0] == 'F' && temp[1] == ' ' && !vars->cnf.f_stat)
+		assign_texture(vars, &vars->cnf.f_stat, path, 'F');
+	else if (temp[0] == 'C' && temp[1] == ' ' && !vars->cnf.c_stat)
+		assign_texture(vars, &vars->cnf.c_stat, path, 'C');
 	else
 	{
 		free(temp);

@@ -13,7 +13,7 @@ bool	is_seperator(char c, bool *is_virg)
 	return (false);
 }
 
-void	check_last_color(char *colors, int *i, int counter, bool	*is_virg)
+void	check_last_color(char *colors, int *i, int counter, bool *is_virg)
 {
 	*is_virg = false;
 	if (!is_seperator(colors[*i], is_virg) && !is_end(colors[*i], counter))
@@ -68,9 +68,9 @@ void	init_colors(char *colors, t_vars *vars, char type)
 		nb = ft_calloc(sizeof(char), 4);
 		check_colors(colors, nb, &i, counter);
 		if (type == 'C')
-			vars->textures.c_colors[counter] = ft_atoi(nb);
+			vars->cnf.c_colors[counter] = ft_atoi(nb);
 		else if (type == 'F')
-			vars->textures.f_colors[counter] = ft_atoi(nb);
+			vars->cnf.f_colors[counter] = ft_atoi(nb);
 		counter++;
 		free(nb);
 	}

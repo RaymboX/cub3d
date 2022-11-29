@@ -59,36 +59,28 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
-typedef struct s_texures
+typedef struct s_cnf
 {
-	char	*addr;
-/* 	char	*n;
-	char	*e;
-	char	*s;
-	char	*w; */
-	int		endian;
-	int		bpp;
-	int		size_line;
-	void	*n;
-	void	*e;
-	void	*s;
-	void	*w;
-//	t_wall_texture	wall_texture[4];//0 = East, 1 = south, 2 = west, 3 = north
 	char	*f;
 	char	*c;
 	int		f_colors[3];
 	int		c_colors[3];
 	int		f_color;
 	int		c_color;
-	int		height;
-	int		width;
-	bool	no_stat;
-	bool	so_stat;
-	bool	we_stat;
-	bool	ea_stat;
 	bool	f_stat;
 	bool	c_stat;
-
+}	t_cnf;
+typedef struct s_texures
+{
+	char	*addr;
+	int		endian;
+	int		bpp;
+	int		size_line;
+	void	*img;
+//	t_wall_texture	wall_texture[4];//0 = East, 1 = south, 2 = west, 3 = north
+	int		height;
+	int		width;
+	bool	stat;
 }	t_textures;
 
 typedef struct s_map
@@ -155,13 +147,14 @@ typedef struct s_screen
 
 typedef struct s_vars
 {
-	t_textures		textures;
+	t_textures		textures[4];
 	t_map			map;
 	t_perso			perso;
 	t_raycast		raycast;
 	t_screen		screen;
 	t_mlx			mlx_vars;
 	t_log			debug_log;
+	t_cnf			cnf;
 }	t_vars;
 
 //Textures/Floors/Ceilings
@@ -200,6 +193,7 @@ void	copy_map(t_vars *vars);
 //mlx
 void	vars_mlx_init(t_vars *vars);
 void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
+void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color);
 int		render_next_frame(t_vars *vars);
 int		key_hook(int key, t_vars *vars);
 

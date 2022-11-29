@@ -69,6 +69,22 @@ void	check_inside_rooms(t_vars *vars)
 	}
 }
 
+void	get_img_addr(t_vars *vars)
+{
+	vars->textures[0].addr = mlx_get_data_addr(vars->textures[0]. img,
+			&vars->textures[0].bpp, &vars->textures[0].size_line,
+			&vars->textures[0].endian);
+	vars->textures[1].addr = mlx_get_data_addr(vars->textures[1]. img,
+			&vars->textures[1].bpp, &vars->textures[1].size_line,
+			&vars->textures[1].endian);
+	vars->textures[2].addr = mlx_get_data_addr(vars->textures[2]. img,
+			&vars->textures[2].bpp, &vars->textures[2].size_line,
+			&vars->textures[2].endian);
+	vars->textures[3].addr = mlx_get_data_addr(vars->textures[3]. img,
+			&vars->textures[3].bpp, &vars->textures[3].size_line,
+			&vars->textures[3].endian);
+}
+
 void	check_file(char **av, t_vars *vars)
 {
 	int		fd;
@@ -90,4 +106,5 @@ void	check_file(char **av, t_vars *vars)
 	check_inside_rooms(vars);
 	check_map_integrity(vars);
 	free_map(vars, vars->map.map_cpy);
+	get_img_addr(vars);
 }

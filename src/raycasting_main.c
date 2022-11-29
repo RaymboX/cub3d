@@ -129,80 +129,62 @@ void	wall_pixel_height(t_vars *vars, t_raycast *rc)
 		rc->wall_height = -1;
 }
 
-/*
-ACTIVATE WHEN TEXTURE ON-------------------------------------------
-
 //retourne la coord en x dans la texture
 int	xpm_x(t_vars *vars)
 {
+	float	y;
 	if (vars->raycast.i_dist == 0)
-		return ((int)((((float)(vars->raycast.y_x00 % MAPSCALE)
-						/ 100)) * PUT_HERE:texture_width));
+	{
+/* 		return ((int)(((float)((vars->raycast.y_x00 % MAPSCALE)
+				/ MAPSCALE)) * vars->textures[vars->raycast.cardinal_wall].width)); */
+		y = vars->raycast.y_x00 % MAPSCALE;
+		y /= MAPSCALE;
+		y *= vars->textures[vars->raycast.cardinal_wall].width;
+		return ((int)y * -1);
+	}
 	else
-		return((int)((((float)(vars->raycast.x_y00 % MAPSCALE)
-						/ 100)) * PUT_HERE:texture_width));
+	{
+/* 		return ((int)(((float)((vars->raycast.x_y00 % MAPSCALE)
+				/ MAPSCALE)) * vars->textures[vars->raycast.cardinal_wall].width)); */
+		y = vars->raycast.x_y00 % MAPSCALE;
+		y /= MAPSCALE;
+		y *= vars->textures[vars->raycast.cardinal_wall].width;
+		return ((int)y * -1);
+	}
 }
 
 //retourne la coord en y dans la texture
 int	xpm_y(t_vars *vars, int pixel_h, int way)
 {
-	int	xpm_half;
-	int	xpm_y_div;
+	int		xpm_half;
+	float	xpm_y_div;
 
-	xpm_half = PUT_HERE:texture_height / 2;
-	xpm_y_div = PUT_HERE:texture_height / vars->raycast.wall_height;
-	return(xpm_half + (pixel_h * way * xpm_y_div));
+	xpm_half = vars->textures[vars->raycast.cardinal_wall].height / 2;
+	xpm_y_div = (float)vars->textures[vars->raycast.cardinal_wall].height / (float)vars->raycast.wall_height;
+	return(xpm_half + (int)((float)pixel_h * (float)way * xpm_y_div));
 }
-------------------------------------------------------------------------
-*/
 
 //x et y à definir
 void	draw_wall(t_vars *vars, int i_resol[2], int pixel_h)
 {
-	unsigned int	color;
-	int				x;
-	int				y;
-	int				pos;
-	char			*ptr;
+	char	*color;
+	int		x;
+	int		y;
+	int		pos;
 
-	x = 2;
-	y = 1;
-	pos = y * vars->textures.size_line + x * (vars->textures.bpp / 8);
-	if (vars->raycast.cardinal_wall == 0)
-
-	{
-		ptr = mlx_get_data_addr(vars->textures.e, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
-		color = *(unsigned int *)ptr + pos;
-	}
-	if (vars->raycast.cardinal_wall == 1)
-	{
-		ptr = mlx_get_data_addr(vars->textures.s, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
-		color = *(unsigned int *)ptr + pos;
-	}
-	if (vars->raycast.cardinal_wall == 2)
-	{
-		ptr = mlx_get_data_addr(vars->textures.w, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
-		color = *(unsigned int *)ptr + pos;
-	}
-	if (vars->raycast.cardinal_wall == 3)
-	{
-		ptr = mlx_get_data_addr(vars->textures.n, &vars->textures.bpp, &vars->textures.size_line, &vars->textures.endian);
-		color = *(unsigned int *)ptr + pos;
-	}
-/* 	if (vars->raycast.cardinal_wall == 0)
-		color = create_trgb(125, 102, 0, 0);//brun east
-	if (vars->raycast.cardinal_wall == 1)
-		color = create_trgb(125, 96, 96, 96);//grey south
-	if (vars->raycast.cardinal_wall == 2)
-		color = create_trgb(125, 204, 102, 0);//orange west
-	if (vars->raycast.cardinal_wall == 3)
-		color = create_trgb(125, 204, 204, 0);//yellow north
-*/
-	my_mlx_pixel_put(vars,
+	x = xpm_x(vars);
+	y = xpm_y(vars, pixel_h, 1);
+	pos = y * vars->textures[vars->raycast.cardinal_wall].size_line + x * (vars->textures[vars->raycast.cardinal_wall].bpp / 8);
+	color = &vars->textures[vars->raycast.cardinal_wall].addr[pos];
+	my_mlx_pixel_put_walls(vars,
 		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
 		vars->screen.center_pixel_h + pixel_h,
 		color);
-	my_mlx_pixel_put(vars,
+	y = xpm_y(vars, pixel_h, -1);
+	pos = y * vars->textures[vars->raycast.cardinal_wall].size_line + x * (vars->textures[vars->raycast.cardinal_wall].bpp / 8);
+	color = &vars->textures[vars->raycast.cardinal_wall].addr[pos];
+	//color = (unsigned int)vars->textures[vars->raycast.cardinal_wall].addr[pos];
+	my_mlx_pixel_put_walls(vars,
 		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
 		vars->screen.center_pixel_h - pixel_h,
 		color);

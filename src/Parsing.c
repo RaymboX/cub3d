@@ -89,5 +89,5 @@ void	check_file(char **av, t_vars *vars)
 	flood_fill_walls(vars, 0, vars->map.first_wall);
 	check_inside_rooms(vars);
 	check_map_integrity(vars);
-	free_map_cpy(vars);
+	free_map_cpy(vars, vars->map.map_cpy);
 }

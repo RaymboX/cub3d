@@ -180,10 +180,10 @@ bool	identify_texture(t_vars *vars, char *path, char *temp);
 void	texture_struct_init(t_vars *vars);
 
 //Gestion de map
-void	free_map_cpy(t_vars *vars);
+void	free_map(t_vars *vars, char **map);
 void	check_file(char **av, t_vars *vars);
 void	ft_map_start(int fd, t_vars *vars);
-bool	is_first_line(char *line);
+bool	is_first_line(char *line, int fd, t_vars *vars);
 void	map_size(int fd, t_vars *vars);
 void	check_ext(char *arg);
 void	create_map(int fd, t_vars *vars);

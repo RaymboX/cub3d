@@ -151,8 +151,8 @@ void	draw_wall(t_vars *vars, int i_resol[2], int pixel_h)
 	int				pos;
 	char			*ptr;
 
-/* 	x = 2;
-	y = 1; */
+	x = 2;
+	y = 1;
 	pos = y * vars->textures.size_line + x * (vars->textures.bpp / 8);
 	if (vars->raycast.cardinal_wall == 0)
 	{

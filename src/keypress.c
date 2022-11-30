@@ -90,25 +90,24 @@ char	cell_move_val(t_vars *vars, int angle, int collision)
 }
 
 // to add collision space, set collision to 1. No collision space, collision = 0
-void	set_move_dist(t_vars *vars, int angle, int movedist[2], int collision)
+// Considère multipilicaiton pour pointer??
+void	set_move_dist(t_vars *vars, int angle, int mvdis[2], int collision)
 {
 	int	dir[2];
-	int	pace_coll;
+	int	pace_col;
 
-	pace_coll = vars->perso.pace + (collision * COLL_SPACE * vars->perso.pace);
+	pace_col = vars->perso.pace + (collision * COLL_SPACE * vars->perso.pace);
 	angle_direction_xy(angle, dir);
 	if (vars->perso.angle % 90 == 0)
 	{
-		movedist[0] = pace_coll * dir[0];
-		movedist[1] = pace_coll * dir[1];
+		mvdis[0] = pace_col * dir[0];
+		mvdis[1] = pace_col * dir[1];
 	}
 	else
 	{
 		angle = quadrant_angle(angle);
-		movedist[0] = (int)(cos((double)(angle * PI / 180)) * pace_coll)
-			* dir[0];
-		movedist[1] = (int)(sin((double)(angle * PI / 180)) * pace_coll)
-			* dir[1];
+		mvdis[0] = (int)(cos((double)(angle * PI / 180)) * pace_col) * dir[0];
+		mvdis[1] = (int)(sin((double)(angle * PI / 180)) * pace_col) * dir[1];
 	}
 }
 

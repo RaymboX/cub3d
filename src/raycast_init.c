@@ -37,7 +37,6 @@ void	log_print_map(t_vars *vars)
 		row[0] = i + '0';
 }
 
-
 /* INIT FUNCTION (screen size reset)
 ** calcul de la grandeur maximal de raycasting en width et height
 */
@@ -50,7 +49,6 @@ void	raycast_init(t_vars *vars)
 	if (DEBUG == 1)
 		vars->debug_log.fd_raycast = open("raycast_log",
 				O_RDWR | O_CREAT | O_TRUNC, 0777);
-
 	vars->perso.angle = 0;
 	vars->perso.pace = PACE * MAPSCALE;
 	//test
@@ -61,12 +59,10 @@ void	raycast_init(t_vars *vars)
 	vars->perso.fov = FOV;
 	vars->screen.resolution_h = RESOLUTION_H_DEF;
 	vars->screen.resolution_w = RESOLUTION_W_DEF;
-
 	max_height_width(&vars->screen);
 	center_pixel(&vars->screen);
 	column_limit(&vars->screen, &vars->raycast);
 	set_fov_angle_div(vars);
-
 	log_print_map(vars);
 }
 
@@ -131,4 +127,3 @@ void	column_limit(t_screen *screen, t_raycast *raycast)
 	screen->col_left = screen->center_pixel_w + raycast->ray_i_min;
 	screen->col_right = screen->center_pixel_w + raycast->ray_i_max;
 }
-

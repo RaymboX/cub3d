@@ -9,14 +9,14 @@ void	error_exit(char *error, char *temp, t_vars *vars)
 		free(temp);
 		temp = NULL;
 	}
-	if (vars->textures[0].img)
-		free(vars->textures[0].img);
-	if (vars->textures[1].img)
-		free(vars->textures[1].img);
-	if (vars->textures[2].img)
-		free(vars->textures[2].img);
-	if (vars->textures[3].img)
-		free(vars->textures[3].img);
+	if (vars->tex[0].img)
+		free(vars->tex[0].img);
+	if (vars->tex[1].img)
+		free(vars->tex[1].img);
+	if (vars->tex[2].img)
+		free(vars->tex[2].img);
+	if (vars->tex[3].img)
+		free(vars->tex[3].img);
 	if (vars->map.map)
 		free_map(vars, vars->map.map);
 	if (vars->map.map_cpy)
@@ -44,7 +44,8 @@ void	check_map_integrity(t_vars *vars)
 			if (vars->map.map_cpy[i][ii] != 'F'
 				&& vars->map.map_cpy[i][ii] != 'Z'
 				&& vars->map.map_cpy[i][ii] != ' ')
-				error_exit("Error: Character outside the map walls\n", NULL, vars);
+				error_exit("Error: Character outside the map walls\n",
+					NULL, vars);
 			ii++;
 		}
 		i++;
@@ -80,7 +81,7 @@ void	check_map_errors(t_vars *vars)
 		while (vars->map.map[i][ii])
 		{
 			if (!is_mapchar(vars->map.map[i][ii]))
-				error_exit("Error: Wrong character inside the map zone\n", NULL, vars);
+				error_exit("Error: Wrong character in map zone\n", NULL, vars);
 			if (is_startchar(vars->map.map[i][ii]))
 			{
 				if (!start)

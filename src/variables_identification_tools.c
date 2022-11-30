@@ -35,17 +35,17 @@ bool	is_end(char c, int counter)
 bool	identify_texture(t_vars *vars, char *path, char *temp)
 {
 	if (temp[0] == 'N' && temp[1] == 'O' && temp[2] == ' '
-		&& !vars->textures[3].stat)
-		assign_texture(vars, &vars->textures[3].stat, path, 'N');
+		&& !vars->tex[3].stat)
+		assign_texture(vars, &vars->tex[3].stat, path, 3);
 	else if (temp[0] == 'S' && temp[1] == 'O' && temp[2] == ' '
-		&& !vars->textures[1].stat)
-		assign_texture(vars, &vars->textures[1].stat, path, 'S');
+		&& !vars->tex[1].stat)
+		assign_texture(vars, &vars->tex[1].stat, path, 1);
 	else if (temp[0] == 'W' && temp[1] == 'E' && temp[2] == ' '
-		&& !vars->textures[2].stat)
-		assign_texture(vars, &vars->textures[2].stat, path, 'W');
+		&& !vars->tex[2].stat)
+		assign_texture(vars, &vars->tex[2].stat, path, 2);
 	else if (temp[0] == 'E' && temp[1] == 'A' && temp[2] == ' '
-		&& !vars->textures[0].stat)
-		assign_texture(vars, &vars->textures[0].stat, path, 'E');
+		&& !vars->tex[0].stat)
+		assign_texture(vars, &vars->tex[0].stat, path, 0);
 	else if (temp[0] == 'F' && temp[1] == ' ' && !vars->cnf.f_stat)
 		assign_texture(vars, &vars->cnf.f_stat, path, 'F');
 	else if (temp[0] == 'C' && temp[1] == ' ' && !vars->cnf.c_stat)

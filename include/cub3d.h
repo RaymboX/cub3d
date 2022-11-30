@@ -54,8 +54,8 @@ typedef struct s_mlx
 	void	*img[NB_IMG];
 	int		i_img;
 	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
+	int		bpp;
+	int		line_len;
 	int		endian;
 }	t_mlx;
 
@@ -75,7 +75,7 @@ typedef struct s_texures
 	char	*addr;
 	int		endian;
 	int		bpp;
-	int		size_line;
+	int		line_len;
 	void	*img;
 //	t_wall_texture	wall_texture[4];//0 = East, 1 = south, 2 = west, 3 = north
 	int		height;
@@ -98,11 +98,11 @@ typedef struct s_map
 
 typedef struct s_perso
 {
-	int	fov; //Field of view en degrés
-	int	pace; //vitesse de deplacement (ratio selon la map exemple 0.5 = deplacement de 50 si mapscale = 10 et 500 si mapsacle = 100)
-	int	turn_speed; //vitesse de rotation en degree
-	int position[2]; //player position x[0] y[1] selon le mapscale
-	int angle; //Direction que regarde player en degree
+	int		fov; //Field of view en degrés
+	int		pace; //vitesse de deplacement (ratio selon la map exemple 0.5 = deplacement de 50 si mapscale = 10 et 500 si mapsacle = 100)
+	int		turn_speed; //vitesse de rotation en degree
+	int		position[2]; //player position x[0] y[1] selon le mapscale
+	int		angle; //Direction que regarde player en degree
 }	t_perso;
 
 typedef struct s_raycast
@@ -136,34 +136,34 @@ typedef struct s_raycast
 
 typedef struct s_screen
 {
-	int	max_width; //Nombre de pixel en largeur Obtenu a partir du plus petit entre offset_center_y et de l'espace restant en y et use_height
-	int	max_height; //Nombre de pixel en hauteur Obtenu a partir du plus petit entre offset_center_x et de l'espace restant en x et use_width
-	int	dist_pixel_ratio; //Ratio du nombre de pixel en hauteur selon la distance (valeur multiplier par screen_height)
-	int	center_pixel_w;
-	int	center_pixel_h;
-	int	resolution_w;
-	int	resolution_h;
-	int	col_left;
-	int	col_right;
+	int		max_width; //Nombre de pixel en largeur Obtenu a partir du plus petit entre offset_center_y et de l'espace restant en y et use_height
+	int		max_height; //Nombre de pixel en hauteur Obtenu a partir du plus petit entre offset_center_x et de l'espace restant en x et use_width
+	int		dist_pixel_ratio; //Ratio du nombre de pixel en hauteur selon la distance (valeur multiplier par screen_height)
+	int		center_pixel_w;
+	int		center_pixel_h;
+	int		resolution_w;
+	int		resolution_h;
+	int		col_left;
+	int		col_right;
 }	t_screen;
 
 typedef struct s_vars
 {
-	t_textures		textures[4];
-	t_map			map;
-	t_perso			perso;
-	t_raycast		raycast;
-	t_screen		screen;
-	t_mlx			mlx_vars;
-	t_log			debug_log;
-	t_cnf			cnf;
+	t_textures	tex[4];
+	t_map		map;
+	t_perso		perso;
+	t_raycast	raycast;
+	t_screen	screen;
+	t_mlx		mlx;
+	t_log		debug_log;
+	t_cnf		cnf;
 }	t_vars;
 
 //Textures/Floors/Ceilings
 bool	texture_path(char *temp, t_vars *vars);
 void	texture_init(t_vars *vars);
 void	check_texture_ext(char *texture, t_vars *vars);
-void	assign_texture(t_vars *vars, bool *stat, char *path, char type);
+void	assign_texture(t_vars *vars, bool *stat, char *path, int type);
 void	init_colors(char *colors, t_vars *vars, char type);
 void	check_colors(char *colors, char *nb, int *i, int counter);
 void	check_last_color(char *colors, int *i, int counter, bool *is_virg);
@@ -177,8 +177,7 @@ bool	is_seperator(char c, bool *is_virg);
 bool	identify_texture(t_vars *vars, char *path, char *temp);
 
 //Variable initialisation
-void	texture_struct_init(t_vars *vars);
-void	map_init(t_vars *vars);
+void	vars_init(t_vars *vars);
 
 //Gestion de map
 void	free_map(t_vars *vars, char **map);
@@ -250,8 +249,6 @@ char	cell_move_val(t_vars *vars, int angle, int collision);
 void	set_move_dist(t_vars *vars, int angle, int movedist[2], int collision);
 int		quadrant_angle(int angle);
 void	angle_direction_xy(int angle, int dir[2]);
-
 int		mouse_move(int x, int y, t_vars *vars);
-
 
 #endif

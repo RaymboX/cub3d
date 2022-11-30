@@ -81,7 +81,7 @@ bool	is_first_line(char *line, t_vars *vars)
 			if (is_startchar(line[i]))
 				error_exit("Error: Starting point out of bound\n", line, vars);
 			else
-				error_exit("Error: Wrong character inside the map zone\n", line, vars);
+				error_exit("Error: Wrong character in map zone\n", line, vars);
 		}
 		i++;
 	}

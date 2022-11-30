@@ -42,10 +42,9 @@ SRCS_FILES	 	= 	0_main.c \
 					error_handling.c \
 					floodfill.c \
 					floors_ceilings.c \
-					init_struct.c \
+					vars_init.c \
 					keypress.c \
 					map.c \
-					moves.c \
 					Parsing.c \
 					raycasting_main.c \
 					raycast_init.c \

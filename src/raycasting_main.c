@@ -1,6 +1,5 @@
 #include "../include/cub3d.h"
 
-
 //ajuste les angles en degree pour qu'il soit toujours entre 0 et 360
 float	degree_ajust(float degree)
 {
@@ -142,7 +141,7 @@ int	xpm_x(t_vars *vars)
 	if (vars->raycast.cardinal_wall == 1 || vars->raycast.cardinal_wall == 2)
 		y = MAPSCALE - y;
 	y /= MAPSCALE;
-	y *= vars->textures[vars->raycast.cardinal_wall].width;
+	y *= vars->tex[vars->raycast.cardinal_wall].width;
 	return ((int)y);
 }
 
@@ -152,12 +151,12 @@ int	xpm_y(t_vars *vars, int pixel_h, int way)
 	int		xpm_half;
 	float	xpm_y_div;
 
-	xpm_half = vars->textures[vars->raycast.cardinal_wall].height / 2;
-	xpm_y_div = (float)vars->textures[vars->raycast.cardinal_wall].height / (float)vars->raycast.real_wall_height;
-	return(xpm_half + (int)((float)pixel_h * (float)way * xpm_y_div));
+	xpm_half = vars->tex[vars->raycast.cardinal_wall].height / 2;
+	xpm_y_div = (float)vars->tex[vars->raycast.cardinal_wall].height
+		/ (float)vars->raycast.real_wall_height;
+	return (xpm_half + (int)((float)pixel_h * (float)way * xpm_y_div));
 }
 
-//x et y à definir
 void	draw_wall(t_vars *vars, int i_resol[2], int pixel_h)
 {
 	char	*color;
@@ -167,16 +166,17 @@ void	draw_wall(t_vars *vars, int i_resol[2], int pixel_h)
 
 	x = xpm_x(vars);
 	y = xpm_y(vars, pixel_h, 1);
-	pos = y * vars->textures[vars->raycast.cardinal_wall].size_line + x * (vars->textures[vars->raycast.cardinal_wall].bpp / 8);
-	color = &vars->textures[vars->raycast.cardinal_wall].addr[pos];
+	pos = y * vars->tex[vars->raycast.cardinal_wall].line_len + x
+		* (vars->tex[vars->raycast.cardinal_wall].bpp / 8);
+	color = &vars->tex[vars->raycast.cardinal_wall].addr[pos];
 	my_mlx_pixel_put_walls(vars,
 		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
 		vars->screen.center_pixel_h + pixel_h,
 		color);
 	y = xpm_y(vars, pixel_h, -1);
-	pos = y * vars->textures[vars->raycast.cardinal_wall].size_line + x * (vars->textures[vars->raycast.cardinal_wall].bpp / 8);
-	color = &vars->textures[vars->raycast.cardinal_wall].addr[pos];
-	//color = (unsigned int)vars->textures[vars->raycast.cardinal_wall].addr[pos];
+	pos = y * vars->tex[vars->raycast.cardinal_wall].line_len + x
+		* (vars->tex[vars->raycast.cardinal_wall].bpp / 8);
+	color = &vars->tex[vars->raycast.cardinal_wall].addr[pos];
 	my_mlx_pixel_put_walls(vars,
 		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
 		vars->screen.center_pixel_h - pixel_h,
@@ -245,7 +245,7 @@ void	cell_y00(t_vars *vars, int x, int y, int cell[2])
 int	calcul_dist(t_vars *vars, int x, int y)
 {
 	return ((int)sqrt(pow((double)(x - vars->perso.position[0]), 2)
-			+ pow((double)(y - vars->perso.position[1]), 2)));
+		+ pow((double)(y - vars->perso.position[1]), 2)));
 }
 
 /*calcul la distance du mur le plus proche sur les grids verticaux

@@ -39,12 +39,13 @@ NAME_DSYM		=	./$(NAME).dSYM
 #  To make the list of all src, do this command in terminal in project folder
 #  find ./src/*.c -type f | cut -c7- | sed 's/$/ \\/'
 SRCS_FILES	 	= 	0_main.c \
-					error_handling.c \
+					exit_n_free.c \
 					floodfill.c \
 					floors_ceilings.c \
 					vars_init.c \
 					keypress.c \
-					map.c \
+					map_tools.c \
+					map_tools2.c \
 					Parsing.c \
 					raycasting_main.c \
 					raycast_init.c \
@@ -52,7 +53,6 @@ SRCS_FILES	 	= 	0_main.c \
 					variables_identification_tools.c \
 					various_tools.c \
 					mouse_move.c \
-					free_stuff.c
 
 
 HEADERS_FILES	=	cub3d.h

@@ -1,22 +1,5 @@
 #include "../include/cub3d.h"
 
-int	end_program(t_vars *vars)
-{
-	if (vars->map.fd >= 0)
-		close(vars->map.fd);
-	if (vars->tex[0].img)
-		free(vars->tex[0].img);
-	if (vars->tex[1].img)
-		free(vars->tex[1].img);
-	if (vars->tex[2].img)
-		free(vars->tex[2].img);
-	if (vars->tex[3].img)
-		free(vars->tex[3].img);
-	if (vars->map.map)
-		free_map(vars, vars->map.map);
-	exit(0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
@@ -24,9 +7,8 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		vars_init(&vars);
-    	vars_mlx_init(&vars);
+		vars_mlx_init(&vars);
 		check_file(argv, &vars);
- 	   //mlx stuff
 		(void)argv;
 		vars_mlx_init(&vars);
 		raycast_init(&vars);

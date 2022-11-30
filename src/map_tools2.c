@@ -1,57 +1,5 @@
 #include "../include/cub3d.h"
 
-void	error_exit(char *error, char *temp, t_vars *vars)
-{
-	if (vars->map.fd >= 0)
-		close(vars->map.fd);
-	if (temp)
-	{
-		free(temp);
-		temp = NULL;
-	}
-	if (vars->tex[0].img)
-		free(vars->tex[0].img);
-	if (vars->tex[1].img)
-		free(vars->tex[1].img);
-	if (vars->tex[2].img)
-		free(vars->tex[2].img);
-	if (vars->tex[3].img)
-		free(vars->tex[3].img);
-	if (vars->map.map)
-		free_map(vars, vars->map.map);
-	if (vars->map.map_cpy)
-		free_map(vars, vars->map.map_cpy);
-	print_error(error);
-}
-
-void	print_error(char *error)
-{
-	ft_putstr_fd(error, 2);
-	exit(1);
-}
-
-void	check_map_integrity(t_vars *vars)
-{
-	int	i;
-	int	ii;
-
-	i = 0;
-	while (i < vars->map.map_limit[1])
-	{
-		ii = 0;
-		while (ii < vars->map.map_limit[0])
-		{
-			if (vars->map.map_cpy[i][ii] != 'F'
-				&& vars->map.map_cpy[i][ii] != 'Z'
-				&& vars->map.map_cpy[i][ii] != ' ')
-				error_exit("Error: Character outside the map walls\n",
-					NULL, vars);
-			ii++;
-		}
-		i++;
-	}
-}
-
 void	set_start(bool *start, t_vars *vars, int i, int ii)
 {
 	vars->map.perso_start[0] = ii;
@@ -94,4 +42,26 @@ void	check_map_errors(t_vars *vars)
 	}
 	if (!start)
 		error_exit("Error: No start detected\n", NULL, vars);
+}
+
+void	check_map_integrity(t_vars *vars)
+{
+	int	i;
+	int	ii;
+
+	i = 0;
+	while (i < vars->map.map_limit[1])
+	{
+		ii = 0;
+		while (ii < vars->map.map_limit[0])
+		{
+			if (vars->map.map_cpy[i][ii] != 'F'
+				&& vars->map.map_cpy[i][ii] != 'Z'
+				&& vars->map.map_cpy[i][ii] != ' ')
+				error_exit("Error: Character outside the map walls\n",
+					NULL, vars);
+			ii++;
+		}
+		i++;
+	}
 }

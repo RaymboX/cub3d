@@ -42,7 +42,7 @@
 # define COLL_SPACE 0.1
 # define NB_IMG 2
 # define FLUIDITY 50
-# define DARKER 0.25
+# define DARKER 1
 
 typedef struct s_log
 {
@@ -236,6 +236,7 @@ void	raycast_main_loop(t_vars *vars);
 
 //raycasting init
 void	raycast_init(t_vars *vars);
+void	reset_perso(t_vars *vars);
 void	printinglog(int fd, char *intro, char *str, int val);
 void	max_height_width(t_screen *screen);
 void	center_pixel(t_screen *screen);
@@ -246,6 +247,7 @@ void	column_limit(t_screen *screen, t_raycast *raycast);
 int		keypress_handler(int keycode, t_vars *vars);
 void	turning(int keycode, t_vars *vars);
 void	move(int keycode, t_vars *vars);
+void	valid_position_check(t_vars *vars);
 void	move_collsion(t_vars *vars, int angle);
 char	cell_move_val(t_vars *vars, int angle, int collision);
 void	set_move_dist(t_vars *vars, int angle, int movedist[2], int collision);

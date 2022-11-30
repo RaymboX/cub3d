@@ -1,7 +1,7 @@
-NO ./wood.xpm
-SO ./concrete1.xpm
+NO ./brick1.xpm
+SO ./brick1.xpm
 EA ./brick1.xpm
-WE ./rock.xpm
+WE ./brick1.xpm
 
 C 200, 100, 1
 F 200, 254, 12

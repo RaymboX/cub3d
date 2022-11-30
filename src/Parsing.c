@@ -76,18 +76,18 @@ void	check_inside_rooms(t_vars *vars)
 
 void	get_img_addr(t_vars *vars)
 {
-	vars->textures[0].addr = mlx_get_data_addr(vars->textures[0]. img,
-			&vars->textures[0].bpp, &vars->textures[0].size_line,
-			&vars->textures[0].endian);
-	vars->textures[1].addr = mlx_get_data_addr(vars->textures[1]. img,
-			&vars->textures[1].bpp, &vars->textures[1].size_line,
-			&vars->textures[1].endian);
-	vars->textures[2].addr = mlx_get_data_addr(vars->textures[2]. img,
-			&vars->textures[2].bpp, &vars->textures[2].size_line,
-			&vars->textures[2].endian);
-	vars->textures[3].addr = mlx_get_data_addr(vars->textures[3]. img,
-			&vars->textures[3].bpp, &vars->textures[3].size_line,
-			&vars->textures[3].endian);
+	vars->tex[0].addr = mlx_get_data_addr(vars->tex[0]. img,
+			&vars->tex[0].bpp, &vars->tex[0].line_len,
+			&vars->tex[0].endian);
+	vars->tex[1].addr = mlx_get_data_addr(vars->tex[1]. img,
+			&vars->tex[1].bpp, &vars->tex[1].line_len,
+			&vars->tex[1].endian);
+	vars->tex[2].addr = mlx_get_data_addr(vars->tex[2]. img,
+			&vars->tex[2].bpp, &vars->tex[2].line_len,
+			&vars->tex[2].endian);
+	vars->tex[3].addr = mlx_get_data_addr(vars->tex[3]. img,
+			&vars->tex[3].bpp, &vars->tex[3].line_len,
+			&vars->tex[3].endian);
 }
 
 void	set_starting_point(t_vars *vars)

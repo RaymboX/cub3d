@@ -1,4 +1,5 @@
 #include "../include/cub3d.h"
+
 /*
 static void	tempvar(t_vars *vars)
 {

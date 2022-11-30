@@ -12,6 +12,7 @@ int	main(int argc, char **argv)
 		(void)argv;
 		vars_mlx_init(&vars);
 		raycast_init(&vars);
+		mlx_mouse_hide();
 		mlx_loop_hook(vars.mlx.mlx, render_next_frame, &vars);
 		mlx_hook(vars.mlx.win, 6, 0, mouse_move, &vars);
 		mlx_hook(vars.mlx.win, 17, 0, end_program, &vars);
@@ -56,8 +57,6 @@ void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color)
 	/* } */
 	*dst++ = t;
 }
-
-
 
 void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 {

@@ -29,6 +29,7 @@ void	move(int keycode, t_vars *vars)
 		move_collsion(vars, degree_ajust(vars->perso.angle - 90));
 	if (keycode == 2)
 		move_collsion(vars, degree_ajust(vars->perso.angle + 90));
+	valid_position_check(vars);
 	if (keycode == 126)
 	{
 		vars->perso.pace *= 1.2;
@@ -43,6 +44,15 @@ void	move(int keycode, t_vars *vars)
 	}
 }
 
+void	valid_position_check(t_vars *vars)
+{
+	if (vars->perso.position[0] < 0
+		|| vars->perso.position[0] >= vars->map.map_limit[0] * MAPSCALE
+		|| vars->perso.position[1] < 0
+		|| vars->perso.position[1] >= vars->map.map_limit[0] * MAPSCALE)
+		reset_perso(vars);
+}
+
 void	move_collsion(t_vars *vars, int angle)
 {
 	int		i;
@@ -54,7 +64,6 @@ void	move_collsion(t_vars *vars, int angle)
 	while (++i < 3)
 		celldir_value[i] = cell_move_val(vars,
 				degree_ajust(angle + 30 * (i - 1)), 0);
-	//printf("L:%c F:%c R:%c\n", celldir_value[0], celldir_value[1], celldir_value[2]);
 	set_move_dist(vars, angle, movedist, 0);
 	if (celldir_value[0] != '1' && celldir_value[1] != '1'
 		&& celldir_value[2] != '1')

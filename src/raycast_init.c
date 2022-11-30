@@ -42,21 +42,7 @@ void	log_print_map(t_vars *vars)
 */
 void	raycast_init(t_vars *vars)
 {
-
-	//temp test
-	//tempvar(vars);
-
-	if (DEBUG == 1)
-		vars->debug_log.fd_raycast = open("raycast_log",
-				O_RDWR | O_CREAT | O_TRUNC, 0777);
-	vars->perso.angle = 0;
-	vars->perso.pace = PACE * MAPSCALE;
-	//test
-	vars->perso.position[0] = vars->map.perso_start[0] * MAPSCALE
-		+ MAPSCALE / 2;
-	vars->perso.position[1] = vars->map.perso_start[1] * MAPSCALE
-		+ MAPSCALE / 2;
-	vars->perso.fov = FOV;
+	reset_perso(vars);
 	vars->screen.resolution_h = RESOLUTION_H_DEF;
 	vars->screen.resolution_w = RESOLUTION_W_DEF;
 	max_height_width(&vars->screen);
@@ -64,6 +50,16 @@ void	raycast_init(t_vars *vars)
 	column_limit(&vars->screen, &vars->raycast);
 	set_fov_angle_div(vars);
 	log_print_map(vars);
+}
+
+void	reset_perso(t_vars *vars)
+{
+	vars->perso.pace = PACE * MAPSCALE;
+	vars->perso.position[0] = vars->map.perso_start[0] * MAPSCALE
+		+ MAPSCALE / 2;
+	vars->perso.position[1] = vars->map.perso_start[1] * MAPSCALE
+		+ MAPSCALE / 2;
+	vars->perso.fov = FOV;
 }
 
 void	printinglog(int fd, char *intro, char *str, int val)

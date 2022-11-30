@@ -48,8 +48,8 @@ void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color)
 	char			*dst;
 	unsigned char	t;
 
-	dst = vars->mlx_vars.addr + (y * vars->mlx_vars.line_length + x
-			* (vars->mlx_vars.bits_per_pixel / 8));
+	dst = vars->mlx.addr + (y * vars->mlx.line_len + x
+			* (vars->mlx.bpp / 8));
 	t = FLUIDITY;
 	if (vars->raycast.cardinal_wall % 2 == 0)
 	{

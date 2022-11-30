@@ -102,7 +102,11 @@ void	texture_init(t_vars *vars)
 	vars->map.start = 0;
 	temp = check_texture(temp, &counter, vars);
 	if (counter != 6)
+	{
+		if (counter == 0)
+			error_exit("Error: Empty file\n", temp, vars);
 		error_exit("Error: Not all texture identifier present \
 			in texture zone\n", temp, vars);
+	}
 	close (vars->map.fd);
 }

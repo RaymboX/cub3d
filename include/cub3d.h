@@ -193,6 +193,8 @@ void	flood_fill_inside(t_vars *vars, int x, int y);
 void	flood_fill_walls(t_vars *vars, int x, int y);
 void	flood_fill_inside_rooms(t_vars *vars, int y, int x, char c);
 void	copy_map(t_vars *vars);
+void	check_map_errors(t_vars *vars);
+void	check_map_integrity(t_vars *vars);
 
 //mlx
 void	vars_mlx_init(t_vars *vars);
@@ -201,11 +203,10 @@ void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color);
 int		render_next_frame(t_vars *vars);
 int		key_hook(int key, t_vars *vars);
 
-//Error Handling
+//Exit functions
 void	error_exit(char *error, char *temp, t_vars *vars);
 void	print_error(char *error);
-void	check_map_errors(t_vars *vars);
-void	check_map_integrity(t_vars *vars);
+int		end_program(t_vars *vars);
 
 //Various tools
 char	*ft_strcat(char *s1, int len);

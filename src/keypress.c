@@ -49,7 +49,7 @@ void	valid_position_check(t_vars *vars)
 	if (vars->perso.position[0] < 0
 		|| vars->perso.position[0] >= vars->map.map_limit[0] * MAPSCALE
 		|| vars->perso.position[1] < 0
-		|| vars->perso.position[1] >= vars->map.map_limit[0] * MAPSCALE)
+		|| vars->perso.position[1] >= vars->map.map_limit[1] * MAPSCALE)
 		reset_perso(vars);
 }
 
@@ -83,6 +83,20 @@ void	move_collsion(t_vars *vars, int angle)
 	}
 }
 
+void	movecell_ajust(t_vars *vars, int movecell[2])
+{
+	int	i;
+
+	i = -1;
+	while (++i < 2)
+	{
+		if (movecell[i] < 0)
+			movecell[i] = 0;
+		else if (movecell[i] >= vars->map.map_limit[i])
+			movecell[i] = vars->map.map_limit[i] - 1;
+	}
+}
+
 // to add collision space, set collision to 1. No collision space, collision = 0
 char	cell_move_val(t_vars *vars, int angle, int collision)
 {
@@ -95,6 +109,7 @@ char	cell_move_val(t_vars *vars, int angle, int collision)
 	moveposition[1] = vars->perso.position[1] + movedist[1];
 	movecell[0] = moveposition[0] / MAPSCALE;
 	movecell[1] = moveposition[1] / MAPSCALE;
+	movecell_ajust(vars, movecell);
 	return (vars->map.map[movecell[1]][movecell[0]]);
 }
 

@@ -24,6 +24,7 @@ LIBMLX_BETA		=	-L./mlx -lmlx -framework OpenGL -framework AppKit
 LIB_LINUX		=	-L ./include/minilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 LIBRARY			=	$(LIBFT) $(LIBMLX_BETA)
 LIBRARY_LINUX	=	$(LIB_LINUX) include/libft/src/*c
+MLX				=	libmlx.dylib
 
 #DIRECTORIES--------------------------------------------------------------------
 
@@ -31,6 +32,7 @@ SRCS_DIR 		= 	./src
 OBJS_DIR		= 	./obj
 INCLUDE_DIR		=	./include
 LIBFT_DIR		= 	$(INCLUDE_DIR)/libft
+MLX_DIR			=	mlx
 
 NAME_DSYM		=	./$(NAME).dSYM
 
@@ -39,20 +41,26 @@ NAME_DSYM		=	./$(NAME).dSYM
 #  To make the list of all src, do this command in terminal in project folder
 #  find ./src/*.c -type f | cut -c7- | sed 's/$/ \\/'
 SRCS_FILES	 	= 	0_main.c \
+					distance_fct.c \
+					drawing.c \
 					exit_n_free.c \
 					floodfill.c \
 					floors_ceilings.c \
-					vars_init.c \
+					init_utils.c \
 					keypress.c \
 					map_tools.c \
 					map_tools2.c \
-					Parsing.c \
+					mlx_stuff.c \
+					mouse_move.c \
+					moving.c \
+					parsing.c \
+					raycast_utils.c \
 					raycasting_main.c \
-					raycast_init.c \
 					textures.c \
+					utils.c \
 					variables_identification_tools.c \
 					various_tools.c \
-					mouse_move.c \
+					vars_init.c 
 
 
 HEADERS_FILES	=	cub3d.h
@@ -82,6 +90,9 @@ all : 				init $(LIBRD) $(NAME)
 
 init:
 					@$(MAKE) -s -C $(LIBFT_DIR)
+					@$(MAKE) -s -C $(MLX_DIR)
+					@$(RM) $(MLX)
+					@cp $(MLX_DIR)/$(MLX) $(MLX)
 					@mkdir -p $(OBJS_DIR)
 
 $(NAME):			$(OBJS) 
@@ -97,12 +108,14 @@ $(LIBFT):
 
 clean:									
 					@$(MAKE) -s clean -C $(LIBFT_DIR)
+					@$(MAKE) -s clean -C $(MLX_DIR)
 					@$(RM) $(OBJS)
 					@$(RM) $(OBJS_DIR)
 					@echo "$R$ All objects   deleted$W"
 
 fclean: 			clean
 					@$(MAKE) -s fclean -C $(LIBFT_DIR)
+					@$(RM) $(MLX)
 					@$(RM) $(NAME_DSYM)
 					@$(RM) $(NAME)
 					@echo "$R$(NAME)         deleted$W"

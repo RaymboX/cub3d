@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   0_main.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/30 14:14:58 by mraymond          #+#    #+#             */
+/*   Updated: 2022/11/30 14:15:00 by mraymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 int	main(int argc, char **argv)
@@ -25,139 +37,3 @@ int	main(int argc, char **argv)
 	}
 	return (0);
 }
-
-/* unsigned char	brightness_add(char color)
-{
-	if (color * DARKER > 255)
-		return (255);
-	else if (color * DARKER < 0)
-		return (0);
-	return (color * DARKER);
-} */
-
-void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color)
-{
-	char			*dst;
-	unsigned char	t;
-
-	dst = vars->mlx.addr + (y * vars->mlx.line_len + x
-			* (vars->mlx.bpp / 8));
-	t = FLUIDITY;
-/* 	if (vars->raycast.cardinal_wall % 2 == 0)
-	{
-		*dst++ = brightness_add(*color++);
-		*dst++ = brightness_add(*color++);
-		*dst++ = brightness_add(*color++);
-	}
-	else
-	{ */
-		*dst++ = *color++;
-		*dst++ = *color++;
-		*dst++ = *color++;
-	/* } */
-	*dst++ = t;
-}
-
-void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = vars->mlx.addr + (y * vars->mlx.line_len + x
-			* (vars->mlx.bpp / 8));
-	*(unsigned int *)dst = color;
-}
-
-int	best_angle_side(int now, int but)
-{
-	if (abs(now - but) <= 180)
-	{
-		if (now - but < 0)
-			return (1);
-		return (-1);
-	}
-	else
-	{
-		if (now - but < 0)
-			return (-1);
-		return (1);
-	}
-}
-//--------------------------------------------------------------------------
-void	vars_mlx_init(t_vars *vars)
-{
-	vars->mlx.mlx = mlx_init();
-	vars->mlx.win = mlx_new_window(vars->mlx.mlx, SCREEN_W, SCREEN_H,
-			"cub3d");
-	vars->mlx.i_img = 0;
-	vars->mlx.img[0] = mlx_new_image(vars->mlx.mlx, SCREEN_W, SCREEN_H);
-}
-
-int	render_next_frame(t_vars *vars)
-{
-	int i[2];
-
-	i[1] = vars->mlx.i_img;
-	i[0] = i[1] + 1;
-	if (i[0] >= NB_IMG)
-		i[0] = 0;
-	vars->mlx.i_img = i[0];
-	vars->mlx.img[i[0]] = mlx_new_image(vars->mlx.mlx, SCREEN_W, SCREEN_H);
-	vars->mlx.addr = mlx_get_data_addr(vars->mlx.img[i[0]], &vars->mlx.bpp,
-			&vars->mlx.line_len, &vars->mlx.endian);
-	mlx_hook(vars->mlx.win, 2, 0, keypress_handler, vars);
-	raycast_main_loop(vars);
-	mlx_put_image_to_window(vars->mlx.mlx, vars->mlx.win, vars->mlx.img[i[0]], 0, 0);
-	mlx_destroy_image (vars->mlx.mlx, vars->mlx.img[i[1]]);
-	return (0);
-}
-//-------------------------------------------------------------------------------
-
-/* void	vars_mlx_init(t_vars *vars)
-{
-	vars->mlx.mlx = mlx_init();
-	vars->mlx.win = mlx_new_window(vars->mlx.mlx, SCREEN_W, SCREEN_H,
-			"cub3d");
-	vars->mlx.i_img = 0;
-	vars->mlx.img[0] = mlx_new_image(vars->mlx.mlx, SCREEN_W, SCREEN_H);
-	vars->mlx.img[1] = mlx_new_image(vars->mlx.mlx, SCREEN_W, SCREEN_H);
-	vars->mlx.addr = mlx_get_data_addr(vars->mlx.img[0], &vars->mlx.bpp,
-			&vars->mlx.line_len, &vars->mlx.endian);
-}
-
-int	render_next_frame(t_vars *vars)
-{
-	int i[2];
-
-	i[1] = vars->mlx.i_img;
-	i[0] = i[1] + 1;
-	if (i[0] >= NB_IMG)
-		i[0] = 0;
-	vars->mlx.addr = mlx_get_data_addr(vars->mlx.img[i[0]], &vars->mlx.bpp,
-			&vars->mlx.line_len, &vars->mlx.endian);
-	mlx_hook(vars->mlx.win, 2, 0, keypress_handler, vars);
-	raycast_main_loop(vars);
-	mlx_put_image_to_window(vars->mlx.mlx, vars->mlx.win, vars->mlx.img[i[0]], 0, 0);
-	return (0);
-} */
-
-/*
-//-----------------------------------------------------------------------------
-void	vars_mlx_init(t_vars *vars)
-{
-	vars->mlx.mlx = mlx_init();
-	vars->mlx.win = mlx_new_window(vars->mlx.mlx, SCREEN_W, SCREEN_H,
-			"cub3d");
-	vars->mlx.img[0] = mlx_new_image(vars->mlx.mlx, SCREEN_W, SCREEN_H);
-	vars->mlx.addr = mlx_get_data_addr(vars->mlx.img[0], &vars->mlx.bpp,
-			&vars->mlx.line_len, &vars->mlx.endian);
-}
-
- int	render_next_frame(t_vars *vars)
-{
-	mlx_hook(vars->mlx.win, 2, 0, keypress_handler, vars);
-	raycast_main_loop(vars);
-	mlx_put_image_to_window(vars->mlx.mlx, vars->mlx.win, vars->mlx.img[0], 0, 0);
-	return (0);
-} */
-
-//-----------------------------------------------------------------------------

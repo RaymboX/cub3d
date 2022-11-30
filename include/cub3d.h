@@ -44,7 +44,7 @@
 # define FLUIDITY 50
 # define DARKER 1
 
-typedef struct s_log
+typedef struct s_log9
 {
 	int	fd_raycast;
 }			t_log;

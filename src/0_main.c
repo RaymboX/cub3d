@@ -9,7 +9,6 @@ int	main(int argc, char **argv)
 		vars_init(&vars);
 		vars_mlx_init(&vars);
 		check_file(argv, &vars);
-		(void)argv;
 		vars_mlx_init(&vars);
 		raycast_init(&vars);
 		mlx_mouse_hide();
@@ -26,6 +25,7 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
+//The void room
 /* unsigned char	brightness_add(char color)
 {
 	if (color * DARKER > 255)
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 	else if (color * DARKER < 0)
 		return (0);
 	return (color * DARKER);
-} */
+}
 
 void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color)
 {
@@ -43,19 +43,68 @@ void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color)
 	dst = vars->mlx.addr + (y * vars->mlx.line_len + x
 			* (vars->mlx.bpp / 8));
 	t = FLUIDITY;
-/* 	if (vars->raycast.cardinal_wall % 2 == 0)
+	if (vars->raycast.cardinal_wall % 2 == 0)
+	{
+		*dst++ = brightness_add(*color);
+		*color += 1;
+		*dst++ = brightness_add(*color);
+		*color += 1;
+		*dst++ = brightness_add(*color);
+		*color += 1;
+	}
+	else
+	{
+		*dst++ = *color++;
+		*dst++ = *color++;
+		*dst++ = *color++;
+	}
+	*dst++ = t;
+} */
+
+unsigned char	brightness_add(char color)
+{
+	if ((color * DARKER) > 255)
+		return (255);
+	else if (color * DARKER < 0)
+		return (0);
+	return (color * DARKER);
+}
+
+void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color)
+{
+	char			*dst;
+	unsigned char	t;
+
+	dst = vars->mlx.addr + (y * vars->mlx.line_len + x
+			* (vars->mlx.bpp / 8));
+	t = FLUIDITY;
+	if (vars->raycast.cardinal_wall % 2 == 0)
 	{
 		*dst++ = brightness_add(*color++);
 		*dst++ = brightness_add(*color++);
 		*dst++ = brightness_add(*color++);
 	}
 	else
-	{ */
+	{
 		*dst++ = *color++;
 		*dst++ = *color++;
 		*dst++ = *color++;
-	/* } */
+	}
 	*dst++ = t;
+}
+
+void	my_mlx_pixel_put2(t_vars *vars, int x, int y, char *color)
+{
+	char	*dst;
+
+	dst = vars->mlx.addr + (y * vars->mlx.line_len + x
+			* (vars->mlx.bpp / 8));
+	*dst++ = *color >> 1;
+	*color += 1;
+	*dst++ = *color >> 1;
+	*color += 1;
+	*dst++ = *color >> 1;
+	*color += 1;
 }
 
 void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
@@ -92,6 +141,41 @@ void	vars_mlx_init(t_vars *vars)
 	vars->mlx.img[0] = mlx_new_image(vars->mlx.mlx, SCREEN_W, SCREEN_H);
 }
 
+void	draw_map(t_vars *vars)
+{
+	int	i;
+	int	ii;
+	int	x;
+	int	y;
+
+	i = -1;
+	y = 0;
+	while (++i < vars->map.map_limit[1] - 1)
+	{
+		y = i * 12;
+		while (y < (i + 1) * 12)
+		{
+			ii = 0;
+			while (ii < vars->map.map_limit[0])
+			{			
+				x = ii * 12;
+				while (x < (ii + 1) * 12)
+				{
+					if (vars->map.map[i][ii] == '1')
+						my_mlx_pixel_put(vars, x, y, create_trgb(0, 255, 255, 255));
+					else
+						my_mlx_pixel_put(vars, x, y, 0000);
+/* 						my_mlx_pixel_put2(vars, x, y, vars->mlx.addr + (y * vars->mlx.line_len + x
+								* (vars->mlx.bpp / 8))); */
+					x++;
+				}
+				ii++;
+			}
+			y++;
+		}
+	}
+}
+
 int	render_next_frame(t_vars *vars)
 {
 	int i[2];
@@ -106,7 +190,9 @@ int	render_next_frame(t_vars *vars)
 			&vars->mlx.line_len, &vars->mlx.endian);
 	mlx_hook(vars->mlx.win, 2, 0, keypress_handler, vars);
 	raycast_main_loop(vars);
-	mlx_put_image_to_window(vars->mlx.mlx, vars->mlx.win, vars->mlx.img[i[0]], 0, 0);
+	mlx_put_image_to_window(vars->mlx.mlx, vars->mlx.win,
+		vars->mlx.img[i[0]], 0, 0);
+	draw_map(vars);
 	mlx_destroy_image (vars->mlx.mlx, vars->mlx.img[i[1]]);
 	return (0);
 }

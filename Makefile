@@ -53,6 +53,7 @@ SRCS_FILES	 	= 	0_main.c \
 					variables_identification_tools.c \
 					various_tools.c \
 					mouse_move.c \
+					pixel_draw.c
 
 
 HEADERS_FILES	=	cub3d.h

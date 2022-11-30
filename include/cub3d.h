@@ -42,7 +42,7 @@
 # define COLL_SPACE 0.1
 # define NB_IMG 2
 # define FLUIDITY 50
-# define DARKER 1
+# define DARKER 0.25
 
 typedef struct s_log
 {

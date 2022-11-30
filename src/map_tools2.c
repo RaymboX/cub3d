@@ -65,3 +65,37 @@ void	check_map_integrity(t_vars *vars)
 		i++;
 	}
 }
+
+void	check_inside_rooms(t_vars *vars)
+{
+	int	i;
+	int	ii;
+
+	i = 0;
+	while (i < vars->map.map_limit[1])
+	{
+		ii = 0;
+		while (vars->map.map_cpy[i][ii])
+		{
+			if (vars->map.map_cpy[i][ii] == '1'
+				|| vars->map.map_cpy[i][ii] == '0')
+				flood_fill_inside_rooms(vars, i, ii, vars->map.map_cpy[i][ii]);
+			ii++;
+		}
+		i++;
+	}
+}
+
+void	find_first_wall(t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	while (i < vars->map.map_limit[0])
+	{
+		if (vars->map.map[0][i] == '1')
+			break ;
+		i++;
+	}
+	vars->map.first_wall = i;
+}

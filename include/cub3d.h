@@ -195,6 +195,8 @@ void	flood_fill_inside_rooms(t_vars *vars, int y, int x, char c);
 void	copy_map(t_vars *vars);
 void	check_map_errors(t_vars *vars);
 void	check_map_integrity(t_vars *vars);
+void	find_first_wall(t_vars *vars);
+void	check_inside_rooms(t_vars *vars);
 
 //mlx
 void	vars_mlx_init(t_vars *vars);
@@ -251,8 +253,9 @@ void	move(int keycode, t_vars *vars);
 void	valid_position_check(t_vars *vars);
 void	move_collsion(t_vars *vars, int angle);
 void	movecell_ajust(t_vars *vars, int movecell[2]);
-char	cell_move_val(t_vars *vars, int angle, int collision);
-void	set_move_dist(t_vars *vars, int angle, int movedist[2], int collision);
+char	cell_move_val(t_vars *vars, int angle);
+void	set_move_dist(t_vars *vars, int angle, int movedist[2]);
+
 int		quadrant_angle(int angle);
 void	angle_direction_xy(int angle, int dir[2]);
 int		mouse_move(int x, int y, t_vars *vars);

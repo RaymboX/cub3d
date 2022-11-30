@@ -86,7 +86,7 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
 
 #COMPILING RULES------------------------------------------------------------------
 
-all : 				init $(LIBRD) $(NAME)
+all : 				init $(MLX) $(NAME)
 
 init:
 					@$(MAKE) -s -C $(LIBFT_DIR)
@@ -103,9 +103,6 @@ else
 endif					
 					@echo "$G$(NAME)         compiled$W"
 					
-$(LIBFT):
-					@cd $(LIBFT_DIR)/ && make
-
 clean:									
 					@$(MAKE) -s clean -C $(LIBFT_DIR)
 					@$(MAKE) -s clean -C $(MLX_DIR)

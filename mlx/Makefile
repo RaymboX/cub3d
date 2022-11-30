@@ -9,7 +9,7 @@ OBJ=$(SRC:.swift=.o)
 
 C_SRC= mlx_xpm.c mlx_png.c mlx_string_put.c
 C_OBJ=$(C_SRC:.c=.o)
-CFLAGS=-O3
+CFLAGS=-O3 
 
 NAME=libmlx.dylib
 
@@ -21,8 +21,6 @@ all: $(NAME)
 $(NAME): $(MODULE_OBJ) $(OBJ) $(C_OBJ)
 	@swiftc $(OPTI) $(INC) -o $(NAME) -emit-library $(OBJ) $(C_OBJ) -lz
 	@echo "SORRY FOR THE MLX CRAP.....\n"
-
-
 
 %.o: %.swift
 	@swiftc $(OPTI) $(INC) -parse-as-library -c $< -o $@

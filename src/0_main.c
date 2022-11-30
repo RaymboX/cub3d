@@ -25,6 +25,15 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
+/* unsigned char	brightness_add(char color)
+{
+	if (color * DARKER > 255)
+		return (255);
+	else if (color * DARKER < 0)
+		return (0);
+	return (color * DARKER);
+} */
+
 void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color)
 {
 	char			*dst;
@@ -33,20 +42,22 @@ void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color)
 	dst = vars->mlx.addr + (y * vars->mlx.line_len + x
 			* (vars->mlx.bpp / 8));
 	t = FLUIDITY;
-	if (vars->raycast.cardinal_wall % 2 == 0)
+/* 	if (vars->raycast.cardinal_wall % 2 == 0)
 	{
-		*dst++ = DARKER * *color++;
-		*dst++ = DARKER * *color++;
-		*dst++ = DARKER * *color++;
+		*dst++ = brightness_add(*color++);
+		*dst++ = brightness_add(*color++);
+		*dst++ = brightness_add(*color++);
 	}
 	else
-	{
+	{ */
 		*dst++ = *color++;
 		*dst++ = *color++;
 		*dst++ = *color++;
-	}
+	/* } */
 	*dst++ = t;
 }
+
+
 
 void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 {

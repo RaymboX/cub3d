@@ -195,6 +195,8 @@ void	flood_fill_inside_rooms(t_vars *vars, int y, int x, char c);
 void	copy_map(t_vars *vars);
 void	check_map_errors(t_vars *vars);
 void	check_map_integrity(t_vars *vars);
+void	find_first_wall(t_vars *vars);
+void	check_inside_rooms(t_vars *vars);
 
 //mlx
 void	vars_mlx_init(t_vars *vars);

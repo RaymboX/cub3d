@@ -29,7 +29,6 @@ void	move(int keycode, t_vars *vars)
 		move_collsion(vars, degree_ajust(vars->perso.angle - 90));
 	if (keycode == 2)
 		move_collsion(vars, degree_ajust(vars->perso.angle + 90));
-	valid_position_check(vars);
 	if (keycode == 126)
 	{
 		vars->perso.pace *= 1.2;
@@ -44,15 +43,6 @@ void	move(int keycode, t_vars *vars)
 	}
 }
 
-void	valid_position_check(t_vars *vars)
-{
-	if (vars->perso.position[0] < 0
-		|| vars->perso.position[0] >= vars->map.map_limit[0] * MAPSCALE
-		|| vars->perso.position[1] < 0
-		|| vars->perso.position[1] >= vars->map.map_limit[0] * MAPSCALE)
-		reset_perso(vars);
-}
-
 void	move_collsion(t_vars *vars, int angle)
 {
 	int		i;
@@ -63,8 +53,9 @@ void	move_collsion(t_vars *vars, int angle)
 	i = -1;
 	while (++i < 3)
 		celldir_value[i] = cell_move_val(vars,
-				degree_ajust(angle + 30 * (i - 1)), 0);
-	set_move_dist(vars, angle, movedist, 0);
+				degree_ajust(angle + 30 * (i - 1)));
+	//printf("L:%c F:%c R:%c\n", celldir_value[0], celldir_value[1], celldir_value[2]);
+	set_move_dist(vars, angle, movedist);
 	if (celldir_value[0] != '1' && celldir_value[1] != '1'
 		&& celldir_value[2] != '1')
 	{
@@ -84,13 +75,13 @@ void	move_collsion(t_vars *vars, int angle)
 }
 
 // to add collision space, set collision to 1. No collision space, collision = 0
-char	cell_move_val(t_vars *vars, int angle, int collision)
+char	cell_move_val(t_vars *vars, int angle)
 {
 	int	movedist[2];
 	int	moveposition[2];
 	int	movecell[2];
 
-	set_move_dist(vars, angle, movedist, collision);
+	set_move_dist(vars, angle, movedist);
 	moveposition[0] = vars->perso.position[0] + movedist[0];
 	moveposition[1] = vars->perso.position[1] + movedist[1];
 	movecell[0] = moveposition[0] / MAPSCALE;
@@ -100,23 +91,23 @@ char	cell_move_val(t_vars *vars, int angle, int collision)
 
 // to add collision space, set collision to 1. No collision space, collision = 0
 // Considère multipilicaiton pour pointer??
-void	set_move_dist(t_vars *vars, int angle, int mvdis[2], int collision)
+void	set_move_dist(t_vars *vars, int angle, int mvdis[2])
 {
 	int	dir[2];
-	int	pace_col;
 
-	pace_col = vars->perso.pace + (collision * COLL_SPACE * vars->perso.pace);
 	angle_direction_xy(angle, dir);
 	if (vars->perso.angle % 90 == 0)
 	{
-		mvdis[0] = pace_col * dir[0];
-		mvdis[1] = pace_col * dir[1];
+		mvdis[0] = vars->perso.pace * dir[0];
+		mvdis[1] = vars->perso.pace * dir[1];
 	}
 	else
 	{
 		angle = quadrant_angle(angle);
-		mvdis[0] = (int)(cos((double)(angle * PI / 180)) * pace_col) * dir[0];
-		mvdis[1] = (int)(sin((double)(angle * PI / 180)) * pace_col) * dir[1];
+		mvdis[0] = (int)(cos((double)(angle * PI / 180)) * vars->perso.pace);
+		mvdis[1] = (int)(sin((double)(angle * PI / 180)) * vars->perso.pace);
+		mvdis[0] *= dir[0];
+		mvdis[1] *= dir[1];
 	}
 }
 

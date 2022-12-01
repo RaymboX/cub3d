@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_tools2.c                                       :+:      :+:    :+:   */
+/*   map_tools2_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:16:09 by mraymond          #+#    #+#             */
-/*   Updated: 2022/11/30 14:16:10 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:30:07 by anhebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../include/cub3d_bonus.h"
 
 void	set_start(bool *start, t_vars *vars, int i, int ii)
 {

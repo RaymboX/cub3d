@@ -1,4 +1,4 @@
-#include "../include/cub3d.h"
+#include "../include/cub3d_bonus.h"
 
 int	mouse_move(int x, int y, t_vars *vars)
 {

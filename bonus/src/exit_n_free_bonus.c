@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_n_free.c                                      :+:      :+:    :+:   */
+/*   exit_n_free_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:15:25 by mraymond          #+#    #+#             */
-/*   Updated: 2022/11/30 14:15:26 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:29:55 by anhebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../include/cub3d_bonus.h"
 
 void	error_exit(char *error, char *temp, t_vars *vars)
 {

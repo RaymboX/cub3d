@@ -1,6 +1,7 @@
 #PROGRAM NAME-------------------------------------------------------------------
 
 NAME 			= 	cub3d
+NAME_BON 		= 	cub3d_bonus
 
 #SYSTEM VAR---------------------------------------------------------------------
 
@@ -76,9 +77,64 @@ OBJS 			= 	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 LIBFT 			= 	$(addprefix $(LIBFT_DIR)/, $(LIBFT_FILES))
 
-#SYSTEM RULES-------------------------------------------------------------------
+#SYSTEM RULES BONUS-------------------------------------------------------------------
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+#BONUS DIRECTORIES--------------------------------------------------------------------
+
+SRCS_DIR_BON 	= 	./bonus/src
+OBJS_DIR_BON	= 	./bonus/obj
+INCLUDE_DIR_BON	=	./bonus/include
+
+NAME_DSYM_BON	=	./$(NAME_BON).dSYM
+
+#BONUS FILES--------------------------------------------------------------------------
+
+#  To make the list of all src, do this command in terminal in project folder
+#  find ./src/*.c -type f | cut -c7- | sed 's/$/ \\/'
+SRCS_FILES_BON	=	0_main_bonus.c \
+					distance_fct_bonus.c \
+					drawing_bonus.c \
+					exit_n_free_bonus.c \
+					floodfill_bonus.c \
+					floors_ceilings_bonus.c \
+					init_utils_bonus.c \
+					keypress_bonus.c \
+					map_tools_bonus.c \
+					map_tools2_bonus.c \
+					mlx_stuff_bonus.c \
+					minimap_bonus.c \
+					mouse_move_bonus.c \
+					moving_bonus.c \
+					parsing_bonus.c \
+					raycast_utils_bonus.c \
+					raycasting_main_bonus.c \
+					textures_bonus.c \
+					utils_bonus.c \
+					variables_identification_tools_bonus.c \
+					various_tools_bonus.c \
+					vars_init_bonus.c 
+
+
+HEADERS_FILES_BON	=	cub3d_bonus.h
+
+LIBFT_FILES		= 	libft.a
+
+
+#BONUS FILES VAR----------------------------------------------------------------------
+SRCS_BON 		= 	$(addprefix $(SRCS_DIR_BON)/, $(SRCS_FILES_BON))
+
+HEADERS_BON		=	$(addprefix $(INCLUDE_DIR_BON)/, $(HEADERS_FILES_BON))
+
+OBJS_BON		= 	$(SRCS_BON:$(SRCS_DIR_BON)/%.c=$(OBJS_DIR_BON)/%.o)
+
+LIBFT 			= 	$(addprefix $(LIBFT_DIR)/, $(LIBFT_FILES))
+
+#SYSTEM RULES BONUS-------------------------------------------------------------------
+
+$(OBJS_DIR_BON)/%.o: $(SRCS_DIR_BON)/%.c $(HEADERS_BON)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 #$(V).SILENT:
@@ -101,12 +157,31 @@ else
 					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY)
 endif					
 					@echo "$G$(NAME)         compiled$W"
-					
+
+bonus:				init_bonus $(MLX) $(NAME_BON)
+
+init_bonus:
+					@$(MAKE) -s -C $(LIBFT_DIR)
+					@$(MAKE) -s -C $(MLX_DIR)
+					@$(RM) $(MLX)
+					@cp $(MLX_DIR)/$(MLX) $(MLX)
+					@mkdir -p $(OBJS_DIR_BON)
+
+$(NAME_BON):		$(OBJS_BON) 
+ifeq ($(UNAME_S),Linux)
+					@$(CC) $(CFLAGS) -o $(NAME_BON) $(OBJS_BON) $(LIBRARY_LINUX)
+else
+					@$(CC) $(CFLAGS) -o $(NAME_BON) $(OBJS_BON) $(LIBRARY)
+endif					
+					@echo "$G$(NAME_BON)         compiled$W"
+
 clean:									
 					@$(MAKE) -s clean -C $(LIBFT_DIR)
 					@$(MAKE) -s clean -C $(MLX_DIR)
 					@$(RM) $(OBJS)
 					@$(RM) $(OBJS_DIR)
+					@$(RM) $(OBJS_BON)
+					@$(RM) $(OBJS_DIR_BON)
 					@echo "$R$ All objects   deleted$W"
 
 fclean: 			clean
@@ -114,6 +189,8 @@ fclean: 			clean
 					@$(RM) $(MLX)
 					@$(RM) $(NAME_DSYM)
 					@$(RM) $(NAME)
+					@$(RM) $(NAME_DSYM_BON)
+					@$(RM) $(NAME_BON)
 					@echo "$R$(NAME)         deleted$W"
 
 re: 				fclean all

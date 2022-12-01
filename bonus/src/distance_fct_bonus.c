@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   distance_fct.c                                     :+:      :+:    :+:   */
+/*   distance_fct_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:15:08 by mraymond          #+#    #+#             */
-/*   Updated: 2022/11/30 14:42:38 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:29:49 by anhebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../include/cub3d_bonus.h"
 
 //calcul la distance entre la position et le mur et set l'orientation du mur
 void	set_dist_n_wall(t_vars *vars)

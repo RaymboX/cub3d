@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_main.c                                           :+:      :+:    :+:   */
+/*   0_main_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:14:58 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/01 10:46:44 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/01 12:09:10 by anhebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../include/cub3d_bonus.h"
 
 int	main(int argc, char **argv)
 {
@@ -21,7 +21,6 @@ int	main(int argc, char **argv)
 		vars_init(&vars);
 		vars_mlx_init(&vars);
 		check_file(argv, &vars);
-		(void)argv;
 		vars_mlx_init(&vars);
 		raycast_init(&vars);
 		mlx_mouse_hide();

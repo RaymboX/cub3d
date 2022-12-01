@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:48:18 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/01 10:52:54 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/01 12:02:24 by anhebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,15 @@ typedef struct s_screen
 	int		col_right;
 }	t_screen;
 
+typedef struct s_minimap
+{
+	float		pos_x;
+	float		pos_y;
+	float		ratio_x;
+	float		ratio_y;
+	float		limit;
+}	t_minimap;
+
 typedef struct s_vars
 {
 	t_textures	tex[4];
@@ -171,6 +180,7 @@ typedef struct s_vars
 	t_mlx		mlx;
 	t_log		debug_log;
 	t_cnf		cnf;
+	t_minimap	minimap;
 }	t_vars;
 
 //PROTOTYPES-------------------------------------------------------------------
@@ -234,6 +244,7 @@ void	check_inside_rooms(t_vars *vars);
 void	find_first_wall(t_vars *vars);
 
 //minimap.c
+void	minimap_init(t_vars *vars);
 void	draw_perso(t_vars *vars);
 void	draw_map(t_vars *vars);
 

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting_main.c                                  :+:      :+:    :+:   */
+/*   raycasting_main_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:16:37 by mraymond          #+#    #+#             */
-/*   Updated: 2022/11/30 14:44:08 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:30:30 by anhebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../include/cub3d_bonus.h"
 
 //calcul et dessine l'image selon position et angle
 void	raycast_main_loop(t_vars *vars)

@@ -6,7 +6,7 @@
 /*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:48:18 by mraymond          #+#    #+#             */
-/*   Updated: 2022/11/30 14:58:54 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/01 10:37:47 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,14 +238,9 @@ int		render_next_frame(t_vars *vars);
 void	my_mlx_pixel_put_walls(t_vars *vars, int x, int y, char *color);
 void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
 
-//mouse_move.c
-int		mouse_move(int x, int y, t_vars *vars);
-
 //moving.c
 void	valid_position_check(t_vars *vars);
 void	move_position(t_vars *vars, int angle);
-void	movecell_ajust(t_vars *vars, int movecell[2]);
-char	cell_move_val(t_vars *vars, int angle);
 void	set_move_dist(t_vars *vars, int angle, int mvdis[2]);
 
 //parsing.c

@@ -51,7 +51,6 @@ SRCS_FILES	 	= 	0_main.c \
 					map_tools.c \
 					map_tools2.c \
 					mlx_stuff.c \
-					mouse_move.c \
 					moving.c \
 					parsing.c \
 					raycast_utils.c \

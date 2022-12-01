@@ -6,7 +6,7 @@
 /*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:16:23 by mraymond          #+#    #+#             */
-/*   Updated: 2022/11/30 14:43:41 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/01 09:28:11 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,36 +28,6 @@ void	move_position(t_vars *vars, int angle)
 	set_move_dist(vars, angle, movedist);
 	vars->perso.position[0] += movedist[0];
 	vars->perso.position[1] += movedist[1];
-}
-
-void	movecell_ajust(t_vars *vars, int movecell[2])
-{
-	int	i;
-
-	i = -1;
-	while (++i < 2)
-	{
-		if (movecell[i] < 0)
-			movecell[i] = 0;
-		else if (movecell[i] >= vars->map.map_limit[i])
-			movecell[i] = vars->map.map_limit[i] - 1;
-	}
-}
-
-// to add collision space, set collision to 1. No collision space, collision = 0
-char	cell_move_val(t_vars *vars, int angle)
-{
-	int	movedist[2];
-	int	moveposition[2];
-	int	movecell[2];
-
-	set_move_dist(vars, angle, movedist);
-	moveposition[0] = vars->perso.position[0] + movedist[0];
-	moveposition[1] = vars->perso.position[1] + movedist[1];
-	movecell[0] = moveposition[0] / MAPSCALE;
-	movecell[1] = moveposition[1] / MAPSCALE;
-	movecell_ajust(vars, movecell);
-	return (vars->map.map[movecell[1]][movecell[0]]);
 }
 
 // to add collision space, set collision to 1. No collision space, collision = 0

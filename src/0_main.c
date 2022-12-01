@@ -6,7 +6,7 @@
 /*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:14:58 by mraymond          #+#    #+#             */
-/*   Updated: 2022/11/30 14:15:00 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/01 10:37:21 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int	main(int argc, char **argv)
 		(void)argv;
 		vars_mlx_init(&vars);
 		raycast_init(&vars);
-		mlx_mouse_hide();
 		mlx_loop_hook(vars.mlx.mlx, render_next_frame, &vars);
-		mlx_hook(vars.mlx.win, 6, 0, mouse_move, &vars);
 		mlx_hook(vars.mlx.win, 17, 0, end_program, &vars);
 		mlx_loop(vars.mlx.mlx);
 	}

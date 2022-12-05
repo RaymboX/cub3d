@@ -42,6 +42,7 @@ NAME_DSYM		=	./$(NAME).dSYM
 #  To make the list of all src, do this command in terminal in project folder
 #  find ./src/*.c -type f | cut -c7- | sed 's/$/ \\/'
 SRCS_FILES	 	= 	0_main.c \
+					Parsing.c \
 					distance_fct.c \
 					drawing.c \
 					exit_n_free.c \
@@ -53,7 +54,6 @@ SRCS_FILES	 	= 	0_main.c \
 					map_tools2.c \
 					mlx_stuff.c \
 					moving.c \
-					parsing.c \
 					raycast_utils.c \
 					raycasting_main.c \
 					textures.c \
@@ -93,7 +93,7 @@ NAME_DSYM_BON	=	./$(NAME_BON).dSYM
 #BONUS FILES--------------------------------------------------------------------------
 
 #  To make the list of all src, do this command in terminal in project folder
-#  find ./src/*.c -type f | cut -c7- | sed 's/$/ \\/'
+#  find ./bonus/src/*.c -type f | cut -c13- | sed 's/$/ \\/'
 SRCS_FILES_BON	=	0_main_bonus.c \
 					distance_fct_bonus.c \
 					drawing_bonus.c \
@@ -102,10 +102,10 @@ SRCS_FILES_BON	=	0_main_bonus.c \
 					floors_ceilings_bonus.c \
 					init_utils_bonus.c \
 					keypress_bonus.c \
-					map_tools_bonus.c \
 					map_tools2_bonus.c \
-					mlx_stuff_bonus.c \
+					map_tools_bonus.c \
 					minimap_bonus.c \
+					mlx_stuff_bonus.c \
 					mouse_move_bonus.c \
 					moving_bonus.c \
 					parsing_bonus.c \

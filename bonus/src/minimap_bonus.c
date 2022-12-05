@@ -74,7 +74,7 @@ void	draw_map(t_vars *vars)
 	}
 }
 
-/* /* void	minimap_init(t_vars *vars)
+/*  void	minimap_init(t_vars *vars)
 {
 	vars->minimap.limit = vars->map.map_limit[0] * MINIMAPSIZE;
 	if (vars->map.map_limit[1] >= vars->map.map_limit[0])

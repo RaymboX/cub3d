@@ -6,7 +6,7 @@
 /*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:15:54 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/05 13:57:15 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/05 14:22:49 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	keypress_handler(int keycode, t_vars *vars)
 	turning(keycode, vars);
 	move(keycode, vars);
 	pace_change(keycode, vars);
+	if (keycode == 15)
+		reset_perso(vars);
 	if (keycode == 53)
 		exit(0);
 	return (0);
@@ -79,6 +81,22 @@ char	cell_move_val(t_vars *vars, int angle)
 	return (vars->map.map[movecell[1]][movecell[0]]);
 }
 
+int	in_map(t_vars *vars, int x, int y)
+{
+	if (x >= 0 && y >= 0
+		&& x < vars->map.map_limit[0]
+		&& y < vars->map.map_limit[1])
+		return (1);
+	return (0);
+}
+
+int	iscoll(t_vars *vars, int x, int y)
+{
+	if (in_map(vars, x, y) == 1
+		&& vars->map.map[y][x] == '1')
+		return (1);
+	return (0);
+}
 
 void	move_collsion(t_vars *vars, int angle)
 {
@@ -95,8 +113,12 @@ void	move_collsion(t_vars *vars, int angle)
 	if (celldir_value[0] != '1' && celldir_value[1] != '1'
 		&& celldir_value[2] != '1')
 	{
-		vars->perso.position[0] += movedist[0];
-		vars->perso.position[1] += movedist[1];
+		if (iscoll(vars, (vars->perso.position[0] + movedist[0]) / MAPSCALE,
+				(vars->perso.position[1] + movedist[1]) / MAPSCALE) == 0)
+		{
+			vars->perso.position[0] += movedist[0];
+			vars->perso.position[1] += movedist[1];
+		}
 	}
 	else if ((celldir_value[0] != '1' || celldir_value[2] != '1')
 		&& (celldir_value[0] != celldir_value[2]))
@@ -104,12 +126,19 @@ void	move_collsion(t_vars *vars, int angle)
 		angle_direction_xy(angle, dir);
 		if ((celldir_value[0] != '1' && dir[0] == dir[1])
 			|| (celldir_value[2] != '1' && dir[0] != dir[1]))
-			vars->perso.position[0] += movedist[0];
+		{
+			if (iscoll(vars, (vars->perso.position[0] + movedist[0]) / MAPSCALE,
+					vars->perso.position[1] / MAPSCALE) == 0)
+				vars->perso.position[0] += movedist[0];
+		}
 		else
-			vars->perso.position[1] += movedist[1];
+		{
+			if (iscoll(vars, vars->perso.position[0] / MAPSCALE,
+					(vars->perso.position[1] + movedist[1]) / MAPSCALE) == 0)
+				vars->perso.position[1] += movedist[1];
+		}
 	}
 }
-
 
 void	move(int keycode, t_vars *vars)
 {
@@ -121,6 +150,7 @@ void	move(int keycode, t_vars *vars)
 		move_collsion(vars, degree_ajust(vars->perso.angle - 90));
 	if (keycode == 2)
 		move_collsion(vars, degree_ajust(vars->perso.angle + 90));
+	valid_position_check(vars);
 	if (keycode == 126)
 	{
 		vars->perso.pace *= 1.2;

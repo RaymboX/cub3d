@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moving_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:16:23 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/01 11:30:22 by anhebert         ###   ########.fr       */
+/*   Updated: 2022/12/05 13:08:34 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	valid_position_check(t_vars *vars)
 		|| vars->perso.position[1] >= vars->map.map_limit[1] * MAPSCALE)
 		reset_perso(vars);
 }
+		//|| iscoll(vars, vars->perso.position[0] / MAPSCALE,
+		//	vars->perso.position[1] / MAPSCALE, WALL_CHAR) == 1)
 
+/*
 void	move_position(t_vars *vars, int angle)
 {
 	int		movedist[2];
@@ -51,3 +54,4 @@ void	set_move_dist(t_vars *vars, int angle, int mvdis[2])
 		mvdis[1] *= dir[1];
 	}
 }
+*/

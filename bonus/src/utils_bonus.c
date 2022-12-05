@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:16:48 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/01 11:30:35 by anhebert         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:34:54 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,13 @@ int	find_cardinal_wall(t_vars *vars, int i_dist)
 		else
 			return (1);
 	}
+}
+
+int	is_in_map(t_vars *vars, int x, int y)
+{
+	if (x >= 0 && y >= 0
+		&& x < vars->map.map_limit[0]
+		&& y < vars->map.map_limit[1])
+		return (1);
+	return (0);
 }

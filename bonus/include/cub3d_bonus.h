@@ -3,23 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:48:18 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/01 12:02:24 by anhebert         ###   ########.fr       */
+/*   Updated: 2022/12/05 12:04:10 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
-# ifdef __linux__
-#  include "minilibx-linux/mlx.h"
-# else
-#  include "../../mlx/mlx.h"
-//#  include <mlx.h>
-# endif
-
+# include "../../mlx/mlx.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -56,6 +50,8 @@
 # define FLUIDITY 50
 # define DARKER 1
 # define MINIMAPSIZE 3
+# define COLL_CHAR "1"
+# define WALL_CHAR "1"
 
 typedef struct s_log
 {
@@ -108,6 +104,7 @@ typedef struct s_map
 	int		first_wall;
 	int		fd;
 	bool	is_map;
+	int		coll_buff;
 }	t_map;
 
 typedef struct s_perso
@@ -185,12 +182,25 @@ typedef struct s_vars
 
 //PROTOTYPES-------------------------------------------------------------------
 
+//collision.c
+void	movecollision(int keycode, t_vars *vars);
+void	move_if(t_vars *vars, int angle);
+void	position_ajust(t_vars *vars);
+void	position_ajust_cardinal_walls(t_vars *vars, int pos_cell[2]);
+void	position_ajust_diag_walls(t_vars *vars, int pos_cell[2]);
+void	apply_position_ajust(t_vars *vars, int x0y1, int pos_cell[2],
+			int lu0rd1);
+int		iscoll(t_vars *vars, int x, int y, char *coll_char);
+void	set_move_dist(int angle, int mvdis[2], int pace);
+int		get_dist_front(t_vars *vars, int angle);
+void	raycast_loop_init_coll(t_raycast *rc, int angle);
+
 //distance_fct.c
-void	set_dist_n_wall(t_vars *vars);
+void	set_dist_n_wall(t_vars *vars, char *stop_char);
 int		calcul_dist(t_vars *vars, int x, int y);
-int		find_smallest_dist(t_vars *vars);
-void	nearest_x00_wall(t_vars *vars, t_raycast *rc);
-void	nearest_y00_wall(t_vars *vars, t_raycast *rc);
+int		find_smallest_dist(t_vars *vars, char *stop_char);
+void	nearest_x00_wall(t_vars *vars, t_raycast *rc, char *stop_char);
+void	nearest_y00_wall(t_vars *vars, t_raycast *rc, char *stop_char);
 
 //drawing.c
 int		xpm_x(t_vars *vars);
@@ -227,7 +237,7 @@ void	column_limit(t_screen *screen, t_raycast *raycast);
 int		keypress_handler(int keycode, t_vars *vars);
 void	turning(int keycode, t_vars *vars);
 void	pace_change(int keycode, t_vars *vars);
-void	move(int keycode, t_vars *vars);
+//void	move(int keycode, t_vars *vars);
 
 //map_tools.c
 void	create_map(t_vars *vars);
@@ -259,8 +269,8 @@ int		mouse_move(int x, int y, t_vars *vars);
 
 //moving.c
 void	valid_position_check(t_vars *vars);
-void	move_position(t_vars *vars, int angle);
-void	set_move_dist(t_vars *vars, int angle, int mvdis[2]);
+//void	move_position(t_vars *vars, int angle);
+//void	set_move_dist(int angle, int mvdis[2], int pace);
 
 //parsing.c
 void	check_texture_ext(char *texture, t_vars *vars);
@@ -294,6 +304,7 @@ int		quadrant_angle(int angle);
 void	angle_direction_xy(int angle, int dir[2]);
 float	degree_ajust(float degree);
 int		find_cardinal_wall(t_vars *vars, int i_dist);
+int		is_in_map(t_vars *vars, int x, int y);
 
 //variables_identification_tools.c
 bool	is_mapchar(char c);

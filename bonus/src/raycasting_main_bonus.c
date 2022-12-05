@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting_main_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:16:37 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/01 11:30:30 by anhebert         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:34:18 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	raycast_main_loop(t_vars *vars)
 		raycast_loop_init(rc, &vars->perso);
 		set_direction_and_linear_function(rc, &vars->perso);
 		set_first00(vars);
-		set_dist_n_wall(vars);
+		set_dist_n_wall(vars, WALL_CHAR);
 		drawing(vars, rc);
 		rc->ray_i += vars->screen.resolution_w;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keypress_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:15:54 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/01 11:30:03 by anhebert         ###   ########.fr       */
+/*   Updated: 2022/12/05 13:41:23 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 int	keypress_handler(int keycode, t_vars *vars)
 {
 	turning(keycode, vars);
-	move(keycode, vars);
+	movecollision(keycode, vars);
 	pace_change(keycode, vars);
+	if (keycode == 15)
+		reset_perso(vars);
 	if (keycode == 53)
 		exit(0);
 	return (0);
@@ -47,7 +49,7 @@ void	pace_change(int keycode, t_vars *vars)
 			vars->perso.pace = 2;
 	}
 }
-
+/*
 void	move(int keycode, t_vars *vars)
 {
 	if (keycode == 13)
@@ -60,3 +62,4 @@ void	move(int keycode, t_vars *vars)
 		move_position(vars, degree_ajust(vars->perso.angle + 90));
 	valid_position_check(vars);
 }
+*/

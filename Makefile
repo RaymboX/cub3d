@@ -95,6 +95,7 @@ NAME_DSYM_BON	=	./$(NAME_BON).dSYM
 #  To make the list of all src, do this command in terminal in project folder
 #  find ./bonus/src/*.c -type f | cut -c13- | sed 's/$/ \\/'
 SRCS_FILES_BON	=	0_main_bonus.c \
+					collision_bonus.c \
 					distance_fct_bonus.c \
 					drawing_bonus.c \
 					exit_n_free_bonus.c \
@@ -151,11 +152,7 @@ init:
 					@mkdir -p $(OBJS_DIR)
 
 $(NAME):			$(OBJS) 
-ifeq ($(UNAME_S),Linux)
-					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY_LINUX)
-else
 					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY)
-endif					
 					@echo "$G$(NAME)         compiled$W"
 
 bonus:				init_bonus $(MLX) $(NAME_BON)
@@ -168,11 +165,7 @@ init_bonus:
 					@mkdir -p $(OBJS_DIR_BON)
 
 $(NAME_BON):		$(OBJS_BON) 
-ifeq ($(UNAME_S),Linux)
-					@$(CC) $(CFLAGS) -o $(NAME_BON) $(OBJS_BON) $(LIBRARY_LINUX)
-else
 					@$(CC) $(CFLAGS) -o $(NAME_BON) $(OBJS_BON) $(LIBRARY)
-endif					
 					@echo "$G$(NAME_BON)         compiled$W"
 
 clean:									
@@ -195,12 +188,11 @@ fclean: 			clean
 
 re: 				fclean all
 
-debug: $(LIBFT)
-ifeq ($(UNAME_S),Linux)
-					gcc -g $(CFLAGS) -o $(NAME) $(SRCS) $(LIBRARY_LINUX) -D DEBUG=1
-else
-					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME) -D DEBUG=0
-endif
+debug: $(LIBFT) $(MLX)
+					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME)
+
+debug_bonus: $(LIBFT) $(MLX)
+					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS_BON) -o $(NAME_BON)_debug
 				
 #PHONY--------------------------------------------------------------------------
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vars_init_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:17:04 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/01 11:30:42 by anhebert         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:35:14 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,5 @@ void	raycast_init(t_vars *vars)
 	center_pixel(&vars->screen);
 	column_limit(&vars->screen, &vars->raycast);
 	set_fov_angle_div(vars);
+	vars->map.coll_buff = COLL_SPACE * MAPSCALE;
 }

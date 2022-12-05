@@ -6,20 +6,14 @@
 /*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:48:18 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/05 14:36:28 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/05 14:52:37 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
-# ifdef __linux__
-#  include "minilibx-linux/mlx.h"
-# else
-#  include "../../mlx/mlx.h"
-//#  include <mlx.h>
-# endif
-
+# include "../../mlx/mlx.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -258,9 +252,16 @@ void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
 int		mouse_move(int x, int y, t_vars *vars);
 
 //moving.c
-void	valid_position_check(t_vars *vars);
-void	move_position(t_vars *vars, int angle);
 void	set_move_dist(t_vars *vars, int angle, int mvdis[2]);
+char	cell_move_val(t_vars *vars, int angle);
+void	move_collsion(t_vars *vars, int angle);
+void	move_in_xy_ifnotcoll(t_vars *vars, int movedist[2], int x, int y);
+
+//moving_utils.c
+void	valid_position_check(t_vars *vars);
+void	movecell_ajust(t_vars *vars, int movecell[2]);
+int		in_map(t_vars *vars, int x, int y);
+int		iscoll(t_vars *vars, int x, int y);
 
 //parsing.c
 void	check_texture_ext(char *texture, t_vars *vars);

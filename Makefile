@@ -108,6 +108,7 @@ SRCS_FILES_BON	=	0_main_bonus.c \
 					mlx_stuff_bonus.c \
 					mouse_move_bonus.c \
 					moving_bonus.c \
+					moving_utils_bonus.c \
 					parsing_bonus.c \
 					raycast_utils_bonus.c \
 					raycasting_main_bonus.c \

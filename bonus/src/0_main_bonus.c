@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   0_main_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:14:58 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/01 12:09:10 by anhebert         ###   ########.fr       */
+/*   Updated: 2022/12/08 09:48:18 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	main(int argc, char **argv)
 		vars_init(&vars);
 		vars_mlx_init(&vars);
 		check_file(argv, &vars);
-		vars_mlx_init(&vars);
 		raycast_init(&vars);
 		mlx_mouse_hide();
 		mlx_loop_hook(vars.mlx.mlx, render_next_frame, &vars);

@@ -1,12 +1,12 @@
-NO ./include/maps/xpm/wood.xpm
-SO ./include/maps/xpm/concrete1.xpm
-EA ./include/maps/xpm/brick1.xpm
+NO ./include/maps/xpm/1.xpm
+SO ./include/maps/xpm/2.xpm
+EA ./include/maps/xpm/3.xpm
 WE ./include/maps/xpm/rock.xpm
 
 C 200, 100, 1
 F 200, 254, 12
 
-              1111111111
+              111111111
 111111111   111000000011
 100000001111111000000001
 10000N000000000011111111
@@ -14,4 +14,3 @@ F 200, 254, 12
   1      100001
   1      111111 
   1
-

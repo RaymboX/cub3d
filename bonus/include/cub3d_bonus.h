@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:48:18 by mraymond          #+#    #+#             */
 /*   Updated: 2022/12/12 13:08:14 by mraymond         ###   ########.fr       */
@@ -33,8 +33,8 @@
 # define S 90
 # define O 180	
 # define FOV 60
-# define SCREEN_W 1000
-# define SCREEN_H 1000
+# define SCREEN_W 1080
+# define SCREEN_H 1080
 # define OFFSET_CENTER_X 0 // poucentage * 100 negatif=gauche positif=droite
 # define OFFSET_CENTER_Y 0 // pourcentage * 100 negatif=haut positif=bas
 # define USED_H 100

@@ -1,7 +1,7 @@
 #PROGRAM NAME-------------------------------------------------------------------
 
-NAME 			= 	cub3d
-NAME_BON 		= 	cub3d_bonus
+NAME 			= 	cub3D
+NAME_BON 		= 	cub3D_bonus
 
 #SYSTEM VAR---------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ NAME_DSYM		=	./$(NAME).dSYM
 #  To make the list of all src, do this command in terminal in project folder
 #  find ./src/*.c -type f | cut -c7- | sed 's/$/ \\/'
 SRCS_FILES	 	= 	0_main.c \
-					Parsing.c \
+					parsing.c \
 					distance_fct.c \
 					drawing.c \
 					exit_n_free.c \

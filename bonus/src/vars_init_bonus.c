@@ -6,7 +6,7 @@
 /*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:17:04 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/01 11:30:42 by anhebert         ###   ########.fr       */
+/*   Updated: 2022/12/12 14:12:23 by anhebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void	vars_init(t_vars *vars)
 	vars->tex[1].img = NULL;
 	vars->tex[2].img = NULL;
 	vars->tex[3].img = NULL;
+	vars->tex[0].addr = NULL;
+	vars->tex[1].addr = NULL;
+	vars->tex[2].addr = NULL;
+	vars->tex[3].addr = NULL;
 	vars->tex[0].stat = false;
 	vars->tex[1].stat = false;
 	vars->tex[2].stat = false;

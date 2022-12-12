@@ -1,8 +1,7 @@
-NO ./pouet.xpm
-SO ./pouet2.xpm
-EA ./pouet3.xpm
-WE ./pouet4.xpm
-
+NO ./include/maps/xpm/wood.xpm
+SO ./include/maps/xpm/concrete1.xpm
+EA ./include/maps/xpm/brick1.xpm
+WE ./include/maps/xpm/rock.xpm
 C 200, 100, 1
 F 200, 254, 12
 

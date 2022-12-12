@@ -6,7 +6,7 @@
 /*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:15:25 by mraymond          #+#    #+#             */
-/*   Updated: 2022/11/30 14:15:26 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/12 13:22:52 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	print_error(char *error)
 
 int	end_program(t_vars *vars)
 {
+	mlx_destroy_image (vars->mlx.mlx, vars->mlx.img[vars->mlx.i_img]);
+	mlx_destroy_window(vars->mlx.mlx, vars->mlx.win);
 	if (vars->map.fd >= 0)
 		close(vars->map.fd);
 	if (vars->tex[0].img)

@@ -6,7 +6,7 @@
 /*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:15:25 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/01 11:29:55 by anhebert         ###   ########.fr       */
+/*   Updated: 2022/12/12 14:18:12 by anhebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	error_exit(char *error, char *temp, t_vars *vars)
 		free_map(vars, vars->map.map);
 	if (vars->map.map_cpy)
 		free_map(vars, vars->map.map_cpy);
+	mlx_destroy_image(vars->mlx.mlx, vars->mlx.win);
+	mlx_destroy_window(vars->mlx.mlx, vars->mlx.win);
 	print_error(error);
 }
 
@@ -56,6 +58,8 @@ int	end_program(t_vars *vars)
 		free(vars->tex[3].img);
 	if (vars->map.map)
 		free_map(vars, vars->map.map);
+	mlx_destroy_image(vars->mlx.mlx, vars->mlx.win);
+	mlx_destroy_window(vars->mlx.mlx, vars->mlx.win);
 	exit(0);
 }
 

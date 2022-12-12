@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_stuff_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:16:13 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/05 14:55:53 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/12 13:40:36 by anhebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	render_next_frame(t_vars *vars)
 			&vars->mlx.line_len, &vars->mlx.endian);
 	mlx_hook(vars->mlx.win, 2, 0, keypress_handler, vars);
 	raycast_main_loop(vars);
+	minimap_init(vars);
 	draw_map(vars);
 	draw_perso(vars);
 	mlx_put_image_to_window(vars->mlx.mlx, vars->mlx.win,

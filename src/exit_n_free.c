@@ -46,6 +46,8 @@ void	print_error(char *error)
 
 int	end_program(t_vars *vars)
 {
+	mlx_destroy_image (vars->mlx.mlx, vars->mlx.img[vars->mlx.i_img]);
+	mlx_destroy_window(vars->mlx.mlx, vars->mlx.win);
 	if (vars->map.fd >= 0)
 		close(vars->map.fd);
 	if (vars->tex[0].img)

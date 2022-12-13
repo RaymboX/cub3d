@@ -6,7 +6,7 @@
 /*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:15:54 by mraymond          #+#    #+#             */
-/*   Updated: 2022/11/30 14:15:55 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/13 13:49:41 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	keypress_handler(int keycode, t_vars *vars)
 	move(keycode, vars);
 	pace_change(keycode, vars);
 	if (keycode == 53)
-		exit(0);
+		end_program(vars);
 	return (0);
 }
 

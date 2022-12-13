@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:48:18 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/12 13:08:14 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/13 13:59:16 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,7 @@ int		mouse_move(int x, int y, t_vars *vars);
 void	set_move_dist(t_vars *vars, int angle, int mvdis[2]);
 char	cell_move_val(t_vars *vars, int angle);
 void	move_collsion(t_vars *vars, int angle);
+void	collision_sound(char celldir_value[3]);
 void	move_in_xy_ifnotcoll(t_vars *vars, int movedist[2], int x, int y);
 
 //moving_utils.c

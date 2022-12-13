@@ -6,7 +6,7 @@
 /*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:15:25 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/13 09:41:07 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/13 13:53:38 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,13 @@ void	error_exit(char *error, char *temp, t_vars *vars)
 void	print_error(char *error)
 {
 	ft_putstr_fd(error, 2);
+	system("killall afplay");
 	exit(1);
 }
 
 int	end_program(t_vars *vars)
 {
+	system("killall afplay");
 	mlx_destroy_image (vars->mlx.mlx, vars->mlx.img[vars->mlx.i_img]);
 	mlx_destroy_window(vars->mlx.mlx, vars->mlx.win);
 	if (vars->map.fd >= 0)

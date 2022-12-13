@@ -6,7 +6,7 @@
 /*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:16:23 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/05 14:49:22 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/13 14:02:44 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,14 @@ void	move_collsion(t_vars *vars, int angle)
 		else
 			move_in_xy_ifnotcoll(vars, movedist, 0, 1);
 	}
+	collision_sound(celldir_value);
+}
+
+void	collision_sound(char celldir_value[3])
+{
+	if (celldir_value[0] == '1' || celldir_value[1] == '1'
+		|| celldir_value[2] == '1')
+		system("afplay ./include/sound/bump2.mp3&");
 }
 
 void	move_in_xy_ifnotcoll(t_vars *vars, int movedist[2], int x, int y)

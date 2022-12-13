@@ -6,7 +6,7 @@
 /*   By: anhebert <anhebert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:15:25 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/12 14:20:12 by anhebert         ###   ########.fr       */
+/*   Updated: 2022/12/13 08:27:04 by anhebert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ void	error_exit(char *error, char *temp, t_vars *vars)
 		temp = NULL;
 	}
 	if (vars->tex[0].img)
-		free(vars->tex[0].img);
+		mlx_destroy_image(vars->mlx.mlx, vars->tex[0].img);
 	if (vars->tex[1].img)
-		free(vars->tex[1].img);
+		mlx_destroy_image(vars->mlx.mlx, vars->tex[1].img);
 	if (vars->tex[2].img)
-		free(vars->tex[2].img);
+		mlx_destroy_image(vars->mlx.mlx, vars->tex[2].img);
 	if (vars->tex[3].img)
-		free(vars->tex[3].img);
+		mlx_destroy_image(vars->mlx.mlx, vars->tex[3].img);
 	if (vars->map.map)
 		free_map(vars, vars->map.map);
 	if (vars->map.map_cpy)
 		free_map(vars, vars->map.map_cpy);
-	mlx_destroy_image(vars->mlx.mlx, vars->mlx.win);
+	mlx_destroy_image(vars->mlx.mlx, vars->mlx.img[0]);
 	mlx_destroy_window(vars->mlx.mlx, vars->mlx.win);
 	print_error(error);
 }
@@ -51,16 +51,17 @@ int	end_program(t_vars *vars)
 	if (vars->map.fd >= 0)
 		close(vars->map.fd);
 	if (vars->tex[0].img)
-		free(vars->tex[0].img);
+		mlx_destroy_image(vars->mlx.mlx, vars->tex[0].img);
 	if (vars->tex[1].img)
-		free(vars->tex[1].img);
+		mlx_destroy_image(vars->mlx.mlx, vars->tex[1].img);
 	if (vars->tex[2].img)
-		free(vars->tex[2].img);
+		mlx_destroy_image(vars->mlx.mlx, vars->tex[2].img);
 	if (vars->tex[3].img)
-		free(vars->tex[3].img);
+		mlx_destroy_image(vars->mlx.mlx, vars->tex[3].img);
 	if (vars->map.map)
 		free_map(vars, vars->map.map);
-	mlx_destroy_image(vars->mlx.mlx, vars->mlx.win);
+	mlx_destroy_image(vars->mlx.mlx, vars->mlx.img[0]);
+	mlx_destroy_image(vars->mlx.mlx, vars->mlx.img[1]);
 	mlx_destroy_window(vars->mlx.mlx, vars->mlx.win);
 	exit(0);
 }

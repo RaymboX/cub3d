@@ -23,7 +23,8 @@ LEAK_CMD		=	leaks --atExit --
 LIBMLX 			= 	-L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 LIBMLX_BETA		=	-L./mlx -lmlx -framework OpenGL -framework AppKit
 LIB_LINUX		=	-L ./include/minilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
-LIBRARY			=	$(LIBFT) $(LIBMLX_BETA)
+LIBRARY			=	$(LIBFT) $(LIBMLX)
+LIBRARY_BONUS	=	$(LIBFT) $(LIBMLX_BETA)
 LIBRARY_LINUX	=	$(LIB_LINUX) include/libft/src/*c
 MLX				=	libmlx.dylib
 
@@ -142,13 +143,13 @@ $(OBJS_DIR_BON)/%.o: $(SRCS_DIR_BON)/%.c $(HEADERS_BON)
 
 #COMPILING RULES------------------------------------------------------------------
 
-all : 				init $(MLX) $(NAME)
+all : 				init $(NAME)
 
 init:
 					@$(MAKE) -s -C $(LIBFT_DIR)
-					@$(MAKE) -s -C $(MLX_DIR)
+#					@$(MAKE) -s -C $(MLX_DIR)
 					@$(RM) $(MLX)
-					@cp $(MLX_DIR)/$(MLX) $(MLX)
+#					@cp $(MLX_DIR)/$(MLX) $(MLX)
 					@mkdir -p $(OBJS_DIR)
 
 $(NAME):			$(OBJS) 
@@ -172,7 +173,7 @@ $(NAME_BON):		$(OBJS_BON)
 ifeq ($(UNAME_S),Linux)
 					@$(CC) $(CFLAGS) -o $(NAME_BON) $(OBJS_BON) $(LIBRARY_LINUX)
 else
-					@$(CC) $(CFLAGS) -o $(NAME_BON) $(OBJS_BON) $(LIBRARY)
+					@$(CC) $(CFLAGS) -o $(NAME_BON) $(OBJS_BON) $(LIBRARY_BONUS)
 endif					
 					@echo "$G$(NAME_BON)         compiled$W"
 
@@ -207,7 +208,7 @@ bdebug: $(LIBFT)
 ifeq ($(UNAME_S),Linux)
 					gcc -g $(CFLAGS) -o $(NAME_BON) $(SRCS_BON) $(LIBRARY_LINUX) -D DEBUG=1
 else
-					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS_BON) -o $(NAME_BON) -D DEBUG=0
+					gcc -g $(CFLAGS) $(LIBRARY_BONUS) $(SRCS_BON) -o $(NAME_BON) -D DEBUG=0
 endif
 				
 #PHONY--------------------------------------------------------------------------

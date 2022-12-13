@@ -6,7 +6,7 @@
 /*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:15:16 by mraymond          #+#    #+#             */
-/*   Updated: 2022/11/30 14:42:58 by mraymond         ###   ########.fr       */
+/*   Updated: 2022/12/13 10:06:37 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ void	draw_floor_celling(t_vars *vars, int i_resol[2], int pixel_h)
 	my_mlx_pixel_put(vars,
 		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
 		vars->screen.center_pixel_h + pixel_h,
-		create_trgb(0, vars->cnf.c_colors[0], vars->cnf.c_colors[1],
-			vars->cnf.c_colors[2]));
+		create_trgb(0, vars->cnf.f_colors[0], vars->cnf.f_colors[1],
+			vars->cnf.f_colors[2]));
 	my_mlx_pixel_put(vars,
 		vars->screen.center_pixel_w + vars->raycast.ray_i + i_resol[0],
 		vars->screen.center_pixel_h - pixel_h,
-		create_trgb(0, vars->cnf.f_colors[0], vars->cnf.f_colors[1],
-			vars->cnf.f_colors[2]));
+		create_trgb(0, vars->cnf.c_colors[0], vars->cnf.c_colors[1],
+			vars->cnf.c_colors[2]));
 }
 
 //boucle principal de dessin sur image

@@ -22,11 +22,13 @@ LEAK_CMD		=	leaks --atExit --
 
 LIBMLX 			= 	-L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 LIBMLX_BETA		=	-L./mlx -lmlx -framework OpenGL -framework AppKit
-LIB_LINUX		=	-L ./include/minilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 LIBRARY			=	$(LIBFT) $(LIBMLX)
 LIBRARY_BONUS	=	$(LIBFT) $(LIBMLX_BETA)
-LIBRARY_LINUX	=	$(LIB_LINUX) include/libft/src/*c
 MLX				=	libmlx.dylib
+
+define SYST_LIB
+		-L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
+endef
 
 #DIRECTORIES--------------------------------------------------------------------
 
@@ -147,18 +149,22 @@ all : 				init $(NAME)
 
 init:
 					@$(MAKE) -s -C $(LIBFT_DIR)
-#					@$(MAKE) -s -C $(MLX_DIR)
+ifndef SYST_LIB
+					@echo "mlx not found on your system. Using mlx.dylib"
+					@$(MAKE) -s -C $(MLX_DIR)
 					@$(RM) $(MLX)
-#					@cp $(MLX_DIR)/$(MLX) $(MLX)
+					@cp $(MLX_DIR)/$(MLX) $(MLX)
+endif
 					@mkdir -p $(OBJS_DIR)
 
 $(NAME):			$(OBJS) 
-ifeq ($(UNAME_S),Linux)
-					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY_LINUX)
-else
+ifdef SYST_LIB
 					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY)
-endif					
 					@echo "$G$(NAME)         compiled$W"
+else
+					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY_BONUS)
+					@echo "$G$(NAME)         compiled with dynamic library$W"
+endif
 
 bonus:				init_bonus $(MLX) $(NAME_BON)
 
@@ -170,11 +176,7 @@ init_bonus:
 					@mkdir -p $(OBJS_DIR_BON)
 
 $(NAME_BON):		$(OBJS_BON) 
-ifeq ($(UNAME_S),Linux)
-					@$(CC) $(CFLAGS) -o $(NAME_BON) $(OBJS_BON) $(LIBRARY_LINUX)
-else
 					@$(CC) $(CFLAGS) -o $(NAME_BON) $(OBJS_BON) $(LIBRARY_BONUS)
-endif					
 					@echo "$G$(NAME_BON)         compiled$W"
 
 clean:									
@@ -198,18 +200,10 @@ fclean: 			clean
 re: 				fclean all
 
 debug: $(LIBFT)
-ifeq ($(UNAME_S),Linux)
-					gcc -g $(CFLAGS) -o $(NAME) $(SRCS) $(LIBRARY_LINUX) -D DEBUG=1
-else
 					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME) -D DEBUG=0
-endif
 
 bdebug: $(LIBFT)
-ifeq ($(UNAME_S),Linux)
-					gcc -g $(CFLAGS) -o $(NAME_BON) $(SRCS_BON) $(LIBRARY_LINUX) -D DEBUG=1
-else
 					gcc -g $(CFLAGS) $(LIBRARY_BONUS) $(SRCS_BON) -o $(NAME_BON) -D DEBUG=0
-endif
 				
 #PHONY--------------------------------------------------------------------------
 

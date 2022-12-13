@@ -202,6 +202,13 @@ ifeq ($(UNAME_S),Linux)
 else
 					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS) -o $(NAME) -D DEBUG=0
 endif
+
+bdebug: $(LIBFT)
+ifeq ($(UNAME_S),Linux)
+					gcc -g $(CFLAGS) -o $(NAME_BON) $(SRCS_BON) $(LIBRARY_LINUX) -D DEBUG=1
+else
+					gcc -g $(CFLAGS) $(LIBRARY) $(SRCS_BON) -o $(NAME_BON) -D DEBUG=0
+endif
 				
 #PHONY--------------------------------------------------------------------------
 

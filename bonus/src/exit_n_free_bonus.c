@@ -6,7 +6,7 @@
 /*   By: mraymond <mraymond@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 14:15:25 by mraymond          #+#    #+#             */
-/*   Updated: 2022/12/13 08:26:09 by anhebert         ###   ########.fr       */
+/*   Updated: 2022/12/13 09:41:07 by mraymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,6 @@ int	end_program(t_vars *vars)
 		mlx_destroy_image(vars->mlx.mlx, vars->tex[3].img);
 	if (vars->map.map)
 		free_map(vars, vars->map.map);
-	mlx_destroy_image(vars->mlx.mlx, vars->mlx.img[0]);
-	mlx_destroy_image(vars->mlx.mlx, vars->mlx.img[1]);
-	mlx_destroy_window(vars->mlx.mlx, vars->mlx.win);
 	exit(0);
 }
 

@@ -26,10 +26,6 @@ LIBRARY			=	$(LIBFT) $(LIBMLX)
 LIBRARY_BONUS	=	$(LIBFT) $(LIBMLX_BETA)
 MLX				=	libmlx.dylib
 
-define SYST_LIB
-		-L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
-endef
-
 #DIRECTORIES--------------------------------------------------------------------
 
 SRCS_DIR 		= 	./src
@@ -149,22 +145,14 @@ all : 				init $(NAME)
 
 init:
 					@$(MAKE) -s -C $(LIBFT_DIR)
-ifndef SYST_LIB
-					@echo "mlx not found on your system. Using mlx.dylib"
 					@$(MAKE) -s -C $(MLX_DIR)
 					@$(RM) $(MLX)
 					@cp $(MLX_DIR)/$(MLX) $(MLX)
-endif
 					@mkdir -p $(OBJS_DIR)
 
-$(NAME):			$(OBJS) 
-ifdef SYST_LIB
-					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY)
-					@echo "$G$(NAME)         compiled$W"
-else
+$(NAME):			$(OBJS) 			
 					@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBRARY_BONUS)
-					@echo "$G$(NAME)         compiled with dynamic library$W"
-endif
+					@echo "$G$(NAME)         compiled$W"
 
 bonus:				init_bonus $(MLX) $(NAME_BON)
 
